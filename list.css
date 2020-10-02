@@ -13,3 +13,6 @@ th,td{
 th:nth-child(2){
     width: 100px;
 }
+th:nth-child(7){
+    width: 200px;
+}
