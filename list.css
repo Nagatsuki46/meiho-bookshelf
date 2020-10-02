@@ -1,0 +1,15 @@
+Table {
+    border-collapse: collapse;
+    border: solid 1px green;
+}
+thead tr th{
+    border-bottom:double 3px green;
+    background-color: #bbedce;
+}
+th,td{
+    border: solid 1px green;
+    padding: 0.5em;
+}
+th:nth-child(2){
+    width: 100px;
+}
