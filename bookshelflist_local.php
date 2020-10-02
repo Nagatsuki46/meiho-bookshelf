@@ -42,7 +42,7 @@ $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
         <td><?php echo htmlspecialchars($r['publishe_date']); ?>
         <td><?php echo htmlspecialchars($r['description']); ?>
         <td><?php echo htmlspecialchars($r['entry_date']); ?>
-        <td><a href= <?php echo htmlspecialchars($r['thumbnail_url']); ?> >参照</a>
+        <td><img src= <?php echo htmlspecialchars($r['thumbnail_url']); ?>>
 <?php   endforeach; ?>
 </table>
 <?php endif; ?>
