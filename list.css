@@ -1,11 +1,11 @@
 Table {
     border-collapse: collapse;
     border: solid 1px green;
-    table-layout: fixed;
 }
 thead tr th{
     border-bottom:double 3px green;
-    background-color: #bbedce;  
+    /* background-color: #bbedce; */
+    background: linear-gradient(to bottom, #45c0f6, #FFF); 
 }
 th,td{
     border: solid 1px green;
