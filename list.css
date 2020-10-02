@@ -3,9 +3,9 @@ Table {
     border: solid 1px green;
 }
 thead tr th{
-    border-bottom:double 3px green;
-    /* background-color: #bbedce; */
-    background: linear-gradient(to bottom, #056791, #1f9fe9); 
+    /* border-bottom:double 3px green;
+    background-color: #bbedce; */
+    background: linear-gradient(to bottom, #059167, #08a08c); 
     color: #f8f1f1;
 }
 th,td{
