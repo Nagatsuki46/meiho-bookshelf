@@ -1,11 +1,11 @@
 Table {
     border-collapse: collapse;
     border: solid 1px green;
+    table-layout: fixed;
 }
 thead tr th{
     border-bottom:double 3px green;
-    background-color: #bbedce;
-    table-layout: fixed;
+    background-color: #bbedce;  
 }
 th,td{
     border: solid 1px green;
