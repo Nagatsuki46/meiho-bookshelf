@@ -5,7 +5,7 @@ Table {
 thead tr th{
     border-bottom:double 3px green;
     /* background-color: #bbedce; */
-    background: linear-gradient(to bottom, #4bc4f8, #9fc5ec); 
+    background: linear-gradient(to bottom, #4bc4f8, #b7d3f0); 
 }
 th,td{
     border: solid 1px green;
