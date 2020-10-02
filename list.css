@@ -6,6 +6,7 @@ thead tr th{
     border-bottom:double 3px green;
     /* background-color: #bbedce; */
     background: linear-gradient(to bottom, #4bc4f8, #b7d3f0); 
+    color: #635e5e;
 }
 th,td{
     border: solid 1px green;
