@@ -30,7 +30,7 @@ $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
             <th scope="col">出版日
             <th scope="col">説明
             <th scope="col">登録日
-            <th scope="col">表紙イメージURL
+            <th scope="col">表紙イメージ
     <tbody>
 <?php   foreach($rows as $r): ?>
     <tr>
