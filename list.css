@@ -5,7 +5,7 @@ Table {
 thead tr th{
     border-bottom:double 3px green;
     background-color: #bbedce;
-    width: 100px;
+    table-layout: fixed;
 }
 th,td{
     border: solid 1px green;
