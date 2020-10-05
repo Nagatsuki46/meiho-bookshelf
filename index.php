@@ -6,8 +6,10 @@ $dbh = new PDO(
     [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
 );
 $sth = $dbh->query(
-    'SELECT id, title, isbn, author, CASE WHEN publisher IS NOT NULL THEN \'[\' || publisher || \']\' END AS publisher,'
-    . 'publishe_date, description, \'[\' || entry_date || \']\' AS entry_date, thumbnail_url'
+//    'SELECT id, title, isbn, author, CASE WHEN publisher IS NOT NULL THEN \'[\' || publisher || \']\' END AS publisher,'
+//    . 'publishe_date, description, \'[\' || entry_date || \']\' AS entry_date, thumbnail_url'
+    'SELECT id, title, isbn, author, publisher,'
+    . 'publishe_date, description, entry_date, thumbnail_url'
     . ' FROM bookshelf'
     . ' ORDER BY id'
 );
@@ -27,11 +29,11 @@ $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
         <thead>
             <tr>
                 <th scope="col">ID
-                <th scope="col">タイトル（表紙）
-                <th scope="col">説明
-                <th scope="col">著者（出版）
-                <th scope="col">出版日（登録日）
-                <th scope="col">ISBNコード
+                <th scope="col">Title
+                <th scope="col">Description
+                <th scope="col">Author<br><div class="tr_div">Publisher</div>
+                <th scope="col">Publishe date<br><div class="tr_div">Entry date</div>
+                <th scope="col">ISBN CD
         <tbody>
     <?php   foreach($rows as $r): ?>
         <tr>
@@ -39,7 +41,7 @@ $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
             <td class="td_title"><?php echo htmlspecialchars($r['title']); ?><br><img src= <?php echo htmlspecialchars($r['thumbnail_url']); ?>>
             <td class="td_details"><?php echo htmlspecialchars($r['description']); ?>
             <td class="td_details"><?php echo htmlspecialchars($r['author']); ?><br><div class="td_div"><?php echo htmlspecialchars($r['publisher']); ?></div>
-            <td class="td_details"><?php echo htmlspecialchars($r['publishe_date']); ?><br><?php echo htmlspecialchars($r['entry_date']); ?>
+            <td class="td_details"><?php echo htmlspecialchars($r['publishe_date']); ?><br><div class="td_div"><?php echo htmlspecialchars($r['entry_date']); ?></div>
             <td class="td_details"><?php echo htmlspecialchars($r['isbn']); ?>
     <?php   endforeach; ?>
     </table>
