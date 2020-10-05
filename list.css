@@ -32,20 +32,14 @@ th:nth-child(2){
     width: 15%;
 }
 th:nth-child(3){
-    width: 35%;
+    width: 40%;
 }
 th:nth-child(4){
-    width: 10%;
+    width: 15%;
 }
 th:nth-child(5){
-    width: 10%;
+    width: 15%;
 }
 th:nth-child(6){
-    width: 5%;
-}
-th:nth-child(7){
-    width: 5%;
-}
-th:nth-child(8){
     width: 10%;
 }
