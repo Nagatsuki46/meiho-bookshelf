@@ -7,9 +7,9 @@ table {
     /* border: solid 1px green; */
 }
 thead tr th{
-    /*border-bottom:double 3px green;
-    background-color: #bbedce; */
-    background: linear-gradient(to bottom, #059167, #5eb89d); 
+    /*border-bottom:double 3px green;*/
+    background-color: #2e8888; 
+    /* background: linear-gradient(to bottom, #059167, #5eb89d); */
     color: #f8f1f1;
 }
 th,td{
@@ -35,11 +35,11 @@ th:nth-child(5){
     width: 10%;
 }
 th:nth-child(6){
-    width: 10%;
+    width: 5%;
 }
 th:nth-child(7){
     width: 5%;
 }
 th:nth-child(8){
-    width: 5%;
+    width: 10%;
 }
