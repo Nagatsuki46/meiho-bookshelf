@@ -1,6 +1,9 @@
 Table {
     border-collapse: collapse;
     border: solid 1px green;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    font-family: 'Lato', 'Noto Sans JP', 'ヒラギノ角ゴ ProN', 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
 }
 thead tr th{
     /* border-bottom:double 3px green;
