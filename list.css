@@ -10,7 +10,7 @@ table {
 }
 thead tr th{
     /*border-bottom:double 3px green;*/
-    background-color: #207275; 
+    background-color: #3b4e4e; 
     /* background: linear-gradient(to bottom, #059167, #5eb89d); */
     color: #f8f1f1;
     font-weight: 200;
@@ -18,7 +18,9 @@ thead tr th{
 th,td{
     /* border: solid 1px green; */
     padding: 0.5em;
-    color: #207275;
+    /* color: #207275; */
+    color: #3b4e4e;
+    font-size: 0.8em;
 }
 tr:nth-child(even) td{
     background: #eee;
