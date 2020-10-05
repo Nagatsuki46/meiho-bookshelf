@@ -1,12 +1,14 @@
 Table {
     border-collapse: collapse;
     border: solid 1px green;
+    border-left-color: transparent;
+    border-right-color: transparent;
 }
 thead tr th{
-    border-bottom:double 3px green;
-    background-color: #bbedce;
-    /* background: linear-gradient(to bottom, #059167, #5eb89d); 
-    color: #f8f1f1; */
+    /*border-bottom:double 3px green;
+    background-color: #bbedce; */
+    background: linear-gradient(to bottom, #059167, #5eb89d); 
+    color: #f8f1f1;
 }
 th,td{
     border: solid 1px green;
