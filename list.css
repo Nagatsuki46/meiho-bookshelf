@@ -9,7 +9,7 @@ thead tr th{
     color: #f8f1f1;
 }
 th,td{
-    border: solid 1px green;
+    /* border: solid 1px green; */
     padding: 0.5em;
 }
 tr:nth-child(even) td{
