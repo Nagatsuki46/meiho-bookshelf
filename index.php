@@ -40,7 +40,7 @@ $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
     <?php   foreach($rows as $r): ?>
         <tr>
             <td><?php echo htmlspecialchars($r['id']); ?>
-            <td><?php echo htmlspecialchars($r['title']); ?>
+            <td><?php echo htmlspecialchars($r['title']); ?><br>タイトル
             <td><?php echo htmlspecialchars($r['isbn']); ?>
             <td><?php echo htmlspecialchars($r['author']); ?>
             <td><?php echo htmlspecialchars($r['publisher']); ?>
