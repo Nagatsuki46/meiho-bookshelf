@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans+JP');
+@import url('https://fonts.googleapis.com/css2?family=Alice&display=swap');
 
 body{
     font-family: 'Noto Sans JP','ヒラギノ角ゴ ProN', 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
@@ -9,12 +10,13 @@ table {
     /* border: solid 1px green; */
 }
 thead tr th{
+    font-family: 'Alice', serif;
     /*border-bottom:double 3px green;*/
     background-color: #3f5252; 
     /* background: linear-gradient(to bottom, #059167, #5eb89d); */
     color: #f8f1f1;
-    font-weight: 200;
-    font-size: 1.0em;
+    font-weight: 400;
+    font-size: 1.2em;
 }
 
 .tr_div{
