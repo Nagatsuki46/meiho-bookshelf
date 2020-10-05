@@ -40,11 +40,11 @@ $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
         <tr>
             <td><?php echo htmlspecialchars($r['id']); ?>
             <td><?php echo htmlspecialchars($r['title']); ?><br><img src= <?php echo htmlspecialchars($r['thumbnail_url']); ?>>
-            <td><?php echo htmlspecialchars($r['publisher']); ?>
+            <td><?php echo htmlspecialchars($r['description']); ?>
             <td><?php echo htmlspecialchars($r['isbn']); ?>
             <td><?php echo htmlspecialchars($r['author']); ?>
+            <td><?php echo htmlspecialchars($r['publisher']); ?>
             <td><?php echo htmlspecialchars($r['publishe_date']); ?>
-            <td><?php echo htmlspecialchars($r['description']); ?>
             <td><?php echo htmlspecialchars($r['entry_date']); ?>
     <?php   endforeach; ?>
     </table>
