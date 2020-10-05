@@ -17,7 +17,7 @@ $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <title>図書の一覧</title>
     <link rel="stylesheet" href="list.css">
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <link href="'https://fonts.googleapis.com/css?family=Noto+Sans+JP'" rel="stylesheet">
 </head>
 
 <body>
