@@ -34,8 +34,8 @@ $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
                 <th scope="col">出版社
                 <th scope="col">出版日
                 <th scope="col">説明
-                <th scope="col">登録日
                 <th scope="col">表紙イメージ
+                <th scope="col">登録日
         <tbody>
     <?php   foreach($rows as $r): ?>
         <tr>
@@ -46,8 +46,8 @@ $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
             <td><?php echo htmlspecialchars($r['publisher']); ?>
             <td><?php echo htmlspecialchars($r['publishe_date']); ?>
             <td><?php echo htmlspecialchars($r['description']); ?>
-            <td><?php echo htmlspecialchars($r['entry_date']); ?>
             <td><img src= <?php echo htmlspecialchars($r['thumbnail_url']); ?>>
+            <td><?php echo htmlspecialchars($r['entry_date']); ?>
     <?php   endforeach; ?>
     </table>
 </body>
