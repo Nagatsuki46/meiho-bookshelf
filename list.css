@@ -15,6 +15,7 @@ thead tr th{
 th,td{
     /* border: solid 1px green; */
     padding: 0.5em;
+    color: #207275;
 }
 tr:nth-child(even) td{
     background: #eee;
