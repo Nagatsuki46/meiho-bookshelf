@@ -31,8 +31,8 @@ th,td{
     font-size: 0.8em;
 }
 .td_div{
-    font-size: 0.7em;
-    color: #506464;
+    /* font-size: 0.7em; */
+    color: #677a7a;
 }
 
 tr:nth-child(even) td{
