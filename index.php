@@ -14,11 +14,9 @@ $sth = $dbh->query(
 $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
-<head>
-<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
 <title>図書の一覧</title>
 <link rel="stylesheet" href="list.css">
-</head>
+
 <?php if (!$rows): ?>
 <div>アイテムが見つかりませんでした</div>
 <?php else: ?>

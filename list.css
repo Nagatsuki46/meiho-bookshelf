@@ -1,15 +1,14 @@
 Table {
     border-collapse: collapse;
-    border: solid 1px blue;
-    border-left-color: transparent;
-    border-right-color: transparent;
+    border: solid 1px green;
     font-family: 'Lato', 'Noto Sans JP', 'ヒラギノ角ゴ ProN', 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
 }
 thead tr th{
     /* border-bottom:double 3px green;
     background-color: #bbedce; */
     background: linear-gradient(to bottom, #059167, #5eb89d); 
-    color: #f8f1f1;
+    /* color: #f8f1f1; */
+    color: black;
 }
 th,td{
     border: solid 1px green;
