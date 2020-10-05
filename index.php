@@ -6,7 +6,7 @@ $dbh = new PDO(
     [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
 );
 $sth = $dbh->query(
-    'SELECT id, title, isbn, author, CASE WHEN publisher IS NOT NULL THEN \'[\' + publisher + \']\' END,'
+    'SELECT id, title, isbn, author, CASE WHEN publisher IS NOT NULL THEN \'[\' || publisher || \']\' END AS publisher,'
     . 'publishe_date, description, entry_date, thumbnail_url'
     . ' FROM bookshelf'
     . ' ORDER BY id'
