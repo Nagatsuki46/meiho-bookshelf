@@ -40,7 +40,7 @@ $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
         <tr>
             <td><?php echo htmlspecialchars($r['id']); ?>
             <td style="font-weight:bold;color:black;"><?php echo htmlspecialchars($r['title']); ?><br><img src= <?php echo htmlspecialchars($r['thumbnail_url']); ?>>
-            <td><?php echo htmlspecialchars($r['description']); ?>
+            <td style="font-size:0.8em;"><?php echo htmlspecialchars($r['description']); ?>
             <td><?php echo htmlspecialchars($r['author']); ?>
             <td><?php echo htmlspecialchars($r['publisher']); ?>
             <td><?php echo htmlspecialchars($r['publishe_date']); ?>
