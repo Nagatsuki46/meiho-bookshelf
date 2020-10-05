@@ -38,7 +38,7 @@ $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
             <td><?php echo htmlspecialchars($r['id']); ?>
             <td class="td_title"><?php echo htmlspecialchars($r['title']); ?><br><img src= <?php echo htmlspecialchars($r['thumbnail_url']); ?>>
             <td class="td_details"><?php echo htmlspecialchars($r['description']); ?>
-            <td class="td_details"><?php echo htmlspecialchars($r['author']); ?><br><div><?php echo htmlspecialchars($r['publisher']); ?></div>
+            <td class="td_details"><?php echo htmlspecialchars($r['author']); ?><br><div class="td_div"><?php echo htmlspecialchars($r['publisher']); ?></div>
             <td class="td_details"><?php echo htmlspecialchars($r['publishe_date']); ?><br><?php echo htmlspecialchars($r['entry_date']); ?>
             <td class="td_details"><?php echo htmlspecialchars($r['isbn']); ?>
     <?php   endforeach; ?>

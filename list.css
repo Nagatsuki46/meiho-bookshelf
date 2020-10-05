@@ -22,6 +22,7 @@ th,td{
     color: #3b4e4e;
     font-size: 0.8em;
 }
+
 .td_title{
     font-weight: bold;
     color: #207275;
@@ -29,6 +30,11 @@ th,td{
 .td_details{
     font-size: 0.8em;
 }
+.td_div{
+    font-size: 0.7em;
+    color: #506464;
+}
+
 tr:nth-child(even) td{
     background: #eee;
 }
