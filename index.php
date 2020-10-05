@@ -7,7 +7,7 @@ $dbh = new PDO(
 );
 $sth = $dbh->query(
     'SELECT id, title, isbn, author, CASE WHEN publisher IS NOT NULL THEN \'[\' || publisher || \']\' END AS publisher,'
-    . 'publishe_date, description, entry_date, thumbnail_url'
+    . 'publishe_date, description, \'[\' || entry_date || \']\' AS entry_date, thumbnail_url'
     . ' FROM bookshelf'
     . ' ORDER BY id'
 );
@@ -36,7 +36,7 @@ $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
     <?php   foreach($rows as $r): ?>
         <tr>
             <td><?php echo htmlspecialchars($r['id']); ?>
-            <td style="font-weight:bold;color:#207275;"><?php echo htmlspecialchars($r['title']); ?><br><img src= <?php echo htmlspecialchars($r['thumbnail_url']); ?>>
+            <td class="td_title"><?php echo htmlspecialchars($r['title']); ?><br><img src= <?php echo htmlspecialchars($r['thumbnail_url']); ?>>
             <td style="font-size:0.8em"><?php echo htmlspecialchars($r['description']); ?>
             <td style="font-size:0.8em"><?php echo htmlspecialchars($r['author']); ?><br><?php echo htmlspecialchars($r['publisher']); ?>
             <td style="font-size:0.8em"><?php echo htmlspecialchars($r['publishe_date']); ?><br><?php echo htmlspecialchars($r['entry_date']); ?>
