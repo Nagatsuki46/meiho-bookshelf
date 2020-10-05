@@ -39,7 +39,7 @@ $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
     <?php   foreach($rows as $r): ?>
         <tr>
             <td><?php echo htmlspecialchars($r['id']); ?>
-            <td><?php echo htmlspecialchars($r['title']); ?><br><img src= <?php echo htmlspecialchars($r['thumbnail_url']); ?>>
+            <td style="font-size:1.4em;"><?php echo htmlspecialchars($r['title']); ?><br><img src= <?php echo htmlspecialchars($r['thumbnail_url']); ?>>
             <td><?php echo htmlspecialchars($r['description']); ?>
             <td><?php echo htmlspecialchars($r['isbn']); ?>
             <td><?php echo htmlspecialchars($r['author']); ?>
