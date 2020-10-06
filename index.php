@@ -2,7 +2,12 @@
 
 $url = parse_url(getenv('DATABASE_URL'));
 $dsn = sprintf('pgsql:host=%s;dbname=%s',$url['host'],ltrim($url['path'],'/'));
-$pdo = new PDO($dsn,$url['user'],$url['pass'],[PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+$pdo = new PDO(
+        'pgsql:host=ec2-52-20-160-44.compute-1.amazonaws.com port=5432 dbname=ddncq809usnsnn',
+        $url['user'],
+        $url['pass'],
+        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+);
 
 /*
 $dbo = new PDO(
