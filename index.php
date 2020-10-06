@@ -6,7 +6,7 @@ $dsn = sprintf('pgsql:host=%s dbname=%s',$url['host'],substr($url['path'],1));
 $pdo = new PDO($dsn,$url['user'],$url['pass']);
 */
 
-$dbh = new PDO(
+$dbo = new PDO(
     /*
     //ローカルDB接続用
     'pgsql:host=localhost port=5432 dbname=pgadmin',
@@ -14,7 +14,7 @@ $dbh = new PDO(
     'postgres',
     [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION] 
     */
-    
+
     'pgsql:host=ec2-52-20-160-44.compute-1.amazonaws.com port=5432 dbname=ddncq809usnsnn',
     'ktygjaizcczjhp',
     'ce53f437af57ef71e88ff29de1a0512f6a3a6604198e3eabae9536bcf819818a',
