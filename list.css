@@ -34,6 +34,7 @@ th,td{
 .td_title{
     font-weight: bold;
     color: #207275;
+    font-size: 1.0em;
 }
 .td_details{
     font-size: 0.9em;
@@ -41,6 +42,11 @@ th,td{
 .td_div{
     font-size: 0.8em;
     color: #207275;
+}
+.td_isbn{
+    font-style: italic;
+    font-size: 0.9em;
+    font-weight: normal;
 }
 
 tr:nth-child(even) td{
@@ -50,17 +56,14 @@ th:nth-child(1){
     width: 5%;
 }
 th:nth-child(2){
-    width: 15%;
+    width: 20%;
 }
 th:nth-child(3){
-    width: 40%;
+    width: 50%;
 }
 th:nth-child(4){
     width: 15%;
 }
 th:nth-child(5){
-    width: 15%;
-}
-th:nth-child(6){
     width: 10%;
 }
