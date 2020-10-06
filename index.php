@@ -10,7 +10,7 @@ $pdo = new PDO(
 );
 
 /*
-$dbo = new PDO(
+$pdo = new PDO(
 
     //ローカルDB接続用
     'pgsql:host=localhost port=5432 dbname=pgadmin',
@@ -25,7 +25,7 @@ $dbo = new PDO(
 );
 */
 
-$sth = $dbo->query(
+$sth = $pdo->query(
 //    'SELECT id, title, isbn, author, CASE WHEN publisher IS NOT NULL THEN \'[\' || publisher || \']\' END AS publisher,'
 //    . 'publishe_date, description, \'[\' || entry_date || \']\' AS entry_date, thumbnail_url'
     'SELECT id, title, isbn, author, publisher,'
