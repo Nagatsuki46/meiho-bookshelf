@@ -4,8 +4,8 @@ $url = parse_url(getenv('DATABASE_URL'));
 $dsn = sprintf('pgsql:host=%s;dbname=%s',$url['host'],ltrim($url['path'],'/'));
 $pdo = new PDO(
         $dsn,
-        'ktygjaizcczjhp',
-        'ce53f437af57ef71e88ff29de1a0512f6a3a6604198e3eabae9536bcf819818a',
+        $url['user'],
+        $url['pass'],
         [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
 );
 
