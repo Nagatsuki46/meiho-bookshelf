@@ -1,7 +1,7 @@
 <?php
 
 $url = parse_url(getenv('DATABASE_URL'));
-$dsn = sprintf('pgsql:host=%s;dbname=%s',$url['host'],ltrim($url['path'],'/'));
+$dsn = sprintf('pgsql:host=%s;dbname=%s',$url['host'],substr($url['path'],1));
 $pdo = new PDO(
         $dsn,
         $url['user'],
@@ -17,11 +17,6 @@ $pdo = new PDO(
     'postgres',
     'postgres',
     [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION] 
-
-    'pgsql:host=ec2-52-20-160-44.compute-1.amazonaws.com port=5432 dbname=ddncq809usnsnn',
-    'ktygjaizcczjhp',
-    'ce53f437af57ef71e88ff29de1a0512f6a3a6604198e3eabae9536bcf819818a',
-    [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
 );
 */
 
