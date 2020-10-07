@@ -30,6 +30,7 @@ if (isset($_POST['isbn']) && ctype_digit($_POST['isbn'])){
         minDate: new Date()
       });
       dt = new Date()
+      dt.setDate(dt.getDate() + 7);
       y = dt.getFullYear();
       m = ("0" + (dt.getMonth() + 1)).slice(-2);
       d = ("0" + dt.getDate()).slice(-2);
