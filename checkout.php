@@ -25,20 +25,28 @@ if (isset($_POST['isbn']) && ctype_digit($_POST['isbn'])){
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
   <script>
     $(function() {
-      $( "#datepicker" ).datepicker();
+      $( "#datepicker" ).datepicker({
+        defaultDate: new Date(),
+        minDate: new Date()
+      });
+      dt = new Date()
+      y = dt.getFullYear();
+      m = ("0" + (dt.getMonth() + 1)).slice(-2);
+      d = ("0" + dt.getDate()).slice(-2);
+      document.checkoutform.datepicker.value = y + "/" + m + "/" + d;
     });
   </script>
 </head>
 
-<form action="index.php" method="post">
+<form action="index.php" method="post" name="checkoutform">
   <dl>
     <dt><?php echo htmlspecialchars($origin['title']); ?>
     <dt><img src= <?php echo htmlspecialchars($origin['thumbnail_url']); ?>>
     <dt>ISBN: <?php echo rawurlencode($origin['isbn']); ?>
     <dt>社員番号（借りる人）
     <dd><input type="text" name="employee_num" value="">
-    <dt>返却日
-    <dd><input type="text" id="datepicker">
+    <dt>返却予定日
+    <dd><input type="text" id="datepicker" name="datepicker">
   </dl>
   <input type="submit" value="貸出">
   <input type="button" onclick="history.back()" value="キャンセル">
