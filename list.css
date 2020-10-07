@@ -5,6 +5,22 @@ body{
     font-family: 'Noto Sans JP','ヒラギノ角ゴ ProN', 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
     /* font-family: 'Lato', 'Noto Sans JP', 'ヒラギノ角ゴ ProN', 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif; */
 }
+
+.hr01{
+    position: relative;
+    height: 1.0px;
+    border-width: 0;
+    /* background-image: -webkit-repeating-linear-gradient(left,transparent 0% #3f5252 50%,transparent 100%); */
+    background-image: linear-gradient(90deg,transparent 0%, #3f5252 50%,transparent 100%);
+}
+
+form {
+    font-family: 'Alice', serif;
+    padding-top: 0.4em;
+    padding-bottom: 0.8em;
+    padding-left: 0.8em;
+}
+
 table {
     border-collapse: collapse;
     /* border: solid 1px green; */
@@ -31,9 +47,13 @@ th,td{
     font-size: 0.9em;
 }
 
+.td_notfound{
+    font-size: 1.5em;
+}
 .td_title{
     font-weight: bold;
-    color: #207275;
+    /* color: #207275; */
+    color: #5c4416;
     font-size: 0.9em;
 }
 .td_details{
@@ -41,12 +61,13 @@ th,td{
 }
 .td_div{
     font-size: 0.8em;
-    color: #207275;
+    color: #7a9697;
 }
 .td_isbn{
     font-style: italic;
     font-size: 0.9em;
     font-weight: normal;
+    color: #7a9697;
 }
 
 tr:nth-child(even) td{
@@ -59,11 +80,11 @@ th:nth-child(2){
     width: 20%;
 }
 th:nth-child(3){
-    width: 50%;
+    width: 45%;
 }
 th:nth-child(4){
     width: 15%;
 }
 th:nth-child(5){
-    width: 10%;
+    width: 15%;
 }
