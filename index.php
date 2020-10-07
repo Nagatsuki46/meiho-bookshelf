@@ -50,6 +50,7 @@ $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
         <thead>
             <tr>
                 <th scope="col">ID
+                <th scope="col">
                 <th scope="col">Title<br>
                 <th scope="col">Description
                 <th scope="col">Author<br><div class="tr_div">Publisher</div>
@@ -59,16 +60,22 @@ $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
             <tr><td colspan="3"><div class="td_notfound">該当する図書が見つかりませんでした</div>
                 <br><div>検索条件を変更して検索しなおしてください。それぞれの検索条件はAND条件となっています。</div>
         <?php else: ?>
-        <?php   foreach($rows as $id => $r): ?>
-            <tr>
-                <!-- <td><?php echo htmlspecialchars($r['id']); ?> -->
-                <td><?php echo $id+1; ?>
-                <td class="td_title"><?php echo htmlspecialchars($r['title']); ?><br><img src= <?php echo htmlspecialchars($r['thumbnail_url']); ?>>
-                    <br><div class="td_isbn">ISBN:<?php echo htmlspecialchars($r['isbn']); ?></div>
-                <td class="td_details"><?php echo htmlspecialchars($r['description']); ?>
-                <td class="td_details"><?php echo htmlspecialchars($r['author']); ?><br><div class="td_div"><?php echo htmlspecialchars($r['publisher']); ?></div>
-                <td class="td_details">出版日:<?php echo htmlspecialchars($r['publishe_date']); ?><br><div class="td_div">登録日:<?php echo htmlspecialchars($r['entry_date']); ?></div>
-        <?php   endforeach; ?>
+            <?php   foreach($rows as $id => $r): ?>
+                <tr>
+                    <!-- <td><?php echo htmlspecialchars($r['id']); ?> -->
+                    <td class="td_id"><?php echo $id+1; ?>
+                    <td>
+                        <!-- <a href="checkout.php?isbn=<?php echo rawurlencode($r['isbn']); ?>">貸出</a> -->
+                        <form action="checkout.php" method="post">
+                            <input type="hidden" name="isbn" value="<?php echo rawurlencode($r['isbn']); ?>"> 
+                            <input type="submit" value="貸出">
+                        </form>
+                    <td class="td_title"><?php echo htmlspecialchars($r['title']); ?><br><img src= <?php echo htmlspecialchars($r['thumbnail_url']); ?>>
+                        <br><div class="td_isbn">ISBN:<?php echo htmlspecialchars($r['isbn']); ?></div>
+                    <td class="td_details"><?php echo htmlspecialchars($r['description']); ?>
+                    <td class="td_details"><?php echo htmlspecialchars($r['author']); ?><br><div class="td_div"><?php echo htmlspecialchars($r['publisher']); ?></div>
+                    <td class="td_details">出版日:<?php echo htmlspecialchars($r['publishe_date']); ?><br><div class="td_div">登録日:<?php echo htmlspecialchars($r['entry_date']); ?></div>
+            <?php   endforeach; ?>
+        <?php endif; ?>
     </table>
 </body>
-<?php endif; ?>
