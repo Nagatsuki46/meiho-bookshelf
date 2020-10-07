@@ -19,8 +19,15 @@ if (isset($_POST['isbn']) && ctype_digit($_POST['isbn'])){
 <!DOCTYPE html>
 <head>
   <title>貸出画面</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-  <script type="text/javascript">$('#datepicker').datepicker();</script>
+  <link rel="stylesheet" href="//apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
+  <script src="//apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script src="//apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+  <link rel="stylesheet" href="jqueryui/style.css">
+  <script>
+    $(function() {
+      $( "#datepicker" ).datepicker();
+    });
+  </script>
 </head>
 
 <form action="index.php" method="post">
@@ -31,7 +38,7 @@ if (isset($_POST['isbn']) && ctype_digit($_POST['isbn'])){
     <dt>社員番号（借りる人）
     <dd><input type="text" name="employee_num" value="">
     <dt>返却日
-    <dd><input id="datepicker" type="text" name="return_date" value="">
+    <dd><input type="text" id="datepicker">
   </dl>
   <input type="submit" value="貸出">
   <input type="button" onclick="history.back()" value="キャンセル">
