@@ -1,4 +1,12 @@
  <?php
+
+  //セッションを使って検索条件を保持する
+  session_start();
+  
+  //編集画面に来たことをセッションに保持 24時間
+  session_cache_expire(60*24);
+  $_SESSION['edit_flg'] = "1";
+  
   $url = parse_url(getenv('DATABASE_URL'));
   $dsn = sprintf('pgsql:host=%s;dbname=%s',$url['host'],substr($url['path'],1));
   $dbh = new PDO(
@@ -28,18 +36,12 @@
   }
 
   if (isset($_POST['id']) && ctype_digit($_POST['id'])){
-    $id = $_POST['id'];
-  }elseif(isset($_GET['id']) && ctype_digit($_GET['id'])){
-    $id = $_GET['id'];
-  }
-
-  if (!empty($id)){
     $sth = $dbh->prepare(
       'SELECT id, title, isbn, author, publisher,'
       . ' publishe_date, description, entry_date, thumbnail_url,'
       . ' employee_id,exp_return_date'
       . ' FROM bookshelf WHERE id= :id');
-    $sth->execute(['id' => $id]);
+    $sth->execute(['id' => $_POST['id']]);
     $origin = $sth->fetch(PDO::FETCH_ASSOC);
   } 
 ?>
@@ -87,7 +89,7 @@
     </dl>
     <input type="hidden" name="id" value="<?php echo rawurlencode($origin['id']); ?>">
     <input type="hidden" name="mode" value="1">
-    <input type="submit" value="返却">
-    <input type="button" onclick="history.back()" value="キャンセル">
+    <input class="return_button" type="submit" value="返却">
+    <input class="button" type="button" onclick="history.back()" value="キャンセル">
   </form>
 </body>

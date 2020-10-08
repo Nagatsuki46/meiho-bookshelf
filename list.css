@@ -20,7 +20,42 @@ form {
     padding-bottom: 0.8em;
     padding-left: 0.8em;
 }
-
+.button{
+    appearance: none;
+    border:0;
+    border-radius: 5px;
+    background: #cecccc;
+    color: #141414;
+    padding: 3px 10px;
+    font-size: 12px;
+}
+.button:hover {
+    background: #8d8e8f;
+}
+.checkout_button{
+    appearance: none;
+    border: 0;
+    border-radius: 5px;
+    background: #688fdd;
+    color: #fff;
+    padding: 6px 14px;
+    font-size: 14px;
+}
+.checkout_button:hover {
+    background: #2f59b3;
+}
+.return_button{
+    appearance: none;
+    border: 0;
+    border-radius: 5px;
+    background: #61cc85;
+    color: #fff;
+    padding: 6px 14px;
+    font-size: 14px;
+}
+.return_button:hover {
+    background: #2fb362;
+}
 table {
     border-collapse: collapse;
     /* border: solid 1px green; */

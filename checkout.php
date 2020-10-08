@@ -1,4 +1,12 @@
  <?php
+  
+  //セッションを使って検索条件を保持する
+  session_start();
+  
+  //編集画面に来たことをセッションに保持 24時間
+  session_cache_expire(60*24);
+  $_SESSION['edit_flg'] = "1";
+
   $url = parse_url(getenv('DATABASE_URL'));
   $dsn = sprintf('pgsql:host=%s;dbname=%s',$url['host'],substr($url['path'],1));
   $dbh = new PDO(
@@ -37,7 +45,7 @@
       . ' FROM bookshelf WHERE id= :id');
     $sth->execute(['id' => $_POST['id']]);
     $origin = $sth->fetch(PDO::FETCH_ASSOC);
-  } 
+  }
 ?>
 <!DOCTYPE html>
 <head>
@@ -82,7 +90,7 @@
     </dl>
     <input type="hidden" name="id" value="<?php echo rawurlencode($origin['id']); ?>">
     <input type="hidden" name="mode" value="1">
-    <input type="submit" value="貸出">
-    <input type="button" onclick="history.back()" value="キャンセル">
+    <input class="checkout_button" type="submit" value="貸出">
+    <input class="button" type="button" onclick="history.back()" value="キャンセル">
   </form>
 </body>

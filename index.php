@@ -1,28 +1,44 @@
 <?php
 
-$url = parse_url(getenv('DATABASE_URL'));
-$dsn = sprintf('pgsql:host=%s;dbname=%s',$url['host'],substr($url['path'],1));
-$dbh = new PDO(
-        $dsn,
-        $url['user'],
-        $url['pass'],
-        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
-);
+    //セッションを使って検索条件を保持する
+    session_start();
 
-$where = " WHERE 1=1";
-if($_POST['isbn'] != ""){$where = $where . " AND isbn LIKE '" . $_POST['isbn'] ."%'";}
-if($_POST['title'] != ""){$where = $where . " AND title LIKE '%" . $_POST['title'] ."%'";}
-if($_POST['description'] != ""){$where = $where . " AND description LIKE '%" . $_POST['description'] ."%'";}
+    if (isset($_SESSION['edit_flg']) && $_SESSION['edit_flg']==="1"){
+        $_POST['isbn'] = $_SESSION['isbn'];
+        $_POST['title'] = $_SESSION['title'];
+        $_POST['description'] = $_SESSION['description'];
+        $_SESSION['edit_flg'] = "";
+    }else{
+        //検索条件をセッションに保持 24時間
+        session_cache_expire(60*24);
+        $_SESSION['isbn'] = $_POST['isbn'];
+        $_SESSION['title'] = $_POST['title'];
+        $_SESSION['description'] = $_POST['description'];
+    }
 
-$sth = $dbh->query(
-    'SELECT id, title, isbn, author, publisher,'
-    . 'publishe_date, description, entry_date, thumbnail_url,'
-    . 'checkout_flg, employee_id, exp_return_date'
-    . ' FROM bookshelf'
-    .  $where
-    . ' ORDER BY id'
-);
-$rows = $sth->fetchAll(PDO::FETCH_ASSOC);
+    $url = parse_url(getenv('DATABASE_URL'));
+    $dsn = sprintf('pgsql:host=%s;dbname=%s',$url['host'],substr($url['path'],1));
+    $dbh = new PDO(
+            $dsn,
+            $url['user'],
+            $url['pass'],
+            [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+    );
+
+    $where = " WHERE 1=1";
+    if($_POST['isbn'] != ""){$where = $where . " AND isbn LIKE '" . $_POST['isbn'] ."%'";}
+    if($_POST['title'] != ""){$where = $where . " AND title LIKE '%" . $_POST['title'] ."%'";}
+    if($_POST['description'] != ""){$where = $where . " AND description LIKE '%" . $_POST['description'] ."%'";}
+
+    $sth = $dbh->query(
+        'SELECT id, title, isbn, author, publisher,'
+        . 'publishe_date, description, entry_date, thumbnail_url,'
+        . 'checkout_flg, employee_id, exp_return_date'
+        . ' FROM bookshelf'
+        .  $where
+        . ' ORDER BY id'
+    );
+    $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <head>
@@ -36,7 +52,7 @@ $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
             ISBN CD: <input type="text" name="isbn" value="<?php echo $_POST['isbn']?>">
             Title: <input type="text" name="title" value="<?php echo $_POST['title']?>">
             Description: <input type="text" name="description" value="<?php echo $_POST['description']?>">
-            <input type="submit" value="Search">
+            <input class="button" type="submit" value="Search">
             <?php
             //if(!empty($_POST['isbn']) and !preg_match("/[0-9]{13}/", $_POST['isbn'])){
             //    echo "ISBNコードは0~9の数字のみの13桁を入力してください！";
@@ -65,20 +81,22 @@ $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
                     <!-- <td><?php echo htmlspecialchars($r['id']); ?> -->
                     <td class="td_id"><?php echo $id+1; ?>
                     <td>
-                        <!-- <a href="checkout.php?isbn=<?php echo rawurlencode($r['isbn']); ?>">貸出</a> -->
-                        <form action="checkout.php" method="post">
-                            <input type="hidden" name="id" value="<?php echo rawurlencode($r['id']); ?>"> 
-
-                            <?php if ($r['checkout_flg']===1): ?>
-                                <a class="td_details" href="return.php?id=<?php echo rawurlencode($r['id']); ?>">貸出中…</a>
+                        <?php if ($r['checkout_flg']===1): ?>
+                            <!-- <a class="td_details" href="return.php?id=<?php echo rawurlencode($r['id']); ?>">貸出中…</a> -->
+                            <form action="return.php" method="post">
+                                <input type="hidden" name="id" value="<?php echo rawurlencode($r['id']); ?>"> 
+                                <input class="return_button" type="submit" value="返却">
                                 <div class="td_rtn"><?php echo htmlspecialchars($r['employee_id']); ?></div>
                                 <div class="td_rtn">返却予定日:</div>
                                 <div class="td_rtn"><?php echo htmlspecialchars($r['exp_return_date']); ?></div>
-                            <?php else: ?>
-                                <input class="button" type="submit" value="貸出">
-                            <?php endif; ?>
+                            </form>
+                        <?php else: ?>
+                            <form action="checkout.php" method="post">
+                                <input type="hidden" name="id" value="<?php echo rawurlencode($r['id']); ?>"> 
+                                <input class="checkout_button" type="submit" value="貸出">
+                            </form>
+                        <?php endif; ?>
 
-                        </form>
                     <td class="td_title"><?php echo htmlspecialchars($r['title']); ?><br><img src= <?php echo htmlspecialchars($r['thumbnail_url']); ?>>
                         <br><div class="td_isbn">ISBN:<?php echo htmlspecialchars($r['isbn']); ?></div>
                     <td class="td_details"><?php echo htmlspecialchars($r['description']); ?>
