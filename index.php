@@ -75,7 +75,7 @@ $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
                                 <div class="td_rtn">返却予定日:</div>
                                 <div class="td_rtn"><?php echo htmlspecialchars($r['exp_return_date']); ?></div>
                             <?php else: ?>
-                                <input class="td_details" type="submit" value="貸出">
+                                <input class="button" type="submit" value="貸出">
                             <?php endif; ?>
 
                         </form>
