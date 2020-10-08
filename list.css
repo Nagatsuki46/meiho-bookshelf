@@ -86,11 +86,8 @@ th:nth-child(3){
     width: 20%;
 }
 th:nth-child(4){
-    width: 40%;
+    width: 55%;
 }
 th:nth-child(5){
-    width: 15%;
-}
-th:nth-child(6){
     width: 15%;
 }

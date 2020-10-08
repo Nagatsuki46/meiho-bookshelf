@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+JP');
+
+body{
+  font-family: 'Noto Sans JP','ヒラギノ角ゴ ProN', 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
+  border-left: 40px solid #3f5252;
+  padding-left: 30px;
+}
+
+p{
+  font-size: 0.8em;
+  margin: 2px;
+  color: #ad898c;
+}
+.dt_title{
+  font-weight: bold;
+  color: #5c4416;
+  font-size: 0.9em;
+}
+.dt_isbn{
+  font-style: italic;
+  font-size: 0.9em;
+  font-weight: normal;
+  color: #7a9697;
+}
+.edit{
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.dt_details{
+  font-size: 0.9em;
+  border-left: 5px solid #7a9697;
+  padding-left: 5px;
+}
+dd{
+  padding: 5px;
+}

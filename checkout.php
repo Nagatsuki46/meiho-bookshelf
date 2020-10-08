@@ -19,6 +19,7 @@ if (isset($_POST['isbn']) && ctype_digit($_POST['isbn'])){
 <!DOCTYPE html>
 <head>
   <title>貸出画面</title>
+  <link rel="stylesheet" href="checkout.css">
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
@@ -39,16 +40,22 @@ if (isset($_POST['isbn']) && ctype_digit($_POST['isbn'])){
   </script>
 </head>
 
-<form action="index.php" method="post" name="checkoutform">
-  <dl>
-    <dt><?php echo htmlspecialchars($origin['title']); ?>
-    <dt><img src= <?php echo htmlspecialchars($origin['thumbnail_url']); ?>>
-    <dt>ISBN: <?php echo rawurlencode($origin['isbn']); ?>
-    <dt>社員番号（借りる人）
-    <dd><input type="text" name="employee_num" value="">
-    <dt>返却予定日
-    <dd><input type="text" id="datepicker" name="datepicker">
-  </dl>
-  <input type="submit" value="貸出">
-  <input type="button" onclick="history.back()" value="キャンセル">
-</form>
+<body>
+  <p>貸し出す図書はこちらで合っていますか？</p>
+  <p>借りる場合は、社員番号と返却予定日を入れて、貸出ボタンを押してください。</p>
+  <form action="index.php" method="post" name="checkoutform">
+    <dl>
+      <dt class="dt_title"><?php echo htmlspecialchars($origin['title']); ?>
+      <dt><img src= <?php echo htmlspecialchars($origin['thumbnail_url']); ?>>
+      <dt class="dt_isbn">ISBN: <?php echo rawurlencode($origin['isbn']); ?>
+    </dl>
+    <dl class="edit">
+        <dt class="dt_details">社員番号（借りる人）
+        <dd><input type="text" name="employee_num" value="">
+        <dt class="dt_details">返却予定日
+        <dd><input type="text" id="datepicker" name="datepicker">
+    </dl>
+    <input type="submit" value="貸出">
+    <input type="button" onclick="history.back()" value="キャンセル">
+  </form>
+</body>

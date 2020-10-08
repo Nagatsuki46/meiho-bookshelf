@@ -53,8 +53,7 @@ $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
                 <th scope="col">
                 <th scope="col">Title<br>
                 <th scope="col">Description
-                <th scope="col">Author<br><div class="tr_div">Publisher</div>
-                <th scope="col">Date<br>
+                <th scope="col">etc.
         <tbody>
         <?php if (!$rows): ?>
             <tr><td colspan="3"><div class="td_notfound">該当する図書が見つかりませんでした</div>
@@ -73,8 +72,10 @@ $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
                     <td class="td_title"><?php echo htmlspecialchars($r['title']); ?><br><img src= <?php echo htmlspecialchars($r['thumbnail_url']); ?>>
                         <br><div class="td_isbn">ISBN:<?php echo htmlspecialchars($r['isbn']); ?></div>
                     <td class="td_details"><?php echo htmlspecialchars($r['description']); ?>
-                    <td class="td_details"><?php echo htmlspecialchars($r['author']); ?><br><div class="td_div"><?php echo htmlspecialchars($r['publisher']); ?></div>
-                    <td class="td_details">出版日:<?php echo htmlspecialchars($r['publishe_date']); ?><br><div class="td_div">登録日:<?php echo htmlspecialchars($r['entry_date']); ?></div>
+                    <td class="td_details"><?php echo htmlspecialchars($r['author']); ?>
+                        <div class="td_div"><?php echo htmlspecialchars($r['publisher']); ?></div>
+                        <div class="td_div">出版日:<?php echo htmlspecialchars($r['publishe_date']); ?></div>
+                        <div class="td_div">登録日:<?php echo htmlspecialchars($r['entry_date']); ?></div>
             <?php   endforeach; ?>
         <?php endif; ?>
     </table>
