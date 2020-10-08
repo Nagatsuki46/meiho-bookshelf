@@ -5,7 +5,10 @@ body{
   border-left: 40px solid #695124;
   padding-left: 30px;
 }
-
+.error{
+  font-size: 0.9em;
+  color: #d45454;
+}
 p{
   font-size: 0.8em;
   margin: 2px;

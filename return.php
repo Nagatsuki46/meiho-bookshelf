@@ -9,27 +9,37 @@
   );
 
   //返却ボタンのsubmit時の入力チェックをいれる（mode=1で判別）
-  if (isset($_POST['id']) && $_POST['mode']==="1"){
-    $sth = $dbh->prepare(
-      'UPDATE bookshelf'
-      . ' SET checkout_flg=0,'
-      . ' employee_id=null,'
-      . ' return_date= :return_date'
-      . ' WHERE id= :id');
-    $sth->execute([
-      'id' => $_POST['id'],
-      'return_date' => $_POST['return_date']
-      ]);
-    header('Location: ./index.php');
+  if (isset($_POST['mode']) && $_POST['mode']==="1"){
+    if(date("Y-m-d",strtotime($_POST['return_date']))===$_POST['return_date']){
+      $sth = $dbh->prepare(
+        'UPDATE bookshelf'
+        . ' SET checkout_flg=0,'
+        . ' employee_id=null,'
+        . ' return_date= :return_date'
+        . ' WHERE id= :id');
+      $sth->execute([
+        'id' => $_POST['id'],
+        'return_date' => $_POST['return_date']
+        ]);
+      header('Location: ./index.php');
+    }else{
+      $error = "※入力された返却日(" . $_POST['return_date'] . ")が正しくありません。";
+    }
   }
 
-  if (isset($_GET['id']) && ctype_digit($_GET['id'])){
+  if (isset($_POST['id']) && ctype_digit($_POST['id'])){
+    $id = $_POST['id'];
+  }elseif(isset($_GET['id']) && ctype_digit($_GET['id'])){
+    $id = $_GET['id'];
+  }
+
+  if (!empty($id)){
     $sth = $dbh->prepare(
       'SELECT id, title, isbn, author, publisher,'
       . ' publishe_date, description, entry_date, thumbnail_url,'
       . ' employee_id,exp_return_date'
       . ' FROM bookshelf WHERE id= :id');
-    $sth->execute(['id' => $_GET['id']]);
+    $sth->execute(['id' => $id]);
     $origin = $sth->fetch(PDO::FETCH_ASSOC);
   } 
 ?>
@@ -51,12 +61,13 @@
       y = dt.getFullYear();
       m = ("0" + (dt.getMonth() + 1)).slice(-2);
       d = ("0" + dt.getDate()).slice(-2);
-      document.returnform.datepicker.value = y + "/" + m + "/" + d;
+      document.returnform.datepicker.value = y + "-" + m + "-" + d;
     });
   </script>
 </head>
 
 <body>
+  <p class="error"><?php echo $error ?></p>
   <p>返却する本は、こちらで合っていますか？</p>
   <p>返却する場合は、返却ボタンを押してください。</p>
   <form action="return.php" method="post" name="returnform">

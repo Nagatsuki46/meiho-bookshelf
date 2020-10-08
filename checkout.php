@@ -9,19 +9,25 @@
   );
 
   //貸出ボタンのsubmit時の入力チェックをいれる（mode=1で判別）
-  if (isset($_POST['id']) && $_POST['mode']==="1"){
-    $sth = $dbh->prepare(
-      'UPDATE bookshelf'
-      . ' SET checkout_flg=1,'
-      . ' employee_id= :employee_id,'
-      . ' exp_return_date= :exp_return_date'
-      . ' WHERE id= :id');
-    $sth->execute([
-      'id' => $_POST['id'],
-      'employee_id' => $_POST['employee_id'],
-      'exp_return_date' => $_POST['exp_return_date']
-      ]);
-    header('Location: ./index.php');
+  if (isset($_POST['mode']) && $_POST['mode']==="1"){
+
+    //if(preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $_POST['exp_return_date'])){
+    if(date("Y-m-d",strtotime($_POST['exp_return_date']))===$_POST['exp_return_date']){
+      $sth = $dbh->prepare(
+        'UPDATE bookshelf'
+        . ' SET checkout_flg=1,'
+        . ' employee_id= :employee_id,'
+        . ' exp_return_date= :exp_return_date'
+        . ' WHERE id= :id');
+      $sth->execute([
+        'id' => $_POST['id'],
+        'employee_id' => $_POST['employee_id'],
+        'exp_return_date' => $_POST['exp_return_date']
+        ]);
+      header('Location: ./index.php');
+    }else{
+      $error = "※入力された返却予定日(" . $_POST['exp_return_date'] . ")が正しくありません。";
+    }
   }
 
   if (isset($_POST['id']) && ctype_digit($_POST['id'])){
@@ -52,12 +58,13 @@
       y = dt.getFullYear();
       m = ("0" + (dt.getMonth() + 1)).slice(-2);
       d = ("0" + dt.getDate()).slice(-2);
-      document.checkoutform.datepicker.value = y + "/" + m + "/" + d;
+      document.checkoutform.datepicker.value = y + "-" + m + "-" + d;
     });
   </script>
 </head>
 
 <body>
+  <p class="error"><?php echo $error ?></p>
   <p>借りたい本は、こちらで合っていますか？</p>
   <p>借りる場合は、社員番号と返却予定日を入れて、貸出ボタンを押してください。</p>
   <form action="checkout.php" method="post" name="checkoutform">

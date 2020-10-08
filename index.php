@@ -71,6 +71,7 @@ $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
 
                             <?php if ($r['checkout_flg']===1): ?>
                                 <a class="td_details" href="return.php?id=<?php echo rawurlencode($r['id']); ?>">貸出中…</a>
+                                <div class="td_rtn"><?php echo htmlspecialchars($r['employee_id']); ?></div>
                                 <div class="td_rtn">返却予定日:</div>
                                 <div class="td_rtn"><?php echo htmlspecialchars($r['exp_return_date']); ?></div>
                             <?php else: ?>
