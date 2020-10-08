@@ -50,6 +50,7 @@
   <script>
     $(function() {
       $( "#datepicker" ).datepicker({
+        dateFormat: 'yy-mm-dd',
         defaultDate: new Date(),
         minDate: new Date()
       });
