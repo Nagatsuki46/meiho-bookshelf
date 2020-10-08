@@ -6,7 +6,7 @@
   //編集画面に来たことをセッションに保持 24時間
   session_cache_expire(60*24);
   $_SESSION['edit_flg'] = "1";
-  
+
   $url = parse_url(getenv('DATABASE_URL'));
   $dsn = sprintf('pgsql:host=%s;dbname=%s',$url['host'],substr($url['path'],1));
   $dbh = new PDO(
@@ -39,7 +39,7 @@
     $sth = $dbh->prepare(
       'SELECT id, title, isbn, author, publisher,'
       . ' publishe_date, description, entry_date, thumbnail_url,'
-      . ' employee_id,exp_return_date'
+      . ' checkout_date,employee_id,exp_return_date'
       . ' FROM bookshelf WHERE id= :id');
     $sth->execute(['id' => $_POST['id']]);
     $origin = $sth->fetch(PDO::FETCH_ASSOC);
@@ -82,6 +82,8 @@
     <dl class="edit">
         <dt class="dt_details">社員番号（借りている人）
         <dd class="dt_div"><?php echo htmlspecialchars($origin['employee_id']); ?>
+        <dt class="dt_details">貸出日
+        <dd class="dt_div"><?php echo htmlspecialchars($origin['checkout_date']); ?>
         <dt class="dt_details">返却予定日
         <dd class="dt_div"><?php echo htmlspecialchars($origin['exp_return_date']); ?>
         <dt class="dt_details">返却日

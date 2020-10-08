@@ -33,7 +33,7 @@
     $sth = $dbh->query(
         'SELECT id, title, isbn, author, publisher,'
         . 'publishe_date, description, entry_date, thumbnail_url,'
-        . 'checkout_flg, employee_id, exp_return_date'
+        . 'checkout_flg, checkout_date, employee_id, exp_return_date'
         . ' FROM bookshelf'
         .  $where
         . ' ORDER BY id'
@@ -87,6 +87,8 @@
                                 <input type="hidden" name="id" value="<?php echo rawurlencode($r['id']); ?>"> 
                                 <input class="return_button" type="submit" value="返却">
                                 <div class="td_rtn"><?php echo htmlspecialchars($r['employee_id']); ?></div>
+                                <div class="td_rtn">貸出日:</div>
+                                <div class="td_rtn"><?php echo htmlspecialchars($r['checkout_date']); ?></div>
                                 <div class="td_rtn">返却予定日:</div>
                                 <div class="td_rtn"><?php echo htmlspecialchars($r['exp_return_date']); ?></div>
                             </form>
@@ -96,7 +98,7 @@
                                 <input class="checkout_button" type="submit" value="貸出">
                             </form>
                         <?php endif; ?>
-
+                        <p><span class="star5_rating" data-rate="3.5"></span>3.5</p>
                     <td class="td_title"><?php echo htmlspecialchars($r['title']); ?><br><img src= <?php echo htmlspecialchars($r['thumbnail_url']); ?>>
                         <br><div class="td_isbn">ISBN:<?php echo htmlspecialchars($r['isbn']); ?></div>
                     <td class="td_details"><?php echo htmlspecialchars($r['description']); ?>
