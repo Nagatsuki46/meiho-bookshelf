@@ -2,7 +2,7 @@
 
 body{
   font-family: 'Noto Sans JP', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
-  border-left: 40px solid #3f5252;
+  border-left: 40px solid #695124;
   padding-left: 30px;
 }
 
@@ -33,4 +33,6 @@ p{
 }
 dd{
   padding: 5px;
+  font-size: 0.8em;
+  color: #7a9697;
 }

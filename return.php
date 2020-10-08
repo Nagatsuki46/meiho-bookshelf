@@ -8,35 +8,35 @@
           [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
   );
 
-  //貸出ボタンのsubmit時の入力チェックをいれる（mode=1で判別）
+  //返却ボタンのsubmit時の入力チェックをいれる（mode=1で判別）
   if (isset($_POST['id']) && $_POST['mode']==="1"){
     $sth = $dbh->prepare(
       'UPDATE bookshelf'
-      . ' SET checkout_flg=1,'
-      . ' employee_id= :employee_id,'
-      . ' exp_return_date= :exp_return_date'
+      . ' SET checkout_flg=0,'
+      . ' employee_id=null,'
+      . ' return_date= :return_date'
       . ' WHERE id= :id');
     $sth->execute([
       'id' => $_POST['id'],
-      'employee_id' => $_POST['employee_id'],
-      'exp_return_date' => $_POST['exp_return_date']
+      'return_date' => $_POST['return_date']
       ]);
     header('Location: ./index.php');
   }
 
-  if (isset($_POST['id']) && ctype_digit($_POST['id'])){
+  if (isset($_GET['id']) && ctype_digit($_GET['id'])){
     $sth = $dbh->prepare(
       'SELECT id, title, isbn, author, publisher,'
-      . ' publishe_date, description, entry_date, thumbnail_url'
+      . ' publishe_date, description, entry_date, thumbnail_url,'
+      . ' employee_id,exp_return_date'
       . ' FROM bookshelf WHERE id= :id');
-    $sth->execute(['id' => $_POST['id']]);
+    $sth->execute(['id' => $_GET['id']]);
     $origin = $sth->fetch(PDO::FETCH_ASSOC);
   } 
 ?>
 <!DOCTYPE html>
 <head>
-  <title>貸出画面</title>
-  <link rel="stylesheet" href="checkout.css">
+  <title>返却画面</title>
+  <link rel="stylesheet" href="return.css">
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
@@ -48,33 +48,34 @@
         minDate: new Date()
       });
       dt = new Date()
-      dt.setDate(dt.getDate() + 7);
       y = dt.getFullYear();
       m = ("0" + (dt.getMonth() + 1)).slice(-2);
       d = ("0" + dt.getDate()).slice(-2);
-      document.checkoutform.datepicker.value = y + "/" + m + "/" + d;
+      document.returnform.datepicker.value = y + "/" + m + "/" + d;
     });
   </script>
 </head>
 
 <body>
-  <p>借りたい本は、こちらで合っていますか？</p>
-  <p>借りる場合は、社員番号と返却予定日を入れて、貸出ボタンを押してください。</p>
-  <form action="checkout.php" method="post" name="checkoutform">
+  <p>返却する本は、こちらで合っていますか？</p>
+  <p>返却する場合は、返却ボタンを押してください。</p>
+  <form action="return.php" method="post" name="returnform">
     <dl>
       <dt class="dt_title"><?php echo htmlspecialchars($origin['title']); ?>
       <dt><img src= <?php echo htmlspecialchars($origin['thumbnail_url']); ?>>
       <dt class="dt_isbn">ISBN: <?php echo rawurlencode($origin['isbn']); ?>
     </dl>
     <dl class="edit">
-        <dt class="dt_details">社員番号（借りる人）
-        <dd><input type="text" name="employee_id" required>
+        <dt class="dt_details">社員番号（借りている人）
+        <dd class="dt_div"><?php echo htmlspecialchars($origin['employee_id']); ?>
         <dt class="dt_details">返却予定日
-        <dd><input type="text" id="datepicker" name="exp_return_date" required>
+        <dd class="dt_div"><?php echo htmlspecialchars($origin['exp_return_date']); ?>
+        <dt class="dt_details">返却日
+        <dd><input type="text" id="datepicker" name="return_date" required>
     </dl>
     <input type="hidden" name="id" value="<?php echo rawurlencode($origin['id']); ?>">
     <input type="hidden" name="mode" value="1">
-    <input type="submit" value="貸出">
+    <input type="submit" value="返却">
     <input type="button" onclick="history.back()" value="キャンセル">
   </form>
 </body>

@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Alice&display=swap');
 
 body{
-    font-family: 'Noto Sans JP','ヒラギノ角ゴ ProN', 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
+    font-family: 'Noto Sans JP', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
     /* font-family: 'Lato', 'Noto Sans JP', 'ヒラギノ角ゴ ProN', 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif; */
 }
 
@@ -55,14 +55,19 @@ th,td{
 }
 .td_title{
     font-weight: bold;
-    /* color: #207275; */
-    color: #5c4416;
+    /* color: #5c4416; */
+    color: #695124;
     font-size: 0.9em;
 }
 .td_details{
     font-size: 0.9em;
 }
 .td_div{
+    font-size: 0.8em;
+    color: #7a9697;
+}
+.td_rtn{
+    font-family: 'Noto Sans JP', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
     font-size: 0.8em;
     color: #7a9697;
 }
@@ -80,13 +85,13 @@ th:nth-child(1){
     width: 5%;
 }
 th:nth-child(2){
-    width: 5%;
+    width: 10%;
 }
 th:nth-child(3){
     width: 20%;
 }
 th:nth-child(4){
-    width: 55%;
+    width: 50%;
 }
 th:nth-child(5){
     width: 15%;

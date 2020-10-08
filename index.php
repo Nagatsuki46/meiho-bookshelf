@@ -16,7 +16,8 @@ if($_POST['description'] != ""){$where = $where . " AND description LIKE '%" . $
 
 $sth = $dbh->query(
     'SELECT id, title, isbn, author, publisher,'
-    . 'publishe_date, description, entry_date, thumbnail_url'
+    . 'publishe_date, description, entry_date, thumbnail_url,'
+    . 'checkout_flg, employee_id, exp_return_date'
     . ' FROM bookshelf'
     .  $where
     . ' ORDER BY id'
@@ -66,8 +67,16 @@ $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
                     <td>
                         <!-- <a href="checkout.php?isbn=<?php echo rawurlencode($r['isbn']); ?>">貸出</a> -->
                         <form action="checkout.php" method="post">
-                            <input type="hidden" name="isbn" value="<?php echo rawurlencode($r['isbn']); ?>"> 
-                            <input type="submit" value="貸出">
+                            <input type="hidden" name="id" value="<?php echo rawurlencode($r['id']); ?>"> 
+
+                            <?php if ($r['checkout_flg']===1): ?>
+                                <a class="td_details" href="return.php?id=<?php echo rawurlencode($r['id']); ?>">貸出中…</a>
+                                <div class="td_rtn">返却予定日:</div>
+                                <div class="td_rtn"><?php echo htmlspecialchars($r['exp_return_date']); ?></div>
+                            <?php else: ?>
+                                <input class="td_details" type="submit" value="貸出">
+                            <?php endif; ?>
+
                         </form>
                     <td class="td_title"><?php echo htmlspecialchars($r['title']); ?><br><img src= <?php echo htmlspecialchars($r['thumbnail_url']); ?>>
                         <br><div class="td_isbn">ISBN:<?php echo htmlspecialchars($r['isbn']); ?></div>
