@@ -29,6 +29,25 @@
         'id' => $_POST['id'],
         'return_date' => $_POST['return_date']
         ]);
+
+      //履歴テーブルへ貸出履歴を登録する
+      $sth = $dbh->prepare(
+        'INSERT INTO history'
+        . '(id,return_ts,employee_id,checkout_date,exp_return_date,return_date,rate,review)'
+        . ' VALUES('
+        . ':id,:return_ts,:employee_id,:checkout_date,:exp_return_date,:return_date,:rate,:review)'
+      );
+      $sth->execute([
+        'id' => $_POST['id'],
+        'return_ts' => date("Y-m-d H:i:s"),
+        'employee_id' => $_POST['employee_id'],
+        'checkout_date' => $_POST['checkout_date'],
+        'exp_return_date' => $_POST['exp_return_date'],
+        'return_date' => $_POST['return_date'],
+        'rate' => $_POST['score'],
+        'review' => $_POST['review']
+      ]);
+
       header('Location: ./index.php');
     }else{
       $error = "※入力された返却日(" . $_POST['return_date'] . ")が正しくありません。";
@@ -53,6 +72,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
+  <script src="/js/jquery.raty.js"></script>
   <script>
     $(function() {
       $( "#datepicker" ).datepicker({
@@ -65,6 +85,12 @@
       m = ("0" + (dt.getMonth() + 1)).slice(-2);
       d = ("0" + dt.getDate()).slice(-2);
       document.returnform.datepicker.value = y + "-" + m + "-" + d;
+      //$('#star1').raty();
+      $('#star1').raty({
+          click: function(score) {
+            $.post('./return.php',{score:score})
+          }
+      });
     });
   </script>
 </head>
@@ -72,9 +98,9 @@
 <body>
   <p class="error"><?php echo $error ?></p>
   <p>返却する本は、こちらで合っていますか？</p>
-  <p>返却する場合は、返却ボタンを押してください。</p>
+  <!-- <p>返却する場合は、返却ボタンを押してください。</p> -->
   <form action="return.php" method="post" name="returnform">
-    <dl>
+    <dl class="title">
       <dt class="dt_title"><?php echo htmlspecialchars($origin['title']); ?>
       <dt><img src= <?php echo htmlspecialchars($origin['thumbnail_url']); ?>>
       <dt class="dt_isbn">ISBN: <?php echo rawurlencode($origin['isbn']); ?>
@@ -88,8 +114,15 @@
         <dd class="dt_div"><?php echo htmlspecialchars($origin['exp_return_date']); ?>
         <dt class="dt_details">返却日
         <dd><input type="text" id="datepicker" name="return_date" required>
+        <dt class="dt_details">レビュー
+        <dd><p id="star1"></p>
+        <dd><textarea name="review" rows="5" cols="30"></textarea>
+        
     </dl>
     <input type="hidden" name="id" value="<?php echo rawurlencode($origin['id']); ?>">
+    <input type="hidden" name="employee_id" value="<?php echo rawurlencode($origin['employee_id']); ?>">
+    <input type="hidden" name="checkout_date" value="<?php echo rawurlencode($origin['checkout_date']); ?>">
+    <input type="hidden" name="exp_return_date" value="<?php echo rawurlencode($origin['exp_return_date']); ?>">
     <input type="hidden" name="mode" value="1">
     <input class="return_button" type="submit" value="返却">
     <input class="button" type="button" onclick="history.back()" value="キャンセル">

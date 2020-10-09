@@ -11,7 +11,7 @@ body{
 }
 p{
   font-size: 0.8em;
-  margin: 2px;
+  margin: 0;
   color: #7a9697;
 }
 .dt_title{
@@ -25,17 +25,13 @@ p{
   font-weight: normal;
   color: #7a9697;
 }
-.edit{
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
 .dt_details{
   font-size: 0.9em;
   border-left: 5px solid #695124;
   padding-left: 5px;
 }
 dd{
-  padding: 5px;
+  padding: 3px;
   font-size: 0.8em;
   color: #7a9697;
 }
@@ -62,4 +58,11 @@ dd{
 }
 .return_button:hover {
   background: #2fb362;
+}
+.fa{
+  font-size:30px;
+}
+#rating{
+  font-size:0;
+  width:140px;
 }

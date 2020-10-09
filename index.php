@@ -49,7 +49,7 @@
 <body>
     <hr class="hr01">
     <form action="index.php" method="post">
-            ISBN CD: <input type="text" name="isbn" value="<?php echo $_POST['isbn']?>">
+            ISBN CD: <input type="text" name="isbn" maxlength='13' value="<?php echo $_POST['isbn']?>">
             Title: <input type="text" name="title" value="<?php echo $_POST['title']?>">
             Description: <input type="text" name="description" value="<?php echo $_POST['description']?>">
             <input class="button" type="submit" value="Search">
