@@ -1,6 +1,6 @@
 <?php
 
-    //セッションを使って検索条件を保持する
+    //セッションを使って検索条件を保持する。
     session_start();
 
     if (isset($_SESSION['edit_flg']) && $_SESSION['edit_flg']==="1"){
