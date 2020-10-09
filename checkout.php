@@ -3,8 +3,8 @@
   //セッションを使って検索条件を保持する
   session_start();
   
-  //編集画面に来たことをセッションに保持 24時間
-  session_cache_expire(60*24);
+  //編集画面に来たことをセッションに保持 12時間
+  session_cache_expire(60*12);
   $_SESSION['edit_flg'] = "1";
 
   $url = parse_url(getenv('DATABASE_URL'));

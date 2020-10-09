@@ -9,8 +9,8 @@
         $_POST['description'] = $_SESSION['description'];
         $_SESSION['edit_flg'] = "";
     }else{
-        //検索条件をセッションに保持 24時間
-        session_cache_expire(60*24);
+        //検索条件をセッションに保持 12時間
+        session_cache_expire(60*12);
         $_SESSION['isbn'] = $_POST['isbn'];
         $_SESSION['title'] = $_POST['title'];
         $_SESSION['description'] = $_POST['description'];
