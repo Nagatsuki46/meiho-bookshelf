@@ -1,6 +1,7 @@
 <?php
 
     //セッションを使って検索条件を保持する。
+    session_cache_expire(60);
     session_start();
 
     if (isset($_SESSION['edit_flg']) && $_SESSION['edit_flg']==="1"){
@@ -8,14 +9,16 @@
         $_POST['title'] = $_SESSION['title'];
         $_POST['description'] = $_SESSION['description'];
         $_SESSION['edit_flg'] = "";
-    }else{
-        //検索条件をセッションに保持 12時間
-        session_cache_expire(60*12);
+    }elseif(isset($_POST['isbn'])){
         $_SESSION['isbn'] = $_POST['isbn'];
         $_SESSION['title'] = $_POST['title'];
         $_SESSION['description'] = $_POST['description'];
+    }else{
+        $_POST['isbn'] = "";
+        $_POST['title'] = "";
+        $_POST['description'] ="";
     }
-
+    
     $url = parse_url(getenv('DATABASE_URL'));
     $dsn = sprintf('pgsql:host=%s;dbname=%s',$url['host'],substr($url['path'],1));
     $dbh = new PDO(
@@ -26,6 +29,7 @@
     );
 
     $where = " WHERE 1=1";
+
     if($_POST['isbn'] != ""){$where = $where . " AND isbn LIKE '" . $_POST['isbn'] ."%'";}
     if($_POST['title'] != ""){$where = $where . " AND title LIKE '%" . $_POST['title'] ."%'";}
     if($_POST['description'] != ""){$where = $where . " AND description LIKE '%" . $_POST['description'] ."%'";}
@@ -49,18 +53,18 @@
 <body>
     <hr class="hr01">
     <form action="index.php" method="post">
-            ISBN CD: <input type="text" name="isbn" maxlength='13' value="<?php echo $_POST['isbn']?>">
-            Title: <input type="text" name="title" value="<?php echo $_POST['title']?>">
-            Description: <input type="text" name="description" value="<?php echo $_POST['description']?>">
-            <input class="button" type="submit" value="Search">
-            <?php
-            //if(!empty($_POST['isbn']) and !preg_match("/[0-9]{13}/", $_POST['isbn'])){
-            //    echo "ISBNコードは0~9の数字のみの13桁を入力してください！";
-            //}
-            if(preg_match("/[^0-9]/", $_POST['isbn'])){
-                echo "ISBNコードは0~9の数字のみです！";
-            }
-            ?>
+        ISBN CD: <input type="text" name="isbn" maxlength='13' value="<?php echo $_POST['isbn']?>">
+        Title: <input type="text" name="title" value="<?php echo $_POST['title']?>">
+        Description: <input type="text" name="description" value="<?php echo $_POST['description']?>">
+        <input class="button" type="submit" value="Search">
+        <?php
+        //if(!empty($_POST['isbn']) and !preg_match("/[0-9]{13}/", $_POST['isbn'])){
+        //    echo "ISBNコードは0~9の数字のみの13桁を入力してください！";
+        //}
+        if(preg_match("/[^0-9]/", $_POST['isbn'])){
+            echo "ISBNコードは0~9の数字のみです！";
+        }
+        ?>
     </form>
 
     <table class="Slist">
