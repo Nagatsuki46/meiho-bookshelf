@@ -66,7 +66,7 @@
     <table class="Slist">
         <thead>
             <tr>
-                <th scope="col">ID
+                <th scope="col">No.
                 <th scope="col">
                 <th scope="col">Title<br>
                 <th scope="col">Description

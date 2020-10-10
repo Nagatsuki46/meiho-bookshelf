@@ -53,6 +53,15 @@
       . ' FROM bookshelf WHERE id= :id');
     $sth->execute(['id' => $_POST['id']]);
     $origin = $sth->fetch(PDO::FETCH_ASSOC);
+
+    $sth = $dbh->prepare(
+      'SELECT id, return_ts, employee_id,'
+      . ' checkout_date, return_date, rate, review'
+      . ' FROM history WHERE id= :id'
+      . ' ORDER BY return_ts DESC'
+    );
+    $sth->execute(['id' => $_POST['id']]);
+    $history = $sth->fetchAll(PDO::FETCH_ASSOC);
   }
 ?>
 <!DOCTYPE html>
@@ -92,24 +101,36 @@
 <body>
   <?php echo $error ?>
   <p>借りたい本は、こちらで合っていますか？</p>
-  <p>借りる場合は、社員番号と返却予定日を入れて、貸出ボタンを押してください。</p>
+  <!-- <p>借りる場合は、社員番号と返却予定日を入れて、貸出ボタンを押してください。</p> -->
   <form action="checkout.php" method="post" name="checkoutform">
-    <dl>
-      <dt class="dt_title"><?php echo htmlspecialchars($origin['title']); ?>
-      <dt><img src= <?php echo htmlspecialchars($origin['thumbnail_url']); ?>>
-      <dt class="dt_isbn">ISBN: <?php echo rawurlencode($origin['isbn']); ?>
-    </dl>
-    <dl class="edit">
-        <dt class="dt_details">社員番号（借りる人）
-        <dd><input type="text" name="employee_id" required>
-        <dt class="dt_details">貸出日
-        <dd><input type="text" id="dtp1" name="checkout_date" required>
-        <dt class="dt_details">返却予定日
-        <dd><input type="text" id="dtp2" name="exp_return_date" required>
-    </dl>
-    <input type="hidden" name="id" value="<?php echo rawurlencode($origin['id']); ?>">
-    <input type="hidden" name="mode" value="1">
-    <input class="checkout_button" type="submit" value="貸出">
-    <input class="button" type="button" onclick="history.back()" value="キャンセル">
+    <div class="block">
+      <dl>
+        <dt class="dt_title"><?php echo htmlspecialchars($origin['title']); ?>
+        <dt><img src= <?php echo htmlspecialchars($origin['thumbnail_url']); ?>>
+        <dt class="dt_isbn">ISBN: <?php echo rawurlencode($origin['isbn']); ?>
+      </dl>
+      <dl class="edit">
+          <dt class="dt_details">社員番号（借りる人）
+          <dd><input type="text" name="employee_id" required>
+          <dt class="dt_details">貸出日
+          <dd><input type="text" id="dtp1" name="checkout_date" required>
+          <dt class="dt_details">返却予定日
+          <dd><input type="text" id="dtp2" name="exp_return_date" required>
+      </dl>
+      <input type="hidden" name="id" value="<?php echo rawurlencode($origin['id']); ?>">
+      <input type="hidden" name="mode" value="1">
+      <input class="checkout_button" type="submit" value="貸出">
+      <input class="button" type="button" onclick="history.back()" value="キャンセル">
+    </div>
+
+    <!-- レビューリスト表示 -->
+    <div class="block" id="reviewlist">
+      <?php   foreach($history as $ht): ?>
+        <p><span class="star5_rating" data-rate=<?php echo rawurlencode($ht['rate']); ?>></p>
+        <p><?php echo rawurlencode($ht['employee_id']); ?></p>
+        <p>貸出日:<?php echo htmlspecialchars($ht['checkout_date']); ?> 返却日:<?php echo htmlspecialchars($ht['return_date']); ?><p>
+        <textarea id="ht_review" rows="4" cols="30" readonly><?php echo htmlspecialchars($ht['review']); ?></textarea>
+      <?php   endforeach; ?>
+    </div>
   </form>
 </body>
