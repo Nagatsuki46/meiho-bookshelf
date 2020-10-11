@@ -15,6 +15,7 @@
   );
 
   //返却ボタンのsubmit時の入力チェックをいれる（mode=1で判別）
+  $error ="";
   if (isset($_POST['mode']) && $_POST['mode']==="1"){
     if(date("Y-m-d",strtotime($_POST['return_date']))===$_POST['return_date']){
       $sth = $dbh->prepare(
@@ -42,7 +43,7 @@
         'checkout_date' => $_POST['checkout_date'],
         'exp_return_date' => $_POST['exp_return_date'],
         'return_date' => $_POST['return_date'],
-        'rate' => $_POST['score'],
+        'rate' => ($_POST['score']==="")?0:$_POST['score'],
         'review' => $_POST['review']
       ]);
 

@@ -74,6 +74,7 @@ dd{
   color: #fff;
   padding: 6px 14px;
   font-size: 14px;
+  margin-right: 10px;
 }
 .return_button:hover {
   background: #2fb362;

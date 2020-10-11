@@ -4,19 +4,27 @@
     session_cache_expire(60);
     session_start();
 
+    if(!isset($_POST['isbn'])){
+        $_POST['isbn'] = "";
+        $_POST['title'] = "";
+        $_POST['description'] ="";
+    }
+
     if (isset($_SESSION['edit_flg']) && $_SESSION['edit_flg']==="1"){
+
+        if (!isset($_SESSION['isbn'])){
+            $_SESSION['isbn'] = "";
+            $_SESSION['title'] = "";
+            $_SESSION['description'] ="";
+        }
         $_POST['isbn'] = $_SESSION['isbn'];
         $_POST['title'] = $_SESSION['title'];
         $_POST['description'] = $_SESSION['description'];
         $_SESSION['edit_flg'] = "";
-    }elseif(isset($_POST['isbn'])){
+    }else{
         $_SESSION['isbn'] = $_POST['isbn'];
         $_SESSION['title'] = $_POST['title'];
         $_SESSION['description'] = $_POST['description'];
-    }else{
-        $_POST['isbn'] = "";
-        $_POST['title'] = "";
-        $_POST['description'] ="";
     }
     
     $url = parse_url(getenv('DATABASE_URL'));
@@ -30,17 +38,21 @@
 
     $where = " WHERE 1=1";
 
-    if($_POST['isbn'] != ""){$where = $where . " AND isbn LIKE '" . $_POST['isbn'] ."%'";}
-    if($_POST['title'] != ""){$where = $where . " AND title LIKE '%" . $_POST['title'] ."%'";}
-    if($_POST['description'] != ""){$where = $where . " AND description LIKE '%" . $_POST['description'] ."%'";}
+    if($_POST['isbn'] != ""){$where = $where . " AND a.isbn LIKE '" . $_POST['isbn'] ."%'";}
+    if($_POST['title'] != ""){$where = $where . " AND a.title LIKE '%" . $_POST['title'] ."%'";}
+    if($_POST['description'] != ""){$where = $where . " AND a.description LIKE '%" . $_POST['description'] ."%'";}
 
     $sth = $dbh->query(
-        'SELECT id, title, isbn, author, publisher,'
+        /*'SELECT id, title, isbn, author, publisher,'
         . 'publishe_date, description, entry_date, thumbnail_url,'
-        . 'checkout_flg, checkout_date, employee_id, exp_return_date'
-        . ' FROM bookshelf'
+        . 'checkout_flg, checkout_date, employee_id, exp_return_date' */
+        'SELECT a.*,b.avg_rate'
+        . ' FROM bookshelf AS a'
+        . ' LEFT JOIN '
+        . ' (SELECT id,AVG(rate) AS avg_rate FROM history WHERE rate>0 GROUP BY id) AS b'
+        .' ON a.id=b.id'
         .  $where
-        . ' ORDER BY id'
+        . ' ORDER BY a.id'
     );
     $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -102,7 +114,14 @@
                                 <input class="checkout_button" type="submit" value="貸出">
                             </form>
                         <?php endif; ?>
-                        <p><span class="star5_rating" data-rate="3.5"></span>3.5</p>
+                        <?php if ($r['avg_rate']>0): 
+                            $avg_rate = round($r['avg_rate'],1);
+                            $star_rate = round($avg_rate*2)/2
+                        ?>
+                            <p><span class="star5_rating" data-rate=<?php echo rawurlencode($star_rate); ?>></span><?php echo rawurlencode($avg_rate); ?></p>
+                        <?php else: ?>
+                            <p><span class="star5_rating" data-rate=0></span></p>
+                        <?php endif; ?>
                     <td class="td_title"><?php echo htmlspecialchars($r['title']); ?><br><img src= <?php echo htmlspecialchars($r['thumbnail_url']); ?>>
                         <br><div class="td_isbn">ISBN:<?php echo htmlspecialchars($r['isbn']); ?></div>
                     <td class="td_details"><?php echo htmlspecialchars($r['description']); ?>

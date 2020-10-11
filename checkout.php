@@ -15,10 +15,10 @@
   );
 
   //貸出ボタンのsubmit時の入力チェックをいれる（mode=1で判別）
+  $error = "";
   if (isset($_POST['mode']) && $_POST['mode']==="1"){
 
     //if(preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $_POST['exp_return_date'])){
-    $error = "";
     if(date("Y-m-d",strtotime($_POST['checkout_date']))!==$_POST['checkout_date']){
       $error = $error . "<p class='error'>※入力された貸出日(" . $_POST['checkout_date'] . ")が正しくありません。</p>";
     }
@@ -97,7 +97,7 @@
 </head>
 
 <body>
-  <?php echo $error ?>
+  <p class="error"><?php echo $error ?></p>
   <p>借りたい本は、こちらで合っていますか？</p>
   <!-- <p>借りる場合は、社員番号と返却予定日を入れて、貸出ボタンを押してください。</p> -->
   <form action="checkout.php" method="post" name="checkoutform">
