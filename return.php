@@ -104,7 +104,7 @@
       });
     });
     function confirm_delete() {
-        if (document.edit_review.key.value === "削除"){
+        if (document.returnform.key.value === "削除"){
           var select = confirm("本当にレビューを削除しますか？\nレビューを削除すると貸出履歴も削除されます。");
           return select;
         }else{
@@ -147,6 +147,7 @@
       <input class="return_button" type="submit" value="返却">
       <!-- <input class="button" type="button" onclick="history.back()" value="キャンセル">  -->
       <input class="general_button" type="button" onclick="location.href='index.php'" value="キャンセル"> 
+      <input type="hidden" name="key" value="">
     </form>
   </div>
 
@@ -158,12 +159,11 @@
       <p><span class="star5_rating" data-rate=<?php echo rawurlencode($ht['rate']); ?>></p>
 
       <!-- レビュー編集・削除フォーム -->
-      <form action="editreview.php" method="post" name="edit_review" id="edit_review" onsubmit="return confirm_delete()">
+      <form action="editreview.php" method="post" name="edit_review" onsubmit="return confirm_delete()">
         <input type="hidden" name="id" value="<?php echo rawurlencode($ht['id']); ?>">
         <input type="hidden" name="return_ts" value="<?php echo $ht['return_ts']; ?>">
-        <input type="hidden" name="key" value="">
-        <input type="submit" name="sub_update"  value="編集" onclick="edit_review.key.value='編集'" >
-        <input type="submit" name="sub_delete"  value="削除" onclick="edit_review.key.value='削除'" >
+        <input type="submit" name="sub_update"  value="編集" onclick="returnform.key.value='編集'" >
+        <input type="submit" name="sub_delete"  value="削除" onclick="returnform.key.value='削除'" >
       </form>
       <textarea id="ht_review" rows="5" cols="30" readonly><?php echo htmlspecialchars($ht['review']); ?></textarea>
     <?php   endforeach; ?>
