@@ -104,7 +104,7 @@
       });
     });
     function confirm_delete() {
-        if (edit_review.key.value === "削除"){
+        if (document.edit_review.key.value === "削除"){
           var select = confirm("本当にレビューを削除しますか？\nレビューを削除すると貸出履歴も削除されます。");
           return select;
         }else{
@@ -158,7 +158,7 @@
       <p><span class="star5_rating" data-rate=<?php echo rawurlencode($ht['rate']); ?>></p>
 
       <!-- レビュー編集・削除フォーム -->
-      <form action="editreview.php" method="post" name="edit_review" onsubmit="return confirm_delete()">
+      <form action="editreview.php" method="post" name="edit_review" id="edit_review" onsubmit="return confirm_delete()">
         <input type="hidden" name="id" value="<?php echo rawurlencode($ht['id']); ?>">
         <input type="hidden" name="return_ts" value="<?php echo $ht['return_ts']; ?>">
         <input type="hidden" name="key" value="">
