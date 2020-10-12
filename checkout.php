@@ -16,7 +16,7 @@
 
   //貸出ボタンのsubmit時の入力チェックをいれる（mode=1で判別）
   $error = "";
-  if (isset($_POST['mode']) && $_POST['mode']==="1"){
+  if (isset($_POST['mode']) && $_POST['mode']==="1" && empty(!$_POST['checkout_date']) && empty(!$_POST['exp_return_date'])){
 
     //if(preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $_POST['exp_return_date'])){
     if(date("Y-m-d",strtotime($_POST['checkout_date']))!==$_POST['checkout_date']){
@@ -97,7 +97,7 @@
     });
 
     function confirm_delete() {
-        if (edit_review.key.value === "削除"){
+        if (document.checkoutform.key.value === "削除"){
           var select = confirm("本当にレビューを削除しますか？\nレビューを削除すると貸出履歴も削除されます。");
           return select;
         }else{
@@ -131,6 +131,7 @@
       <input class="checkout_button" type="submit" value="貸出">
       <!-- <input class="button" type="button" onclick="history.back()" value="キャンセル"> -->
       <input class="general_button" type="button" onclick="location.href='index.php'" value="キャンセル">
+      <input type="hidden" name="key" value="">
     </form>
   </div>
 
@@ -145,9 +146,9 @@
       <form action="editreview.php" method="post" name="edit_review" onsubmit="return confirm_delete()">
         <input type="hidden" name="id" value="<?php echo rawurlencode($ht['id']); ?>">
         <input type="hidden" name="return_ts" value="<?php echo $ht['return_ts']; ?>">
-        <input type="hidden" name="key" value="">
-        <input type="submit" name="sub_update"  value="編集" onclick="edit_review.key.value='編集'" >
-        <input type="submit" name="sub_delete"  value="削除" onclick="edit_review.key.value='削除'" >
+        <input type="hidden" name="display_flg" value="1">
+        <input type="submit" name="sub_edit"  value="編集" onclick="checkoutform.key.value='編集'" >
+        <input type="submit" name="sub_delete"  value="削除" onclick="checkoutform.key.value='削除'" >
       </form>
       <p><textarea id="ht_review" rows="5" cols="30" readonly><?php echo htmlspecialchars($ht['review']); ?></textarea></p>
     <?php   endforeach; ?>

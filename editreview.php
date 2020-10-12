@@ -10,6 +10,12 @@
   );
 
   $error ="";
+  
+  if ($_POST['display_flg']==="1"){
+    $to_redirect="checkout.php";
+  }else{
+    $to_redirect="return.php";
+  }
   if (isset($_POST['sub_delete'])){
     //選択された履歴を削除をする
     $sth = $dbh->prepare(
@@ -22,7 +28,7 @@
       ]);
     
     //POSTの情報を引き継ぐ形でリダイレクト(307)
-    header('Location: ./return.php',true,307);
+    header('Location: '.$to_redirect,true,307);
     exit;
   }
 
@@ -42,14 +48,15 @@
     ]);
 
     //POSTの情報を引き継ぐ形でリダイレクト(307)
-    header('Location: ./return.php',true,307);
+    header('Location: '.$to_redirect,true,307);
     exit;
   }elseif(isset($_POST['sub_cancel'])){
 
     //POSTの情報を引き継ぐ形でリダイレクト(307)
-    header('Location: ./return.php',true,307);
+    header('Location: '.$to_redirect,true,307);
     exit;
   }
+
 
   if (isset($_POST['id']) && ctype_digit($_POST['id'])){
     $sth = $dbh->prepare(
@@ -81,7 +88,7 @@
       $('#star1').raty({
           score:<?php echo ($origin['rate']===null)?0:$origin['rate']; ?>,
           click: function(score) {
-            $.post('./return.php',{score:score})
+            $.post('./editreview.php',{score:score})
           }
       });
     });
@@ -115,6 +122,7 @@
       <input type="hidden" name="id" value="<?php echo rawurlencode($origin['id']); ?>">
       <input type="hidden" name="return_ts" value="<?php echo $origin['return_ts']; ?>">
       <input type="hidden" name="mode" value="1">
+      <input type="hidden" name="display_flg" value="<?php echo $_POST['display_flg']; ?>">
       <input class="edit_button" type="submit" name="sub_update" value="更新">
       <input class="general_button" type="submit" name="sub_cancel" value="キャンセル"> 
     </form>

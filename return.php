@@ -155,12 +155,13 @@
     <?php   foreach($history as $ht): ?>
       <p><?php echo rawurlencode($ht['employee_id']); ?></p>
       <p>貸出日:<?php echo htmlspecialchars($ht['checkout_date']); ?> 返却日:<?php echo htmlspecialchars($ht['return_date']); ?><p>
-      <p><span class="star5_rating" data-rate=<?php echo rawurlencode($ht['rate']); ?>></p>
+      <p><span class="star5_rating" data-rate=<?php echo empty($ht['rate'])?0:$ht['rate']; ?>></p>
 
       <!-- レビュー編集・削除フォーム -->
       <form action="editreview.php" method="post" name="edit_review" onsubmit="return confirm_delete()">
         <input type="hidden" name="id" value="<?php echo rawurlencode($ht['id']); ?>">
         <input type="hidden" name="return_ts" value="<?php echo $ht['return_ts']; ?>">
+        <input type="hidden" name="display_flg" value="2">
         <input type="submit" name="sub_edit"  value="編集" onclick="returnform.key.value='編集'" >
         <input type="submit" name="sub_delete"  value="削除" onclick="returnform.key.value='削除'" >
       </form>
