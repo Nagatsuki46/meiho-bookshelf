@@ -46,13 +46,16 @@
         /*'SELECT id, title, isbn, author, publisher,'
         . 'publishe_date, description, entry_date, thumbnail_url,'
         . 'checkout_flg, checkout_date, employee_id, exp_return_date' */
-        'SELECT a.*,b.avg_rate'
+        'SELECT a.*,b.avg_rate,c.cnt_review'
         . ' FROM bookshelf AS a'
-        . ' LEFT JOIN '
+        . ' LEFT JOIN'
         . ' (SELECT id,AVG(rate) AS avg_rate FROM history WHERE rate>0 GROUP BY id) AS b'
-        .' ON a.id=b.id'
+        . ' ON a.id=b.id'
+        . ' LEFT JOIN'
+        . ' (SELECT id,COUNT(*) AS cnt_review FROM history GROUP BY id) AS c'
+        . ' ON a.id=c.id'
         .  $where
-        . ' ORDER BY a.id'
+        . ' ORDER BY a.checkout_date DESC NULLS LAST,a.id'
     );
     $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -64,7 +67,7 @@
 
 <body>
     <hr class="hr01">
-    <form action="index.php" method="post">
+    <form class="form_search" action="index.php" method="post">
         ISBN CD: <input type="text" name="isbn" maxlength='13' value="<?php echo $_POST['isbn']?>">
         Title: <input type="text" name="title" value="<?php echo $_POST['title']?>">
         Description: <input type="text" name="description" value="<?php echo $_POST['description']?>">
@@ -121,6 +124,12 @@
                             <p><span class="star5_rating" data-rate=<?php echo rawurlencode($star_rate); ?>></span><?php echo rawurlencode($avg_rate); ?></p>
                         <?php else: ?>
                             <p><span class="star5_rating" data-rate=0></span></p>
+                        <?php endif; ?>
+                        <?php if ($r['cnt_review']>0): ?>
+                            <form name=form<?php echo $id; ?> action=<?php echo ($r['checkout_flg']===1)? "return.php":"checkout.php"; ?> method="post">
+                                <a href="javascript:document.form<?php echo $id; ?>.submit();"><?php echo rawurlencode($r['cnt_review']); ?>件</a>
+                                <input type="hidden" name="id" value="<?php echo rawurlencode($r['id']); ?>"> 
+                            </form>
                         <?php endif; ?>
                     <td class="td_title"><?php echo htmlspecialchars($r['title']); ?><br><img src= <?php echo htmlspecialchars($r['thumbnail_url']); ?>>
                         <br><div class="td_isbn">ISBN:<?php echo htmlspecialchars($r['isbn']); ?></div>

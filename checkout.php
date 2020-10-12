@@ -41,6 +41,7 @@
         'exp_return_date' => $_POST['exp_return_date']
         ]);
       header('Location: ./index.php');
+      exit;
     }
   }
 
@@ -93,6 +94,15 @@
       d = ("0" + dt.getDate()).slice(-2);
       document.checkoutform.dtp2.value = y + "-" + m + "-" + d;
     });
+
+    function confirm_delete() {
+        if (edit_review.key.value === "削除"){
+          var select = confirm("本当にレビューを削除しますか？\nレビューを削除すると貸出履歴も削除されます。");
+          return select;
+        }else{
+          return true;
+        }
+    };
   </script>
 </head>
 
@@ -100,8 +110,8 @@
   <p class="error"><?php echo $error ?></p>
   <p>借りたい本は、こちらで合っていますか？</p>
   <!-- <p>借りる場合は、社員番号と返却予定日を入れて、貸出ボタンを押してください。</p> -->
-  <form action="checkout.php" method="post" name="checkoutform">
-    <div class="block">
+  <div class="block">
+    <form action="checkout.php" method="post" name="checkoutform">
       <dl>
         <dt class="dt_title"><?php echo htmlspecialchars($origin['title']); ?>
         <dt><img src= <?php echo htmlspecialchars($origin['thumbnail_url']); ?>>
@@ -118,17 +128,28 @@
       <input type="hidden" name="id" value="<?php echo rawurlencode($origin['id']); ?>">
       <input type="hidden" name="mode" value="1">
       <input class="checkout_button" type="submit" value="貸出">
-      <input class="button" type="button" onclick="history.back()" value="キャンセル">
-    </div>
+      <!-- <input class="button" type="button" onclick="history.back()" value="キャンセル"> -->
+      <input class="general_button" type="button" onclick="location.href='index.php'" value="キャンセル">
+    </form>
+  </div>
 
-    <!-- レビューリスト表示 -->
-    <div class="block" id="reviewlist">
-      <?php   foreach($history as $ht): ?>
-        <p><span class="star5_rating" data-rate=<?php echo rawurlencode($ht['rate']); ?>></p>
-        <p><?php echo rawurlencode($ht['employee_id']); ?></p>
-        <p>貸出日:<?php echo htmlspecialchars($ht['checkout_date']); ?> 返却日:<?php echo htmlspecialchars($ht['return_date']); ?><p>
-        <textarea id="ht_review" rows="4" cols="30" readonly><?php echo htmlspecialchars($ht['review']); ?></textarea>
-      <?php   endforeach; ?>
-    </div>
-  </form>
+  <!-- レビューリスト表示 -->
+  <div class="block" id="reviewlist">
+    <?php   foreach($history as $ht): ?>
+      <p><?php echo rawurlencode($ht['employee_id']); ?></p>
+      <p>貸出日:<?php echo htmlspecialchars($ht['checkout_date']); ?> 返却日:<?php echo htmlspecialchars($ht['return_date']); ?><p>
+      <p><span class="star5_rating" data-rate=<?php echo rawurlencode($ht['rate']); ?>></p>
+
+      <!-- レビュー編集・削除フォーム -->
+      <form action="editreview.php" method="post" name="edit_review" onsubmit="return confirm_delete()">
+        <input type="hidden" name="id" value="<?php echo rawurlencode($ht['id']); ?>">
+        <input type="hidden" name="return_ts" value="<?php echo $ht['return_ts']; ?>">
+        <input type="hidden" name="key" value="">
+        <input type="submit" name="sub_update"  value="編集" onclick="edit_review.key.value='編集'" >
+        <input type="submit" name="sub_delete"  value="削除" onclick="edit_review.key.value='削除'" >
+      </form>
+      <p><textarea id="ht_review" rows="5" cols="30" readonly><?php echo htmlspecialchars($ht['review']); ?></textarea></p>
+    <?php   endforeach; ?>
+  </div>
+  
 </body>

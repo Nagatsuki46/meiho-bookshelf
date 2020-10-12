@@ -14,7 +14,7 @@ body{
     background-image: linear-gradient(90deg,transparent 0%, #3f5252 50%,transparent 100%);
 }
 
-form {
+.form_search {
     font-family: 'Alice', serif;
     padding-top: 0.4em;
     padding-bottom: 0.8em;
@@ -55,6 +55,10 @@ form {
 }
 .return_button:hover {
     background: #2fb362;
+}
+
+p{
+    margin: 2px;
 }
 table {
     border-collapse: collapse;

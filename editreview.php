@@ -1,10 +1,5 @@
  <?php
 
-  //セッションを使って検索条件を保持する
-  session_cache_expire(60);
-  session_start();
-  $_SESSION['edit_flg'] = "1";
-
   $url = parse_url(getenv('DATABASE_URL'));
   $dsn = sprintf('pgsql:host=%s;dbname=%s',$url['host'],substr($url['path'],1));
   $dbh = new PDO(
@@ -14,44 +9,20 @@
           [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
   );
 
-  //返却ボタンのsubmit時の入力チェックをいれる（mode=1で判別）
   $error ="";
-  if (isset($_POST['mode']) && $_POST['mode']==="1"){
-    if(date("Y-m-d",strtotime($_POST['return_date']))===$_POST['return_date']){
+  if (isset($_POST['sub_delete'])){
+      //選択された履歴を削除をする
       $sth = $dbh->prepare(
-        'UPDATE bookshelf'
-        . ' SET checkout_flg=0,'
-        . ' employee_id=null,'
-        . ' return_date= :return_date'
-        . ' WHERE id= :id');
+        'DELETE FROM history'
+        . ' WHERE id= :id'
+        . ' AND return_ts= :return_ts');
       $sth->execute([
         'id' => $_POST['id'],
-        'return_date' => $_POST['return_date']
+        'return_ts' => $_POST['return_ts']
         ]);
-
-      //履歴テーブルへ貸出履歴を登録する
-      $sth = $dbh->prepare(
-        'INSERT INTO history'
-        . '(id,return_ts,employee_id,checkout_date,exp_return_date,return_date,rate,review)'
-        . ' VALUES('
-        . ':id,:return_ts,:employee_id,:checkout_date,:exp_return_date,:return_date,:rate,:review)'
-      );
-      $sth->execute([
-        'id' => $_POST['id'],
-        'return_ts' => date("Y-m-d H:i:s"),
-        'employee_id' => $_POST['employee_id'],
-        'checkout_date' => $_POST['checkout_date'],
-        'exp_return_date' => $_POST['exp_return_date'],
-        'return_date' => $_POST['return_date'],
-        'rate' => ($_POST['score']==="")?0:$_POST['score'],
-        'review' => $_POST['review']
-      ]);
-
-      header('Location: ./index.php');
-      exit;
-    }else{
-      $error = "※入力された返却日(" . $_POST['return_date'] . ")が正しくありません。";
-    }
+      
+      //POSTの情報を引き継ぐ形でリダイレクト(307)
+      header('Location: ./return.php',true,307);
   }
 
   if (isset($_POST['id']) && ctype_digit($_POST['id'])){
@@ -103,14 +74,7 @@
           }
       });
     });
-    function confirm_delete() {
-        if (edit_review.key.value === "削除"){
-          var select = confirm("本当にレビューを削除しますか？\nレビューを削除すると貸出履歴も削除されます。");
-          return select;
-        }else{
-          return true;
-        }
-    };
+  
   </script>
 </head>
 
@@ -156,14 +120,9 @@
       <p><?php echo rawurlencode($ht['employee_id']); ?></p>
       <p>貸出日:<?php echo htmlspecialchars($ht['checkout_date']); ?> 返却日:<?php echo htmlspecialchars($ht['return_date']); ?><p>
       <p><span class="star5_rating" data-rate=<?php echo rawurlencode($ht['rate']); ?>></p>
-
-      <!-- レビュー編集・削除フォーム -->
-      <form action="editreview.php" method="post" name="edit_review" onsubmit="return confirm_delete()">
-        <input type="hidden" name="id" value="<?php echo rawurlencode($ht['id']); ?>">
-        <input type="hidden" name="return_ts" value="<?php echo $ht['return_ts']; ?>">
-        <input type="hidden" name="key" value="">
-        <input type="submit" name="sub_update"  value="編集" onclick="edit_review.key.value='編集'" >
-        <input type="submit" name="sub_delete"  value="削除" onclick="edit_review.key.value='削除'" >
+      <form action="editreview.php" method="post" onsubmit="return confirm_test()">
+        <input type="submit" name="sub_update" value="編集">
+        <input type="submit" name="sub_delete" value="削除">
       </form>
       <textarea id="ht_review" rows="5" cols="30" readonly><?php echo htmlspecialchars($ht['review']); ?></textarea>
     <?php   endforeach; ?>
