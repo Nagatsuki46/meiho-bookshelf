@@ -31,12 +31,14 @@
         'UPDATE bookshelf'
         . ' SET checkout_flg=1,'
         . ' checkout_date= :checkout_date,'
+        . ' checkout_ts= :checkout_ts,'
         . ' employee_id= :employee_id,'
         . ' exp_return_date= :exp_return_date'
         . ' WHERE id= :id');
       $sth->execute([
         'id' => $_POST['id'],
         'checkout_date' => $_POST['checkout_date'],
+        'checkout_ts' => date("Y-m-d H:i:s"),
         'employee_id' => $_POST['employee_id'],
         'exp_return_date' => $_POST['exp_return_date']
         ]);
@@ -47,15 +49,13 @@
 
   if (isset($_POST['id']) && ctype_digit($_POST['id'])){
     $sth = $dbh->prepare(
-      'SELECT id, title, isbn, author, publisher,'
-      . ' publishe_date, description, entry_date, thumbnail_url'
+      'SELECT *'
       . ' FROM bookshelf WHERE id= :id');
     $sth->execute(['id' => $_POST['id']]);
     $origin = $sth->fetch(PDO::FETCH_ASSOC);
 
     $sth = $dbh->prepare(
-      'SELECT id, return_ts, employee_id,'
-      . ' checkout_date, return_date, rate, review'
+      'SELECT *'
       . ' FROM history WHERE id= :id'
       . ' ORDER BY return_ts DESC'
     );

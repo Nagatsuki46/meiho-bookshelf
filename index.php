@@ -55,7 +55,7 @@
         . ' (SELECT id,COUNT(*) AS cnt_review FROM history GROUP BY id) AS c'
         . ' ON a.id=c.id'
         .  $where
-        . ' ORDER BY a.checkout_date DESC NULLS LAST,a.id'
+        . ' ORDER BY a.checkout_ts DESC NULLS LAST,a.id'
     );
     $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
 ?>
