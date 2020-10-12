@@ -2,7 +2,7 @@
 
 body{
   font-family: 'Noto Sans JP', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
-  border-left: 40px solid #286441;
+  border-left: 40px solid #695124;
   padding-left: 50px;
 }
 
@@ -35,7 +35,7 @@ p{
 }
 .dt_title{
   font-weight: bold;
-  color: #286441;
+  color: #695124;
   font-size: 0.9em;
 }
 .dt_isbn{
@@ -66,18 +66,18 @@ dd{
 .general_button:hover {
   background: #8d8e8f;
 }
-.return_button{
+.edit_button{
   appearance: none;
   border: 0;
   border-radius: 5px;
-  background: #61cc85;
+  background: #c5cc61;
   color: #fff;
   padding: 6px 14px;
   font-size: 14px;
   margin-right: 10px;
 }
-.return_button:hover {
-  background: #2fb362;
+.edit_button:hover {
+  background: #b3aa2f;
 }
 .fa{
   font-size:30px;

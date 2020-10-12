@@ -16,8 +16,9 @@
 
   //返却ボタンのsubmit時の入力チェックをいれる（mode=1で判別）
   $error ="";
-  if (isset($_POST['mode']) && $_POST['mode']==="1"){
-    if(date("Y-m-d",strtotime($_POST['return_date']))===$_POST['return_date']){
+  //レビュー編集画面から戻った際に返却日が空文字となるため、条件追加
+  if (isset($_POST['mode']) && $_POST['mode']==="1" && empty(!$_POST['return_date'])){
+    if (date("Y-m-d",strtotime($_POST['return_date']))===$_POST['return_date']){
       $sth = $dbh->prepare(
         'UPDATE bookshelf'
         . ' SET checkout_flg=0,'
@@ -56,17 +57,14 @@
 
   if (isset($_POST['id']) && ctype_digit($_POST['id'])){
     $sth = $dbh->prepare(
-      'SELECT id, title, isbn, author, publisher,'
-      . ' publishe_date, description, entry_date, thumbnail_url,'
-      . ' checkout_date,employee_id,exp_return_date'
+      'SELECT *'
       . ' FROM bookshelf WHERE id= :id'
     );
     $sth->execute(['id' => $_POST['id']]);
     $origin = $sth->fetch(PDO::FETCH_ASSOC);
 
     $sth = $dbh->prepare(
-        'SELECT id, return_ts, employee_id,'
-        . ' checkout_date, return_date, rate, review'
+        'SELECT *'
         . ' FROM history WHERE id= :id'
         . ' ORDER BY return_ts DESC'
     );
@@ -78,6 +76,7 @@
 <head>
   <title>返却画面</title>
   <link rel="stylesheet" href="return.css">
+  <link rel="stylesheet" href="stardisp.css">
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
@@ -162,7 +161,7 @@
       <form action="editreview.php" method="post" name="edit_review" onsubmit="return confirm_delete()">
         <input type="hidden" name="id" value="<?php echo rawurlencode($ht['id']); ?>">
         <input type="hidden" name="return_ts" value="<?php echo $ht['return_ts']; ?>">
-        <input type="submit" name="sub_update"  value="編集" onclick="returnform.key.value='編集'" >
+        <input type="submit" name="sub_edit"  value="編集" onclick="returnform.key.value='編集'" >
         <input type="submit" name="sub_delete"  value="削除" onclick="returnform.key.value='削除'" >
       </form>
       <textarea id="ht_review" rows="5" cols="30" readonly><?php echo htmlspecialchars($ht['review']); ?></textarea>

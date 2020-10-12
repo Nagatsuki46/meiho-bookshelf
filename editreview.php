@@ -11,44 +11,66 @@
 
   $error ="";
   if (isset($_POST['sub_delete'])){
-      //選択された履歴を削除をする
-      $sth = $dbh->prepare(
-        'DELETE FROM history'
-        . ' WHERE id= :id'
-        . ' AND return_ts= :return_ts');
-      $sth->execute([
-        'id' => $_POST['id'],
-        'return_ts' => $_POST['return_ts']
-        ]);
-      
-      //POSTの情報を引き継ぐ形でリダイレクト(307)
-      header('Location: ./return.php',true,307);
+    //選択された履歴を削除をする
+    $sth = $dbh->prepare(
+      'DELETE FROM history'
+      . ' WHERE id= :id'
+      . ' AND return_ts= :return_ts');
+    $sth->execute([
+      'id' => $_POST['id'],
+      'return_ts' => $_POST['return_ts']
+      ]);
+    
+    //POSTの情報を引き継ぐ形でリダイレクト(307)
+    header('Location: ./return.php',true,307);
+    exit;
+  }
+
+  //更新ボタンが押されていたら履歴を更新する
+  if (isset($_POST['sub_update'])){
+    $sth = $dbh->prepare(
+      'UPDATE history'
+      . ' SET rate= :rate,'
+      . ' review= :review'
+      . ' WHERE id= :id'
+      . ' AND return_ts= :return_ts');
+    $sth->execute([
+      'rate' => ($_POST['score']==="")?0:$_POST['score'],
+      'review' => $_POST['review'],
+      'id' => $_POST['id'],
+      'return_ts' => $_POST['return_ts']
+    ]);
+
+    //POSTの情報を引き継ぐ形でリダイレクト(307)
+    header('Location: ./return.php',true,307);
+    exit;
+  }elseif(isset($_POST['sub_cancel'])){
+
+    //POSTの情報を引き継ぐ形でリダイレクト(307)
+    header('Location: ./return.php',true,307);
+    exit;
   }
 
   if (isset($_POST['id']) && ctype_digit($_POST['id'])){
     $sth = $dbh->prepare(
-      'SELECT id, title, isbn, author, publisher,'
-      . ' publishe_date, description, entry_date, thumbnail_url,'
-      . ' checkout_date,employee_id,exp_return_date'
-      . ' FROM bookshelf WHERE id= :id'
-    );
-    $sth->execute(['id' => $_POST['id']]);
+      'SELECT a.*,b.*'
+      . ' FROM bookshelf AS a'
+      . ' LEFT JOIN history AS b'
+      . ' ON a.id=b.id'
+      . ' WHERE a.id= :id'
+      . ' AND b.return_ts= :return_ts');
+    $sth->execute([
+      'id' => $_POST['id'],
+      'return_ts' => $_POST['return_ts']
+      ]);
     $origin = $sth->fetch(PDO::FETCH_ASSOC);
-
-    $sth = $dbh->prepare(
-        'SELECT id, return_ts, employee_id,'
-        . ' checkout_date, return_date, rate, review'
-        . ' FROM history WHERE id= :id'
-        . ' ORDER BY return_ts DESC'
-    );
-    $sth->execute(['id' => $_POST['id']]);
-    $history = $sth->fetchAll(PDO::FETCH_ASSOC);
   } 
 ?>
 <!DOCTYPE html>
 <head>
-  <title>返却画面</title>
-  <link rel="stylesheet" href="return.css">
+  <title>レビュー編集画面</title>
+  <link rel="stylesheet" href="editreview.css">
+  <link rel="stylesheet" href="stardisp.css">
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
@@ -56,34 +78,21 @@
   <script src="/js/jquery.raty.js"></script>
   <script>
     $(function() {
-      $( "#datepicker" ).datepicker({
-        dateFormat: 'yy-mm-dd',
-        defaultDate: new Date(),
-        minDate: new Date()
-      });
-      dt = new Date()
-      y = dt.getFullYear();
-      m = ("0" + (dt.getMonth() + 1)).slice(-2);
-      d = ("0" + dt.getDate()).slice(-2);
-      document.returnform.datepicker.value = y + "-" + m + "-" + d;
-
-      //$('#star1').raty();
       $('#star1').raty({
+          score:<?php echo ($origin['rate']===null)?0:$origin['rate']; ?>,
           click: function(score) {
             $.post('./return.php',{score:score})
           }
       });
     });
-  
   </script>
 </head>
 
 <body>
   <p class="error"><?php echo $error ?></p>
-  <p>返却する本は、こちらで合っていますか？</p>
-  <!-- <p>返却する場合は、返却ボタンを押してください。</p> -->
+  <p>レビューの編集画面です。</p>
   <div class="block">
-    <form action="return.php" method="post" name="returnform">
+    <form action="editreview.php" method="post" name="returnform">
       <dl class="title">
         <dt class="dt_title"><?php echo htmlspecialchars($origin['title']); ?>
         <dt><img src= <?php echo htmlspecialchars($origin['thumbnail_url']); ?>>
@@ -97,34 +106,17 @@
           <dt class="dt_details">返却予定日
           <dd class="dt_div"><?php echo htmlspecialchars($origin['exp_return_date']); ?>
           <dt class="dt_details">返却日
-          <dd><input type="text" id="datepicker" name="return_date" required>
+          <dd class="dt_div"><?php echo htmlspecialchars($origin['return_date']); ?>
           <dt class="dt_details">レビュー
           <dd><p id="star1"></p>
-          <dd><textarea id="review" name="review" rows="5" cols="30"></textarea>
+          <dd><textarea id="review" name="review" rows="5" cols="30"><?php echo htmlspecialchars($origin['review']); ?></textarea>
           
       </dl>
       <input type="hidden" name="id" value="<?php echo rawurlencode($origin['id']); ?>">
-      <input type="hidden" name="employee_id" value="<?php echo rawurlencode($origin['employee_id']); ?>">
-      <input type="hidden" name="checkout_date" value="<?php echo htmlspecialchars($origin['checkout_date']); ?>">
-      <input type="hidden" name="exp_return_date" value="<?php echo htmlspecialchars($origin['exp_return_date']); ?>">
+      <input type="hidden" name="return_ts" value="<?php echo $origin['return_ts']; ?>">
       <input type="hidden" name="mode" value="1">
-      <input class="return_button" type="submit" value="返却">
-      <!-- <input class="button" type="button" onclick="history.back()" value="キャンセル">  -->
-      <input class="general_button" type="button" onclick="location.href='index.php'" value="キャンセル"> 
+      <input class="edit_button" type="submit" name="sub_update" value="更新">
+      <input class="general_button" type="submit" name="sub_cancel" value="キャンセル"> 
     </form>
-  </div>
-
-  <!-- レビューリスト表示 -->
-  <div class="block" id="reviewlist">
-    <?php   foreach($history as $ht): ?>
-      <p><?php echo rawurlencode($ht['employee_id']); ?></p>
-      <p>貸出日:<?php echo htmlspecialchars($ht['checkout_date']); ?> 返却日:<?php echo htmlspecialchars($ht['return_date']); ?><p>
-      <p><span class="star5_rating" data-rate=<?php echo rawurlencode($ht['rate']); ?>></p>
-      <form action="editreview.php" method="post" onsubmit="return confirm_test()">
-        <input type="submit" name="sub_update" value="編集">
-        <input type="submit" name="sub_delete" value="削除">
-      </form>
-      <textarea id="ht_review" rows="5" cols="30" readonly><?php echo htmlspecialchars($ht['review']); ?></textarea>
-    <?php   endforeach; ?>
   </div>
 </body>
