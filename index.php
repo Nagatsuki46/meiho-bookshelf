@@ -62,8 +62,8 @@
 <!DOCTYPE html>
 <head>
     <title>図書の検索</title>
-    <link rel="stylesheet" href="list.css">
-    <link rel="stylesheet" href="stardisp.css">
+    <link rel="stylesheet" href="../css/list.css">
+    <link rel="stylesheet" href="../css/stardisp.css">
 </head>
 
 <body>
