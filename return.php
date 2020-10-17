@@ -17,7 +17,7 @@
   //返却ボタンのsubmit時の入力チェックをいれる（mode=1で判別）
   $error ="";
   //レビュー編集画面から戻った際に返却日が空文字となるため、条件追加
-  if (isset($_POST['mode']) && $_POST['mode']==="1" && empty(!$_POST['return_date'])){
+  if (isset($_POST['mode']) && $_POST['mode']==="1" && isset($_POST['return_date'])){
     if (date("Y-m-d",strtotime($_POST['return_date']))===$_POST['return_date']){
       $sth = $dbh->prepare(
         'UPDATE bookshelf'

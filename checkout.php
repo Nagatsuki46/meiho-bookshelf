@@ -16,7 +16,7 @@
 
   //貸出ボタンのsubmit時の入力チェックをいれる（mode=1で判別）
   $error = "";
-  if (isset($_POST['mode']) && $_POST['mode']==="1" && empty(!$_POST['checkout_date']) && empty(!$_POST['exp_return_date'])){
+  if (isset($_POST['mode']) && $_POST['mode']==="1" && isset($_POST['checkout_date']) && isset($_POST['exp_return_date'])){
 
     //if(preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $_POST['exp_return_date'])){
     if(date("Y-m-d",strtotime($_POST['checkout_date']))!==$_POST['checkout_date']){
