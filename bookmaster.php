@@ -1,5 +1,14 @@
 <?php
 
+  $url = parse_url(getenv('DATABASE_URL'));
+  $dsn = sprintf('pgsql:host=%s;dbname=%s',$url['host'],substr($url['path'],1));
+  $dbh = new PDO(
+          $dsn,
+          $url['user'],
+          $url['pass'],
+          [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+  );
+
   if(isset($_POST['isbn']) && $_POST['isbn'] != ""){
     $url = "https://www.googleapis.com/books/v1/volumes?q=ISBM:".$_POST['isbn'];
     $conn = curl_init(); // cURLセッションの初期化
