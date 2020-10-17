@@ -60,7 +60,7 @@
   </form>
   <form action="bookmaster.php" method="post" class="edit">
     <dl>
-      <dt>ID:
+      <dt>ID:1
       <dt>Title: 
       <dd><input type="text" name="title" value="<?php echo $title; ?>">
       <dt>Image: 
