@@ -1,4 +1,4 @@
- <?php
+<?php
 
   //セッションを使って検索条件を保持する
   session_cache_expire(60);

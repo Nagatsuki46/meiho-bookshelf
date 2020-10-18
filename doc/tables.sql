@@ -61,4 +61,4 @@ CREATE TABLE public.history (
 );
 
 
-ALTER TABLE public.history OWNER TO "ka-fukai";
+ALTER TABLE public.history OWNER TO postgres;

@@ -1,6 +1,5 @@
- <?php
-  
-  //セッションを使って検索条件を保持する
+<?php
+  //セッションの時間を設定する
   session_cache_expire(60);
   session_start();
   $_SESSION['edit_flg'] = "1";
@@ -17,7 +16,6 @@
   //貸出ボタンのsubmit時の入力チェックをいれる（mode=1で判別）
   $error = "";
   if (isset($_POST['mode']) && $_POST['mode']==="1" && isset($_POST['checkout_date']) && isset($_POST['exp_return_date'])){
-
     //if(preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $_POST['exp_return_date'])){
     if(date("Y-m-d",strtotime($_POST['checkout_date']))!==$_POST['checkout_date']){
       $error = $error . "<p class='error'>※入力された貸出日(" . $_POST['checkout_date'] . ")が正しくありません。</p>";
@@ -25,7 +23,6 @@
     if(date("Y-m-d",strtotime($_POST['exp_return_date']))!==$_POST['exp_return_date']){
       $error = $error ."<p class='error'>※入力された返却予定日(" . $_POST['exp_return_date'] . ")が正しくありません。</p>";
     }
-
     if ($error===""){
       $sth = $dbh->prepare(
         'UPDATE bookshelf'
