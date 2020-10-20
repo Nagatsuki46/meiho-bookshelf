@@ -132,7 +132,9 @@
                                 <input type="hidden" name="id" value="<?php echo rawurlencode($r['id']); ?>"> 
                             </form>
                         <?php endif; ?>
-                    <td class="td_title"><?php echo htmlspecialchars($r['title']); ?><br><img src= <?php echo htmlspecialchars($r['thumbnail_url']); ?>>
+                        <?php $img_src = 'data:images/jpeg;base64,'.base64_encode(stream_get_contents($r['cover_image'])); ?>
+                    <!-- <td class="td_title"><?php echo htmlspecialchars($r['title']); ?><br><img src= <?php echo htmlspecialchars($r['thumbnail_url']); ?>> -->
+                    <td class="td_title"><?php echo htmlspecialchars($r['title']); ?><br><img src= <?php echo $img_src; ?>>
                         <br><div class="td_isbn">ISBN:<?php echo htmlspecialchars($r['isbn']); ?></div>
                     <td class="td_details"><?php echo htmlspecialchars($r['description']); ?>
                     <td class="td_details"><?php echo htmlspecialchars($r['author']); ?>
