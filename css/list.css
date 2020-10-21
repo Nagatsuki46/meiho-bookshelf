@@ -20,6 +20,17 @@ body{
     padding-bottom: 0.8em;
     padding-left: 0.8em;
 }
+.addbook_button{
+    border:0;
+    float: right;
+    text-align:right;
+    width:32px;
+    height:32px;
+    background: url(../ico/addbook.png) left no-repeat;
+}
+.addbook_button:hover {
+    background: url(../ico/addbookhv.png) left no-repeat;
+}
 .button{
     appearance: none;
     border:0;

@@ -112,7 +112,9 @@
     <form action="checkout.php" method="post" name="checkoutform">
       <dl>
         <dt class="dt_title"><?php echo htmlspecialchars($origin['title']); ?>
-        <dt><img src= <?php echo htmlspecialchars($origin['thumbnail_url']); ?>>
+        <!-- <dt><img src= <?php echo htmlspecialchars($origin['thumbnail_url']); ?>> -->
+        <?php $img_src = 'data:images/jpeg;base64,'.base64_encode(stream_get_contents($origin['cover_image'])); ?>
+        <dt><img src= <?php echo $img_src; ?>>
         <dt class="dt_isbn">ISBN: <?php echo rawurlencode($origin['isbn']); ?>
       </dl>
       <dl class="edit">

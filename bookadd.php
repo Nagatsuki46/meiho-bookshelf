@@ -9,14 +9,12 @@
           [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
   );
 
-  //次に登録するIDを取得
-  $sth = $dbh->query(
-    'SELECT MAX(id) +1 AS next_id FROM bookshelf'
-  );
-  $next_id = $sth->fetch(PDO::FETCH_ASSOC);
-  if(empty($next_id['next_id'])){$next_id['next_id'] =1;}
-  //echo $rows['next_id'];
+  //終了ボタンが押された時
+  if (isset($_POST['end'])){
 
+  }
+
+  //書籍情報の登録
   if (isset($_POST['update'])){
 
     $context = stream_context_create(array(
@@ -32,7 +30,7 @@
       . ' :entry_date,:description,:thumbnail_url,:cover_image)');
     
     //画像データを格納する為にbindValue方式に変更
-    $sth->bindValue(':id',$next_id['next_id']);
+    $sth->bindValue(':id',$_POST['next_id']);
     $sth->bindValue(':title',$_POST['title']);
     $sth->bindValue(':isbn',$_POST['isbncd']);
     $sth->bindValue(':author',$_POST['author']);
@@ -43,8 +41,16 @@
     $sth->bindValue(':thumbnail_url',$_POST['thumbnail_url']);
     $sth->bindValue(':cover_image',$img_cover,PDO::PARAM_LOB);
     $sth->execute();
-    header('Location: ./bookmaster.php');
+    header('Location: ./bookadd.php');
+    exit;
   }
+
+  //次に登録するIDを取得
+  $sth = $dbh->query(
+    'SELECT MAX(id) +1 AS next_id FROM bookshelf'
+  );
+  $next_id = $sth->fetch(PDO::FETCH_ASSOC);
+  if(empty($next_id['next_id'])){$next_id['next_id'] =1;}
 
   if(isset($_POST['isbn']) && $_POST['isbn'] != ""){
     $img_url = "https://www.googleapis.com/books/v1/volumes?q=ISBM:".$_POST['isbn'];
@@ -89,22 +95,29 @@
 <!DOCTYPE html>
 <head>
   <title>書籍情報取得画面</title>
+  <link rel="stylesheet" href="../css/bookadd.css">
 </head>
 
 <body>
-  <form action="bookmaster.php" method="post" class="isbninfo">
+  <p class="error"><?php echo $error ?></p>
+  <p>書籍情報の追加登録画面です。ISBN CDを入力して情報を取得後、登録ボタンを押してください。</p>
+  <form action="bookadd.php" method="post" class="form_search">
     ISBN CD: <input type="text" name="isbn" maxlength='13' value="<?php echo $_POST['isbn']?>">
     <input class="button" type="submit" value="Get Info">
   </form>
-  <form action="bookmaster.php" method="post" class="edit">
+
+  <hr class="hr01">
+
+  <form action="bookadd.php" method="post" class="edit">
     <dl>
-      <dt>ID: <?php echo $next_id['next_id']; ?>
-      <dt>Title: 
+      <dt class="dt_id">ID: <?php echo $next_id['next_id']; ?>
+      <input type="hidden" name="next_id" value="<?php echo $next_id['next_id']; ?>">
+      <dt class="dt_details">Title: 
       <dd><input type="text" name="title" value="<?php echo $title; ?>">
-      <dt>Image: 
+      <dt class="dt_details">Cover image: 
       <!-- サムネイルのAPIではなく、イメージのバイナリから表示にする -->
       <!-- <dd><img src=<?php echo htmlspecialchars($smallThumbnail); ?>> -->
-      <dd><img src=<?php echo $img_src; ?>>
+      <dd><img class="cover_image" src=<?php echo $img_src; ?>>
       <input type="hidden" name="thumbnail_url" value="<?php echo htmlspecialchars($smallThumbnail); ?>">
       <?php
         $str_authors ="";
@@ -117,18 +130,18 @@
           endforeach;
         }
       ?>
-      <dt>ISBN CD: 
+      <dt class="dt_details">ISBN CD: 
       <dd><input type="text" name="isbncd" value="<?php echo rawurlencode($_POST['isbn']); ?>">
-      <dt>Authors:
+      <dt class="dt_details">Authors:
       <dd><input type="text" name="authors" class="authors" value="<?php echo htmlspecialchars($str_authors); ?>">
-      <dt>Publisher:
+      <dt class="dt_details">Publisher:
       <dd><input type="text" name="publisher" class="publisher" value="<?php echo htmlspecialchars($publisher); ?>">
-      <dt>PublishedDate:
+      <dt class="dt_details">PublishedDate:
       <dd><input type="text" name="publishe_Date" class="publisheDate" value="<?php echo htmlspecialchars($publishedDate); ?>">
-      <dt>Description:
-      <dd><textarea id="description" name="description" rows="10" cols="100" ><?php echo htmlspecialchars($description); ?></textarea>
+      <dt class="dt_details">Description:
+      <dd><textarea id="description" name="description" rows="5" cols="100" ><?php echo htmlspecialchars($description); ?></textarea>
     </dl>
-    <input class="button" type="submit" name="update"value="登録">
-    <input class="button" type="submit" name="end"value="終了"">
+    <input class="add_button" type="submit" name="update" value="登録">
+    <input class="general_button" type="button" onclick="location.href='index.php'" value="キャンセル">
   </form>
 </body>

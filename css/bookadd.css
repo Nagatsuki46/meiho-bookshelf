@@ -6,29 +6,21 @@ html{
 body{
   height: 100%;
   font-family: 'Noto Sans JP', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
-  border-left: 50px solid #42495e;
+  border-left: 50px solid #3f5252;
   padding-left: 50px;
 }
-
-/* レビューリスト対応 */
-.block{
-  display: inline-table;
+.hr01{
+  position: relative;
+  height: 1.0px;
+  border-width: 0;
+  background-image: linear-gradient(90deg,transparent 0%, #3f5252 50%,transparent 100%);
 }
-#reviewlist{
-  padding-left: 100px;
+.form_search {
+  font-family: 'Alice', serif;
+  padding-top: 0.4em;
+  padding-bottom: 0.8em;
+  padding-left: 0.8em;
 }
-#ht_review{
-  border: none;
-  resize: none;
-  outline: none;
-  overflow: auto;
-  font-size: 14px;
-}
-#review{
-  resize: none;
-  font-size: 14px;
-}
-
 .error{
   font-size: 0.9em;
   color: #d45454;
@@ -38,29 +30,41 @@ p{
   margin: 2px;
   color: #7a9697;
 }
-.dt_title{
-  font-weight: bold;
-  color: #3f5252;
-  font-size: 0.9em;
+.edit{
+  padding-bottom: 5px;
 }
-.dt_isbn{
+.dt_id{
   font-style: italic;
   font-size: 0.9em;
   font-weight: normal;
   color: #7a9697;
 }
-.edit{
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
 .dt_details{
-  font-size: 0.9em;
+  font-size: 0.8em;
   border-left: 5px solid #7a9697;
   padding-left: 5px;
+  margin: 0;
 }
 dd{
-  padding: 5px;
+  padding: 2px;
 }
+.cover_image{
+  height: 179px;
+}
+
+.button{
+  appearance: none;
+  border:0;
+  border-radius: 5px;
+  background: #cecccc;
+  color: #141414;
+  padding: 3px 10px;
+  font-size: 12px;
+}
+.button:hover {
+  background: #8d8e8f;
+}
+
 .general_button{
   appearance: none;
   border:0;
@@ -73,7 +77,7 @@ dd{
 .general_button:hover {
   background: #8d8e8f;
 }
-.checkout_button{
+.add_button{
   appearance: none;
   border: 0;
   border-radius: 5px;
@@ -83,6 +87,6 @@ dd{
   font-size: 14px;
   margin-right: 10px;
 }
-.checkout_button:hover {
+.add_button:hover {
   background: #2f59b3;
 }

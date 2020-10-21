@@ -55,7 +55,8 @@
         . ' (SELECT id,COUNT(*) AS cnt_review FROM history GROUP BY id) AS c'
         . ' ON a.id=c.id'
         .  $where
-        . ' ORDER BY a.checkout_ts DESC NULLS LAST,a.id'
+        //. ' ORDER BY a.checkout_ts DESC NULLS LAST,a.id'
+        . ' ORDER BY a.id DESC'
     );
     $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -81,6 +82,7 @@
             echo "ISBNコードは0~9の数字のみです！";
         }
         ?>
+        <input class="addbook_button" type="button" onclick="location.href='bookadd.php'" value="">
     </form>
 
     <table class="Slist">
@@ -132,8 +134,9 @@
                                 <input type="hidden" name="id" value="<?php echo rawurlencode($r['id']); ?>"> 
                             </form>
                         <?php endif; ?>
-                        <?php $img_src = 'data:images/jpeg;base64,'.base64_encode(stream_get_contents($r['cover_image'])); ?>
+                    <!-- APIURLから取得をやめ、DBにバイナリ格納する方式に変更 -->
                     <!-- <td class="td_title"><?php echo htmlspecialchars($r['title']); ?><br><img src= <?php echo htmlspecialchars($r['thumbnail_url']); ?>> -->
+                    <?php $img_src = 'data:images/jpeg;base64,'.base64_encode(stream_get_contents($r['cover_image'])); ?>
                     <td class="td_title"><?php echo htmlspecialchars($r['title']); ?><br><img src= <?php echo $img_src; ?>>
                         <br><div class="td_isbn">ISBN:<?php echo htmlspecialchars($r['isbn']); ?></div>
                     <td class="td_details"><?php echo htmlspecialchars($r['description']); ?>

@@ -39,7 +39,8 @@ CREATE TABLE public.bookshelf (
     checkout_ts timestamp without time zone,
     employee_id text,
     exp_return_date date,
-    return_date date
+    return_date date,
+    cover_image bytea
 );
 
 
@@ -61,4 +62,22 @@ CREATE TABLE public.history (
 );
 
 
-ALTER TABLE public.history OWNER TO postgres;
+ALTER TABLE public.history OWNER TO "ka-fukai";
+
+--
+-- Name: item; Type: TABLE; Schema: public; Owner: ka-fukai
+--
+
+CREATE TABLE public.item (
+    id integer NOT NULL,
+    name text NOT NULL,
+    price integer,
+    CONSTRAINT price_check_constraint CHECK ((price > 0))
+);
+
+
+ALTER TABLE public.item OWNER TO "ka-fukai";
+
+--
+-- Data for Name: bookshelf; Type: TABLE DATA; Schema: public; Owner: postgres
+--
