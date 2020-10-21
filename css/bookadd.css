@@ -49,7 +49,7 @@ dd{
   padding: 2px;
 }
 .cover_image{
-  height: 179px;
+  min-height: 179px;
 }
 
 .button{
