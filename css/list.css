@@ -111,6 +111,7 @@ th,td{
 }
 .td_details{
     font-size: 0.9em;
+    white-space: pre-line;
 }
 .td_div{
     font-size: 0.8em;
