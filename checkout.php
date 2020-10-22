@@ -28,14 +28,14 @@
         'UPDATE bookshelf'
         . ' SET checkout_flg=1,'
         . ' checkout_date= :checkout_date,'
-        . ' checkout_ts= :checkout_ts,'
+        . ' update_ts= :update_ts,'
         . ' employee_id= :employee_id,'
         . ' exp_return_date= :exp_return_date'
         . ' WHERE id= :id');
       $sth->execute([
         'id' => $_POST['id'],
         'checkout_date' => $_POST['checkout_date'],
-        'checkout_ts' => date("Y-m-d H:i:s"),
+        'update_ts' => date("Y-m-d H:i:s"),
         'employee_id' => $_POST['employee_id'],
         'exp_return_date' => $_POST['exp_return_date']
         ]);

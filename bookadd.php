@@ -37,11 +37,11 @@
   
       $sth = $dbh->prepare(
         "INSERT INTO bookshelf"
-        . ' (id,title,isbn,author,publisher,publishe_date,'
-        . ' entry_date,description,thumbnail_url,cover_image)'
+        . ' (id,title,isbn,author,publisher,publishe_date,entry_date,'
+        . ' description,thumbnail_url,cover_image,update_ts,category_id)'
         . ' VALUES('
-        . ' :id,:title,:isbn,:author,:publisher,:publishe_date,'
-        . ' :entry_date,:description,:thumbnail_url,:cover_image)');
+        . ' :id,:title,:isbn,:author,:publisher,:publishe_date,:entry_date,'
+        . ' :description,:thumbnail_url,:cover_image,:update_ts,:category_id)');
       
       //画像データを格納する為にbindValue方式に変更
       $sth->bindValue(':id',$_POST['next_id']);
@@ -54,6 +54,8 @@
       $sth->bindValue(':description',$_POST['description']);
       $sth->bindValue(':thumbnail_url',$_POST['thumbnail_url']);
       $sth->bindValue(':cover_image',$img_cover,PDO::PARAM_LOB);
+      $sth->bindValue(':update_ts',date("Y-m-d H:i:s"));
+      $sth->bindValue(':category_id',$_POST['category_id']);
       $sth->execute();
       header('Location: ./bookadd.php');
       exit;
@@ -116,7 +118,8 @@
     ));
     $img_cover = file_get_contents($smallThumbnail,false,$context);
     $img_src = 'data:images/jpeg;base64,'.base64_encode($img_cover);
-
+    $category_id = 9;
+    
     //$img_dir = './img/books/'.$_POST['isbn'].'.jpg';
     //file_put_contents($img_dir,$img_data);
     //echo $smallThumbnail;
@@ -130,6 +133,7 @@
     $publishedDate = "";
     $description = "";
     $img_src = "";
+    $category_id = 9;
   }
  ?>
 
@@ -176,7 +180,7 @@
         }
       ?>
       <dt class="dt_details">ISBN CD: 
-      <dd><input type="text" name="isbncd" value="<?php echo rawurlencode($isbn); ?>" required>
+      <dd><input type="text" name="isbncd" maxlength='13' value="<?php echo rawurlencode($isbn); ?>" required>
       <dt class="dt_details">Authors:
       <dd><input type="text" name="author" class="long_text" value="<?php echo htmlspecialchars($str_authors); ?>">
       <dt class="dt_details">Publisher:
@@ -184,7 +188,14 @@
       <dt class="dt_details">PublishedDate:
       <dd><input type="text" name="publishe_date" value="<?php echo htmlspecialchars($publishedDate); ?>">
       <dt class="dt_details">Description:
-      <dd><textarea id="description" name="description" rows="5" cols="100" ><?php echo htmlspecialchars($description); ?></textarea>
+      <dd><textarea id="description" name="description" rows="4" cols="100" ><?php echo htmlspecialchars($description); ?></textarea>
+      <dt class="dt_details">Cotegory:
+      <dd>
+          <input type="radio" name="category_id" value=1 <?php echo ($category_id==1)?"checked":""; ?>>1:ネットワーク系
+          <input type="radio" name="category_id" value=2 <?php echo ($category_id==2)?"checked":""; ?>>2:サーバー系
+          <input type="radio" name="category_id" value=3 <?php echo ($category_id==3)?"checked":""; ?>>3:システム開発系
+          <input type="radio" name="category_id" value=9 <?php echo ($category_id==9)?"checked":""; ?>>9:その他
+      </dd>
     </dl>
     <input class="add_button" type="submit" name="update" value="登録">
     <input class="general_button" type="button" onclick="location.href='index.php'" value="キャンセル">

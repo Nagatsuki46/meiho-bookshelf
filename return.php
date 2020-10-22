@@ -23,11 +23,13 @@
         'UPDATE bookshelf'
         . ' SET checkout_flg=0,'
         . ' employee_id=null,'
-        . ' return_date= :return_date'
+        . ' return_date= :return_date,'
+        . ' update_ts = :update_ts'
         . ' WHERE id= :id');
       $sth->execute([
         'id' => $_POST['id'],
-        'return_date' => $_POST['return_date']
+        'return_date' => $_POST['return_date'],
+        'update_ts' => date("Y-m-d H:i:s")
         ]);
 
       //履歴テーブルへ貸出履歴を登録する
@@ -168,6 +170,6 @@
         <input type="submit" name="sub_delete"  value="削除" onclick="returnform.key.value='削除'" >
       </form>
       <textarea id="ht_review" rows="5" cols="30" readonly><?php echo htmlspecialchars($ht['review']); ?></textarea>
-    <?php   endforeach; ?>
+    <?php  endforeach; ?>
   </div>
 </body>

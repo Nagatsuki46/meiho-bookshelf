@@ -17,8 +17,8 @@ body{
 }
 .form_search {
   font-family: 'Alice', serif;
-  padding-top: 0.4em;
-  padding-bottom: 0.8em;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
   padding-left: 0.8em;
 }
 .error{
@@ -32,6 +32,7 @@ p{
 }
 .edit{
   padding-bottom: 5px;
+  margin: 0;
 }
 .dt_id{
   font-style: italic;
@@ -47,6 +48,7 @@ p{
 }
 dd{
   padding: 2px;
+  font-size: 0.8em;
 }
 .cover_image{
   min-height: 179px;
@@ -54,7 +56,9 @@ dd{
 input.long_text{
   width:50em;
 }
-
+input[type="radio"]{
+  margin-right: 5px;
+}
 .button{
   appearance: none;
   border:0;

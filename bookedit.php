@@ -61,7 +61,9 @@
         . ' publishe_date = :publishe_date,'
         . ' description = :description,'
         . ' thumbnail_url = :thumbnail_url,'
-        . ' cover_image = :cover_image'
+        . ' cover_image = :cover_image,'
+        . ' update_ts = :update_ts,'
+        . ' category_id = :category_id'
         . ' WHERE id = :id'
       );
 
@@ -75,6 +77,8 @@
       $sth->bindValue(':description',$_POST['description']);
       $sth->bindValue(':thumbnail_url',$_POST['thumbnail_url']);
       $sth->bindValue(':cover_image',$_SESSION['cover_image'],PDO::PARAM_LOB);
+      $sth->bindValue(':update_ts',date("Y-m-d H:i:s"));
+      $sth->bindValue(':category_id',$_POST['category_id']);
       $sth->execute();
       header('Location: ./index.php');
       exit;
@@ -168,6 +172,7 @@
     $smallThumbnail = $origin['thumbnail_url'];
     $cover_image = stream_get_contents($origin['cover_image']);
     $img_src = 'data:images/jpeg;base64,'.base64_encode($cover_image);
+    $category_id = $origin['category_id'];
   }
   $_SESSION['cover_image'] = $cover_image;
  ?>
@@ -204,7 +209,7 @@
       <dd><img class="cover_image" src=<?php echo $img_src; ?>>
       <input type="hidden" name="thumbnail_url" value="<?php echo htmlspecialchars($smallThumbnail); ?>">
       <dt class="dt_details">ISBN CD: 
-      <dd><input type="text" name="isbncd" value="<?php echo rawurlencode($isbn); ?>" required>
+      <dd><input type="text" name="isbncd" maxlength='13' value="<?php echo rawurlencode($isbn); ?>" required>
       <dt class="dt_details">Authors:
       <dd><input type="text" name="author" class="long_text" value="<?php echo htmlspecialchars($str_authors); ?>">
       <dt class="dt_details">Publisher:
@@ -213,6 +218,14 @@
       <dd><input type="text" name="publishe_date" value="<?php echo htmlspecialchars($publishedDate); ?>">
       <dt class="dt_details">Description:
       <dd><textarea id="description" name="description" rows="5" cols="100" ><?php echo htmlspecialchars($description); ?></textarea>
+      <dt class="dt_details">Cotegory:
+      <dd>
+        <input type="radio" name="category_id" value=1 <?php echo ($category_id==1)?"checked":""; ?>>1:ネットワーク系
+        <input type="radio" name="category_id" value=2 <?php echo ($category_id==2)?"checked":""; ?>>2:サーバー系
+        <input type="radio" name="category_id" value=3 <?php echo ($category_id==3)?"checked":""; ?>>3:システム開発系
+        <input type="radio" name="category_id" value=9 <?php echo ($category_id==9)?"checked":""; ?>>9:その他
+      </dd>
+      </dd>
     </dl>
     <input class="add_button" type="submit" name="update" value="更新">
     <input class="general_button" type="button" onclick="location.href='index.php'" value="キャンセル">

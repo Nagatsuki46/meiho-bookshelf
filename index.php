@@ -1,7 +1,7 @@
 <?php
 
     //セッションを使って検索条件を保持する。
-    session_cache_expire(60);
+    session_cache_expire(30);
     session_start();
 
     if(!isset($_POST['isbn'])){
@@ -10,7 +10,12 @@
         $_POST['description'] ="";
     }
 
-    if (isset($_SESSION['edit_flg']) && $_SESSION['edit_flg']==="1"){
+    //検索結果に表示するページ番号の設定
+    if(!isset($_SESSION['offset'])){
+        $_SESSION['offset'] = 0;
+    }
+
+    if (isset($_SESSION['edit_flg']) && $_SESSION['editflg']==="1"){
 
         if (!isset($_SESSION['isbn'])){
             $_SESSION['isbn'] = "";
@@ -43,9 +48,25 @@
     if($_POST['description'] != ""){$where = $where . " AND a.description LIKE '%" . $_POST['description'] ."%'";}
 
     $sth = $dbh->query(
-        /*'SELECT id, title, isbn, author, publisher,'
-        . 'publishe_date, description, entry_date, thumbnail_url,'
-        . 'checkout_flg, checkout_date, employee_id, exp_return_date' */
+        'SELECT count(*) AS cnt'
+        . ' FROM bookshelf AS a'
+        . $where
+    );
+    $cnt = $sth->fetch(PDO::FETCH_ASSOC);
+
+    if(isset($_POST['search'])){
+        $_SESSION['offset'] = 0;
+    }elseif(isset($_POST['next_page'])){
+        if($cnt['cnt'] > $_SESSION['offset'] + 10){
+            $_SESSION['offset'] = $_SESSION['offset'] + 10;
+        }
+    }elseif(isset($_POST['pre_page'])){
+        if($_SESSION['offset'] - 10 >= 0){
+            $_SESSION['offset'] = $_SESSION['offset'] - 10;
+        }
+    }
+    
+    $sth = $dbh->prepare(
         'SELECT a.*,b.avg_rate,c.cnt_review'
         . ' FROM bookshelf AS a'
         . ' LEFT JOIN'
@@ -55,9 +76,14 @@
         . ' (SELECT id,COUNT(*) AS cnt_review FROM history GROUP BY id) AS c'
         . ' ON a.id=c.id'
         .  $where
-        //. ' ORDER BY a.checkout_ts DESC NULLS LAST,a.id'
         . ' ORDER BY a.id DESC'
+        //. ' ORDER BY a.update_ts DESC NULLS LAST,a.id'
+        . ' LIMIT 10'
+        . ' OFFSET :offset'
     );
+    $sth->execute([
+        'offset' => $_SESSION['offset']
+        ]);
     $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
@@ -83,7 +109,10 @@
         ISBN CD: <input type="text" name="isbn" maxlength='13' value="<?php echo $_POST['isbn']?>">
         Title: <input type="text" name="title" value="<?php echo $_POST['title']?>">
         Description: <input type="text" name="description" value="<?php echo $_POST['description']?>">
-        <input class="button" type="submit" value="Search">
+        <input class="button" type="submit" name="search" value="Search">
+        <input class="button" type="submit" name="pre_page" value="<<">
+        <input class="button" type="submit" name="next_page" value=">>">
+        <span><?php echo intdiv($_SESSION['offset'],10) + 1 ?>/<?php echo intdiv($cnt['cnt'],10) + 1 ?> (<?php echo $cnt['cnt'] ?>)</span>
         <?php
         //if(!empty($_POST['isbn']) and !preg_match("/[0-9]{13}/", $_POST['isbn'])){
         //    echo "ISBNコードは0~9の数字のみの13桁を入力してください！";
@@ -112,7 +141,7 @@
             <?php   foreach($rows as $id => $r): ?>
                 <tr>
                     <!-- <td><?php echo htmlspecialchars($r['id']); ?> -->
-                    <td class="td_id"><?php echo $id+1; ?>
+                    <td class="td_id"><?php echo $id+$_SESSION['offset']+1; ?>
                     <td>
                         <?php if ($r['checkout_flg']===1): ?>
                             <!-- <a class="td_details" href="return.php?id=<?php echo rawurlencode($r['id']); ?>">貸出中…</a> -->
@@ -151,7 +180,17 @@
                     <td class="td_title"><?php echo htmlspecialchars($r['title']); ?><br><img src= <?php echo $img_src; ?>>
                         <br><div class="td_isbn">ISBN:<?php echo htmlspecialchars($r['isbn']); ?></div>
                     <td class="td_details" id="td_description"><?php echo htmlspecialchars($r['description']); ?>
-                    <td class="td_details"><?php echo htmlspecialchars($r['author']); ?>
+
+                    <!-- カテゴリ名を設定 -->
+                    <?php switch($r['category_id']): case 1: ?>
+                        <?php $category_nm = "1:ネットワーク系"; break; ?>
+                        <?php case 2: $category_nm = "2:サーバー系"; break; ?>
+                        <?php case 3: $category_nm = "3:システム開発系"; break; ?>
+                        <?php case 9: $category_nm = "9:その他"; break; ?>
+                        <?php default: $category_nm = ""?>
+                    <?php endswitch; ?>
+                    <td class="td_details"><?php echo htmlspecialchars($category_nm); ?>
+                        <div class="td_div"><?php echo htmlspecialchars($r['author']); ?></div>
                         <div class="td_div"><?php echo htmlspecialchars($r['publisher']); ?></div>
                         <div class="td_div">出版日:<?php echo htmlspecialchars($r['publishe_date']); ?></div>
                         <div class="td_div">登録日:<?php echo htmlspecialchars($r['entry_date']); ?></div>
