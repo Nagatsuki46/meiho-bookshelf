@@ -51,6 +51,9 @@ dd{
 .cover_image{
   min-height: 179px;
 }
+input.long_text{
+  width:50em;
+}
 
 .button{
   appearance: none;

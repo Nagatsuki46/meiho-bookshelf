@@ -65,11 +65,21 @@
     <title>図書の検索</title>
     <link rel="stylesheet" href="../css/list.css">
     <link rel="stylesheet" href="../css/stardisp.css">
+    <script>
+        function confirm_delete() {
+            if (document.form_search.key.value === "削除"){
+                var select = confirm("本当に書籍情報を削除しますか？");
+                return select;
+            }else{
+                return true;
+            }
+        };
+  </script>
 </head>
 
 <body>
     <hr class="hr01">
-    <form class="form_search" action="index.php" method="post">
+    <form class="form_search" name="form_search" action="index.php" method="post">
         ISBN CD: <input type="text" name="isbn" maxlength='13' value="<?php echo $_POST['isbn']?>">
         Title: <input type="text" name="title" value="<?php echo $_POST['title']?>">
         Description: <input type="text" name="description" value="<?php echo $_POST['description']?>">
@@ -83,6 +93,7 @@
         }
         ?>
         <input class="addbook_button" type="button" onclick="location.href='bookadd.php'" value="">
+        <input type="hidden" name="key" value="">
     </form>
 
     <table class="Slist">
@@ -144,6 +155,12 @@
                         <div class="td_div"><?php echo htmlspecialchars($r['publisher']); ?></div>
                         <div class="td_div">出版日:<?php echo htmlspecialchars($r['publishe_date']); ?></div>
                         <div class="td_div">登録日:<?php echo htmlspecialchars($r['entry_date']); ?></div>
+                        <div class="td_div">ID:<?php echo rawurlencode($r['id']); ?></div>
+                        <form name="book_edit" action="bookedit.php" method="post" onsubmit="return confirm_delete()">
+                            <input type="hidden" name="id" value="<?php echo rawurlencode($r['id']); ?>"> 
+                            <input class="button" type="submit" value="修正" onclick="form_search.key.value='修正'" >
+                            <input class="button" type="submit" name="sub_delete" value="削除" onclick="form_search.key.value='削除'" >
+                        </form>
             <?php   endforeach; ?>
         <?php endif; ?>
     </table>

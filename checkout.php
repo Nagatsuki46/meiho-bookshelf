@@ -1,6 +1,6 @@
 <?php
   //セッションの時間を設定する
-  session_cache_expire(60);
+  session_cache_expire(30);
   session_start();
   $_SESSION['edit_flg'] = "1";
 
