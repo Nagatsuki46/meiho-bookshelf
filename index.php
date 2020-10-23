@@ -112,7 +112,7 @@
         <input class="button" type="submit" name="search" value="Search">
         <input class="button" type="submit" name="pre_page" value="<<">
         <input class="button" type="submit" name="next_page" value=">>">
-        <span><?php echo intdiv($_SESSION['offset'],10) + 1 ?>/<?php echo intdiv($cnt['cnt'],10) + 1 ?> (<?php echo $cnt['cnt'] ?>)</span>
+        <span><?php echo intdiv($_SESSION['offset']-1,10)+1 ?>/<?php echo intdiv($cnt['cnt']-1,10)+1 ?> (<?php echo $cnt['cnt'] ?>)</span>
         <?php
         //if(!empty($_POST['isbn']) and !preg_match("/[0-9]{13}/", $_POST['isbn'])){
         //    echo "ISBNコードは0~9の数字のみの13桁を入力してください！";
@@ -176,7 +176,12 @@
                         <?php endif; ?>
                     <!-- APIURLから取得をやめ、DBにバイナリ格納する方式に変更 -->
                     <!-- <td class="td_title"><?php echo htmlspecialchars($r['title']); ?><br><img src= <?php echo htmlspecialchars($r['thumbnail_url']); ?>> -->
-                    <?php $img_src = 'data:images/jpeg;base64,'.base64_encode(stream_get_contents($r['cover_image'])); ?>
+                    <?php 
+                        $img_src = 'data:images/jpeg;base64,'.base64_encode(stream_get_contents($r['cover_image'])); 
+                        if($img_src=="data:images/jpeg;base64,Zg=="){
+                            $img_src = '../img/noimage.png'; 
+                        }
+                    ?>
                     <td class="td_title"><?php echo htmlspecialchars($r['title']); ?><br><img src= <?php echo $img_src; ?>>
                         <br><div class="td_isbn">ISBN:<?php echo htmlspecialchars($r['isbn']); ?></div>
                     <td class="td_details" id="td_description"><?php echo htmlspecialchars($r['description']); ?>
@@ -186,6 +191,7 @@
                         <?php $category_nm = "1:ネットワーク系"; break; ?>
                         <?php case 2: $category_nm = "2:サーバー系"; break; ?>
                         <?php case 3: $category_nm = "3:システム開発系"; break; ?>
+                        <?php case 4: $category_nm = "4:ビジネス書系"; break; ?>
                         <?php case 9: $category_nm = "9:その他"; break; ?>
                         <?php default: $category_nm = ""?>
                     <?php endswitch; ?>

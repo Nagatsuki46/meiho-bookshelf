@@ -42,10 +42,13 @@
       'SELECT count(isbn) as cnt'
       . ' FROM bookshelf'
       . ' WHERE id<> :id'
-      . ' AND isbn= :isbn');
+      . ' AND isbn= :isbn'
+      . ' AND isbn<> :na'
+      );
     $sth->execute([
       'id' => $_POST['id'],
-      'isbn' => $_POST['isbncd']
+      'isbn' => $_POST['isbncd'],
+      'na' => "N/A"
       ]);
     $exists = $sth->fetch(PDO::FETCH_ASSOC);
 
@@ -209,7 +212,7 @@
       <dd><img class="cover_image" src=<?php echo $img_src; ?>>
       <input type="hidden" name="thumbnail_url" value="<?php echo htmlspecialchars($smallThumbnail); ?>">
       <dt class="dt_details">ISBN CD: 
-      <dd><input type="text" name="isbncd" maxlength='13' value="<?php echo rawurlencode($isbn); ?>" required>
+      <dd><input type="text" name="isbncd" maxlength='13' value="<?php echo htmlspecialchars($isbn); ?>" required>
       <dt class="dt_details">Authors:
       <dd><input type="text" name="author" class="long_text" value="<?php echo htmlspecialchars($str_authors); ?>">
       <dt class="dt_details">Publisher:
@@ -223,8 +226,8 @@
         <input type="radio" name="category_id" value=1 <?php echo ($category_id==1)?"checked":""; ?>>1:ネットワーク系
         <input type="radio" name="category_id" value=2 <?php echo ($category_id==2)?"checked":""; ?>>2:サーバー系
         <input type="radio" name="category_id" value=3 <?php echo ($category_id==3)?"checked":""; ?>>3:システム開発系
+        <input type="radio" name="category_id" value=4 <?php echo ($category_id==4)?"checked":""; ?>>4:ビジネス書系
         <input type="radio" name="category_id" value=9 <?php echo ($category_id==9)?"checked":""; ?>>9:その他
-      </dd>
       </dd>
     </dl>
     <input class="add_button" type="submit" name="update" value="更新">

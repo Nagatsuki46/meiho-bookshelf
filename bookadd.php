@@ -23,8 +23,13 @@
 
     $sth = $dbh->prepare(
       'SELECT count(isbn) as cnt'
-      . ' FROM bookshelf WHERE isbn= :isbn');
-    $sth->execute(['isbn' => $_POST['isbncd']]);
+      . ' FROM bookshelf WHERE isbn= :isbn'
+      . ' AND isbn <> :na'
+      );
+    $sth->execute([
+      'isbn' => $_POST['isbncd'],
+      'na' => "N/A"
+      ]);
     $exists = $sth->fetch(PDO::FETCH_ASSOC);
 
     if($exists['cnt']>0){
@@ -146,7 +151,7 @@
 <body>
   <p class="error"><?php echo $error ?></p>
   <p>書籍情報の新規登録画面です。ISBN CDを入力して情報を取得後、登録ボタンを押してください。</p>
-  <form action="bookadd.php" method="post" class="form_search">
+  <form action="bookadd.php" method="post" class="form_search" name="form_search">
     ISBN CD: <input type="text" name="isbn" maxlength='13' value="<?php echo $_POST['isbn']?>">
     <input class="button" type="submit" value="Get Info">
     <?php if(isset($_POST['isbn']) && $_POST['isbn'] != "" && count($arr)>1): ?>
@@ -155,13 +160,17 @@
     <?php endif; ?>
   </form>
 
+  <script type="text/javascript">
+    document.form_search.isbn.focus();
+  </script>
+
   <hr class="hr01">
 
   <form action="bookadd.php" method="post" class="edit">
     <dl>
       <dt class="dt_id">ID: <?php echo $next_id['next_id']; ?>
       <input type="hidden" name="next_id" value="<?php echo $next_id['next_id']; ?>">
-      <dt class="dt_details">Title: 
+      <dt class="dt_details">Title: na
       <dd><input type="text" name="title" class="long_text" value="<?php echo $title; ?>" required>
       <dt class="dt_details">Cover image: 
       <!-- サムネイルのAPIではなく、イメージのバイナリから表示にする -->
@@ -180,7 +189,7 @@
         }
       ?>
       <dt class="dt_details">ISBN CD: 
-      <dd><input type="text" name="isbncd" maxlength='13' value="<?php echo rawurlencode($isbn); ?>" required>
+      <dd><input type="text" name="isbncd" maxlength='13' value="<?php echo htmlspecialchars($isbn); ?>" required>
       <dt class="dt_details">Authors:
       <dd><input type="text" name="author" class="long_text" value="<?php echo htmlspecialchars($str_authors); ?>">
       <dt class="dt_details">Publisher:
@@ -194,6 +203,7 @@
           <input type="radio" name="category_id" value=1 <?php echo ($category_id==1)?"checked":""; ?>>1:ネットワーク系
           <input type="radio" name="category_id" value=2 <?php echo ($category_id==2)?"checked":""; ?>>2:サーバー系
           <input type="radio" name="category_id" value=3 <?php echo ($category_id==3)?"checked":""; ?>>3:システム開発系
+          <input type="radio" name="category_id" value=4 <?php echo ($category_id==4)?"checked":""; ?>>4:ビジネス書系
           <input type="radio" name="category_id" value=9 <?php echo ($category_id==9)?"checked":""; ?>>9:その他
       </dd>
     </dl>
