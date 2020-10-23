@@ -112,7 +112,7 @@
         <input class="button" type="submit" name="search" value="Search">
         <input class="button" type="submit" name="pre_page" value="<<">
         <input class="button" type="submit" name="next_page" value=">>">
-        <span><?php echo intdiv($_SESSION['offset']-1,10)+1 ?>/<?php echo intdiv($cnt['cnt']-1,10)+1 ?> (<?php echo $cnt['cnt'] ?>)</span>
+        <span><?php echo intdiv($_SESSION['offset'],10)+1 ?>/<?php echo intdiv($cnt['cnt']-1,10)+1 ?> (<?php echo $cnt['cnt'] ?>)</span>
         <?php
         //if(!empty($_POST['isbn']) and !preg_match("/[0-9]{13}/", $_POST['isbn'])){
         //    echo "ISBNコードは0~9の数字のみの13桁を入力してください！";
