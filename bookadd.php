@@ -173,8 +173,8 @@
       <dt class="dt_details">Title: na
       <dd><input type="text" name="title" class="long_text" value="<?php echo $title; ?>" required>
       <dt class="dt_details">Cover image: 
-      <!-- サムネイルのAPIではなく、イメージのバイナリから表示にする -->
-      <!-- <dd><img src=<?php echo htmlspecialchars($smallThumbnail); ?>> -->
+
+      <!-- サムネイルのAPIではなく、イメージのバイナリから表示する -->
       <dd><img class="cover_image" src=<?php echo $img_src; ?>>
       <input type="hidden" name="thumbnail_url" value="<?php echo htmlspecialchars($smallThumbnail); ?>">
       <?php

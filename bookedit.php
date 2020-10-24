@@ -173,8 +173,12 @@
     $publishedDate = $origin['publishe_date'];
     $description = $origin['description'];
     $smallThumbnail = $origin['thumbnail_url'];
-    $cover_image = stream_get_contents($origin['cover_image']);
-    $img_src = 'data:images/jpeg;base64,'.base64_encode($cover_image);
+    $cover_image = base64_encode(stream_get_contents($origin['cover_image']));
+    if($cover_image=="Zg=="){
+      $img_src = '../img/noimage.png'; 
+    }else{
+      $img_src = 'data:images/jpeg;base64,'.$cover_image;
+    }
     $category_id = $origin['category_id'];
   }
   $_SESSION['cover_image'] = $cover_image;

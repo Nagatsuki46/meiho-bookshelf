@@ -112,10 +112,16 @@
     <form action="checkout.php" method="post" name="checkoutform">
       <dl>
         <dt class="dt_title"><?php echo htmlspecialchars($origin['title']); ?>
-        <!-- <dt><img src= <?php echo htmlspecialchars($origin['thumbnail_url']); ?>> -->
-        <?php $img_src = 'data:images/jpeg;base64,'.base64_encode(stream_get_contents($origin['cover_image'])); ?>
+        <?php 
+          $cover_image= base64_encode(stream_get_contents($origin['cover_image'])); 
+          if($cover_image=="Zg=="){
+              $img_src = '../img/noimage.png'; 
+          }else{
+              $img_src = 'data:images/jpeg;base64,'.$cover_image; 
+          }
+        ?>
         <dt><img src= <?php echo $img_src; ?>>
-        <dt class="dt_isbn">ISBN: <?php echo rawurlencode($origin['isbn']); ?>
+        <dt class="dt_isbn">ISBN: <?php echo htmlspecialchars($origin['isbn']); ?>
       </dl>
       <dl class="edit">
           <dt class="dt_details">社員番号（借りる人）
