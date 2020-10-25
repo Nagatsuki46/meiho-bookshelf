@@ -173,7 +173,7 @@
     $publishedDate = $origin['publishe_date'];
     $description = $origin['description'];
     $smallThumbnail = $origin['thumbnail_url'];
-    $cover_image = base64_encode(stream_get_contents($origin['cover_image']));
+    $cover_image = empty($origin['cover_image'])?"Zg==":base64_encode(stream_get_contents($origin['cover_image']));
     if($cover_image=="Zg=="){
       $img_src = '../img/noimage.png'; 
     }else{

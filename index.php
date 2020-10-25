@@ -177,7 +177,7 @@
                     <!-- APIURLから取得をやめ、DBにバイナリ格納する方式に変更 -->
                     <!-- <td class="td_title"><?php echo htmlspecialchars($r['title']); ?><br><img src= <?php echo htmlspecialchars($r['thumbnail_url']); ?>> -->
                     <?php 
-                        $cover_image= base64_encode(stream_get_contents($r['cover_image'])); 
+                        $cover_image= empty($r['cover_image'])?"Zg==":base64_encode(stream_get_contents($r['cover_image'])); 
                         if($cover_image=="Zg=="){
                             $img_src = '../img/noimage.png'; 
                         }else{
