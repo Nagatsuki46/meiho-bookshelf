@@ -30,7 +30,7 @@ CREATE TABLE public.bookshelf (
     isbn character varying(13),
     author text,
     publisher text,
-    publishe_date date,
+    publishe_date text,
     entry_date date,
     description text,
     thumbnail_url text,
@@ -40,7 +40,8 @@ CREATE TABLE public.bookshelf (
     employee_id text,
     exp_return_date date,
     return_date date,
-    cover_image bytea
+    cover_image bytea,
+    category_id smallint
 );
 
 

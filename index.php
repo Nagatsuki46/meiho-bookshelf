@@ -6,8 +6,7 @@
 
     if(!isset($_POST['isbn'])){
         $_POST['isbn'] = "";
-        $_POST['title'] = "";
-        $_POST['description'] ="";
+        $_POST['keyword'] = "";
     }
 
     //検索結果に表示するページ番号の設定
@@ -19,17 +18,14 @@
 
         if (!isset($_SESSION['isbn'])){
             $_SESSION['isbn'] = "";
-            $_SESSION['title'] = "";
-            $_SESSION['description'] ="";
+            $_SESSION['keyword'] = "";
         }
         $_POST['isbn'] = $_SESSION['isbn'];
-        $_POST['title'] = $_SESSION['title'];
-        $_POST['description'] = $_SESSION['description'];
+        $_POST['keyword'] = $_SESSION['keyword'];
         $_SESSION['edit_flg'] = "";
     }else{
         $_SESSION['isbn'] = $_POST['isbn'];
-        $_SESSION['title'] = $_POST['title'];
-        $_SESSION['description'] = $_POST['description'];
+        $_SESSION['keyword'] = $_POST['keyword'];
     }
     
     $url = parse_url(getenv('DATABASE_URL'));
@@ -44,8 +40,13 @@
     $where = " WHERE 1=1";
 
     if($_POST['isbn'] != ""){$where = $where . " AND a.isbn LIKE '" . $_POST['isbn'] ."%'";}
-    if($_POST['title'] != ""){$where = $where . " AND a.title LIKE '%" . $_POST['title'] ."%'";}
-    if($_POST['description'] != ""){$where = $where . " AND a.description LIKE '%" . $_POST['description'] ."%'";}
+    if($_POST['keyword'] != ""){
+        $where = $where . " AND (a.title ILIKE '%" . $_POST['keyword'] ."%'";
+        $where = $where . " OR a.description ILIKE '%" . $_POST['keyword'] ."%'";
+        $where = $where . " OR a.author ILIKE '%" . $_POST['keyword'] ."%'";
+        $where = $where . " OR a.publisher ILIKE '%" . $_POST['keyword'] ."%'";
+        $where = $where .")";
+    }
 
     $sth = $dbh->query(
         'SELECT count(*) AS cnt'
@@ -107,8 +108,7 @@
     <hr class="hr01">
     <form class="form_search" name="form_search" action="index.php" method="post">
         ISBN CD: <input type="text" name="isbn" maxlength='13' value="<?php echo $_POST['isbn']?>">
-        Title: <input type="text" name="title" value="<?php echo $_POST['title']?>">
-        Description: <input type="text" name="description" value="<?php echo $_POST['description']?>">
+        Keyword: <input type="text" name="keyword" value="<?php echo $_POST['keyword']?>">
         <input class="button" type="submit" name="search" value="Search">
         <input class="button" type="submit" name="pre_page" value="<<">
         <input class="button" type="submit" name="next_page" value=">>">
