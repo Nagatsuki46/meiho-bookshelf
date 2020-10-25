@@ -7,6 +7,8 @@
     if(!isset($_POST['isbn'])){
         $_POST['isbn'] = "";
         $_POST['keyword'] = "";
+        $_POST['category'] = 0;
+        $_POST['status'] = "ID降順";
     }
 
     //検索結果に表示するページ番号の設定
@@ -14,20 +16,26 @@
         $_SESSION['offset'] = 0;
     }
 
-    if (isset($_SESSION['edit_flg']) && $_SESSION['editflg']==="1"){
+    if (isset($_SESSION['edit_flg']) && $_SESSION['edit_flg']==="1"){
 
         if (!isset($_SESSION['isbn'])){
             $_SESSION['isbn'] = "";
             $_SESSION['keyword'] = "";
+            $_SESSION['category'] = 0;
+            $_SESSION['status'] = "ID降順";
         }
         $_POST['isbn'] = $_SESSION['isbn'];
         $_POST['keyword'] = $_SESSION['keyword'];
+        $_POST['category'] = $_SESSION['category'];
+        $_POST['status'] = $_SESSION['status'];
         $_SESSION['edit_flg'] = "";
     }else{
         $_SESSION['isbn'] = $_POST['isbn'];
         $_SESSION['keyword'] = $_POST['keyword'];
+        $_SESSION['category'] = $_POST['category'];
+        $_SESSION['status'] = $_POST['status'];
     }
-    
+
     $url = parse_url(getenv('DATABASE_URL'));
     $dsn = sprintf('pgsql:host=%s;dbname=%s',$url['host'],substr($url['path'],1));
     $dbh = new PDO(
@@ -47,6 +55,26 @@
         $where = $where . " OR a.publisher ILIKE '%" . $_POST['keyword'] ."%'";
         $where = $where .")";
     }
+
+    if($_POST['category'] !=="0" && !empty($_POST['category'])){
+        $where = $where ." AND a.category_id=" .$_POST['category'];
+    }
+
+    switch($_POST['status']){
+        case "ID降順":
+            $order = " ORDER BY id DESC";
+            break;
+        case "ID昇順":
+            $order = " ORDER BY id ASC";
+            break;
+        case "貸出日降順":
+            $order = " ORDER BY checkout_date DESC NULLS LAST";
+            break;
+        case "更新日時降順":
+            $order = " ORDER BY checkout_ts DESC NULLS LAST";
+            break;
+    }
+
 
     $sth = $dbh->query(
         'SELECT count(*) AS cnt'
@@ -77,8 +105,8 @@
         . ' (SELECT id,COUNT(*) AS cnt_review FROM history GROUP BY id) AS c'
         . ' ON a.id=c.id'
         .  $where
-        . ' ORDER BY a.id DESC'
-        //. ' ORDER BY a.update_ts DESC NULLS LAST,a.id'
+        //. ' ORDER BY a.id DESC'
+        .  $order
         . ' LIMIT 10'
         . ' OFFSET :offset'
     );
@@ -109,6 +137,20 @@
     <form class="form_search" name="form_search" action="index.php" method="post">
         ISBN CD: <input type="text" name="isbn" maxlength='13' value="<?php echo $_POST['isbn']?>">
         Keyword: <input type="text" name="keyword" value="<?php echo $_POST['keyword']?>">
+        Category: <select name="category" onchange="submit(this.form)">
+            <option value=0 <?php echo ($_POST['category']==0)?"selected":""; ?>>指定なし</option>
+            <option value=1 <?php echo ($_POST['category']==1)?"selected":""; ?>>1.ネットワーク系</option>
+            <option value=2 <?php echo ($_POST['category']==2)?"selected":""; ?>>2.サーバー系</option>
+            <option value=3 <?php echo ($_POST['category']==3)?"selected":""; ?>>3.システム開発系</option>
+            <option value=4 <?php echo ($_POST['category']==4)?"selected":""; ?>>4.ビジネス書系</option>
+            <option value=9 <?php echo ($_POST['category']==9)?"selected":""; ?>>9.その他</option>
+        </select>
+        Sort: <select name="status" onchange="submit(this.form)">
+            <option value="ID降順" <?php echo ($_POST['status']=="ID降順")?"selected":""; ?>>ID降順</option>
+            <option value="ID昇順" <?php echo ($_POST['status']=="ID昇順")?"selected":""; ?>>ID昇順</option>
+            <option value="貸出日降順" <?php echo ($_POST['status']=="貸出日降順")?"selected":""; ?>>貸出日降順</option>
+            <option value="更新日時降順" <?php echo ($_POST['status']=="更新日時降順")?"selected":""; ?>>更新日時降順</option>
+        </select>
         <input class="button" type="submit" name="search" value="Search">
         <input class="button" type="submit" name="pre_page" value="<<">
         <input class="button" type="submit" name="next_page" value=">>">

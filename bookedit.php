@@ -3,6 +3,8 @@
   //セッションの時間を設定する
   session_cache_expire(30);
   session_start();
+
+  $_SESSION['edit_flg'] = "1";
   if(!isset($_SESSION['item_id'])){
     $_SESSION['item_id'] = 0;
     $_SESSION['src_isbn'] = "";
