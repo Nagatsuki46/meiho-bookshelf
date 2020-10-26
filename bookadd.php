@@ -133,6 +133,7 @@
   }else{
     $_SESSION['src_isbn'] = "";
     $_POST['isbn'] ="";
+    $isbn = "";
     $smallThumbnail = "";
     $authors  = "";
     $title = "";

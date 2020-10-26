@@ -9,6 +9,7 @@
     $_SESSION['item_id'] = 0;
     $_SESSION['src_isbn'] = "";
   }
+  $error = "";
 
   $url = parse_url(getenv('DATABASE_URL'));
   $dsn = sprintf('pgsql:host=%s;dbname=%s',$url['host'],substr($url['path'],1));
@@ -90,6 +91,18 @@
     }
   }
 
+  $title = "";
+  $smallThumbnail = "";
+  $isbn = "";
+  $authors  = "";
+  $str_authors ="";
+  $publisher = "";
+  $publishedDate = "";
+  $description = "";
+  $img_src = "";
+  $cover_image = "";
+  $category_id = 9;
+  
   if(isset($_POST['isbn'])){
     if($_POST['isbn'] != ""){
     
@@ -118,13 +131,14 @@
         ++$_SESSION['item_id'];
       }
 
-      $authors  = $arr['items'][$_SESSION['item_id']]['volumeInfo']['authors'];
-      $title = $arr['items'][$_SESSION['item_id']]['volumeInfo']['title'];
-      $publisher = $arr['items'][$_SESSION['item_id']]['volumeInfo']['publisher'];
-      $publishedDate = $arr['items'][$_SESSION['item_id']]['volumeInfo']['publishedDate'];
-      $description = $arr['items'][$_SESSION['item_id']]['volumeInfo']['description'];
-      $smallThumbnail = $arr['items'][$_SESSION['item_id']]['volumeInfo']['imageLinks']['smallThumbnail'];
-      $industrys = $arr['items'][$_SESSION['item_id']]['volumeInfo']['industryIdentifiers'];
+      //??をつかったnull合体演算子で未定義のエラーに対応
+      $title = $arr['items'][$_SESSION['item_id']]['volumeInfo']['title']??"";
+      $authors  = $arr['items'][$_SESSION['item_id']]['volumeInfo']['authors']??"";
+      $publisher = $arr['items'][$_SESSION['item_id']]['volumeInfo']['publisher']??"";
+      $publishedDate = $arr['items'][$_SESSION['item_id']]['volumeInfo']['publishedDate']??"";
+      $description = $arr['items'][$_SESSION['item_id']]['volumeInfo']['description']??"";
+      $smallThumbnail = $arr['items'][$_SESSION['item_id']]['volumeInfo']['imageLinks']['smallThumbnail']??"";
+      $industrys = $arr['items'][$_SESSION['item_id']]['volumeInfo']['industryIdentifiers']??"";
 
       foreach ($industrys as $id => $ind){
         if($ind['type']=="ISBN_13"){
@@ -154,9 +168,11 @@
       $category_id = 9;
 
     }else{
-      $smallThumbnail = "";
-      $authors  = "";
       $title = "";
+      $smallThumbnail = "";
+      $isbn = "";
+      $authors  = "";
+      $str_authors ="";
       $publisher = "";
       $publishedDate = "";
       $description = "";
@@ -185,6 +201,7 @@
       $img_src = 'data:images/jpeg;base64,'.$enc_image;
     }
     $category_id = $origin['category_id'];
+    $_POST['isbn'] = "";
   }
   $_SESSION['cover_image'] = $cover_image;
  ?>
