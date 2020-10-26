@@ -122,7 +122,9 @@
         ?>
         <dt><img src= <?php echo $img_src; ?>>
         <dt class="dt_isbn">ISBN: <?php echo htmlspecialchars($origin['isbn']); ?>
+        <dt><textarea id="dt_description" rows="8" cols="40" readonly><?php echo htmlspecialchars($origin['description']); ?></textarea>
       </dl>
+      <hr class="hr01">
       <dl class="edit">
           <dt class="dt_details">社員番号（借りる人）
           <dd><input type="text" name="employee_id" required>

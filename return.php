@@ -134,6 +134,7 @@
         <dt><img src= <?php echo $img_src; ?>>
         <dt class="dt_isbn">ISBN: <?php echo htmlspecialchars($origin['isbn']); ?>
       </dl>
+      <hr class="hr01">
       <dl class="edit">
           <dt class="dt_details">社員番号（借りている人）
           <dd class="dt_div"><?php echo rawurlencode($origin['employee_id']); ?>

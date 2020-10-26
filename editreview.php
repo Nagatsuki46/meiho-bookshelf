@@ -122,6 +122,7 @@
           <dd class="dt_div"><?php echo htmlspecialchars($origin['exp_return_date']); ?>
           <dt class="dt_details">返却日
           <dd class="dt_div"><?php echo htmlspecialchars($origin['return_date']); ?>
+          <hr class="hr01">
           <dt class="dt_details">レビュー
           <dd><p id="star1"></p>
           <dd><textarea id="review" name="review" rows="5" cols="30"><?php echo htmlspecialchars($origin['review']); ?></textarea>

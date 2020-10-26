@@ -13,7 +13,9 @@ body{
     /* background-image: -webkit-repeating-linear-gradient(left,transparent 0% #3f5252 50%,transparent 100%); */
     background-image: linear-gradient(90deg,transparent 0%, #3f5252 50%,transparent 100%);
 }
-
+select{
+    height:24px;
+}
 .form_search {
     font-family: 'Alice', serif;
     padding-top: 0.4em;
