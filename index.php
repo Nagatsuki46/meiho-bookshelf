@@ -169,6 +169,10 @@
         <input type="hidden" name="key" value="">
     </form>
 
+    <script type="text/javascript">
+        document.form_search.isbn.focus();
+    </script>
+
     <table class="Slist">
         <thead>
             <tr>
