@@ -53,12 +53,14 @@
         $where = $where . " OR a.description ILIKE '%" . $_POST['keyword'] ."%'";
         $where = $where . " OR a.author ILIKE '%" . $_POST['keyword'] ."%'";
         $where = $where . " OR a.publisher ILIKE '%" . $_POST['keyword'] ."%'";
+        $where = $where . " OR a.employee_id ILIKE '%" . $_POST['keyword'] . "%'";
         $where = $where .")";
     }
 
     if($_POST['category'] !=="0" && !empty($_POST['category'])){
         $where = $where ." AND a.category_id=" .$_POST['category'];
     }
+    //echo $_POST['category'];
 
     switch($_POST['status']){
         case "ID降順":
@@ -71,7 +73,7 @@
             $order = " ORDER BY checkout_date DESC NULLS LAST";
             break;
         case "更新日時降順":
-            $order = " ORDER BY checkout_ts DESC NULLS LAST";
+            $order = " ORDER BY update_ts DESC NULLS LAST";
             break;
     }
 

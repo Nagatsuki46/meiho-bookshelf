@@ -36,7 +36,7 @@ CREATE TABLE public.bookshelf (
     thumbnail_url text,
     checkout_flg smallint DEFAULT 0,
     checkout_date date,
-    checkout_ts timestamp without time zone,
+    update_ts timestamp without time zone,
     employee_id text,
     exp_return_date date,
     return_date date,

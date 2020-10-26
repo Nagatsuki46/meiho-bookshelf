@@ -151,6 +151,7 @@
       ));
       $cover_image = file_get_contents($smallThumbnail,false,$context);
       $img_src = 'data:images/jpeg;base64,'.base64_encode($cover_image);
+      $category_id = 9;
 
     }else{
       $smallThumbnail = "";
@@ -161,6 +162,7 @@
       $description = "";
       $img_src = "";
       $cover_image = "";
+      $category_id = 9;
     }
   }elseif(isset($_POST['id'])){
     $sth = $dbh->prepare(
@@ -175,11 +177,12 @@
     $publishedDate = $origin['publishe_date'];
     $description = $origin['description'];
     $smallThumbnail = $origin['thumbnail_url'];
-    $cover_image = empty($origin['cover_image'])?"Zg==":base64_encode(stream_get_contents($origin['cover_image']));
-    if($cover_image=="Zg=="){
+    $cover_image = stream_get_contents($origin['cover_image']);
+    $enc_image = empty($origin['cover_image'])?"Zg==":base64_encode($cover_image);
+    if($enc_image=="Zg=="){
       $img_src = '../img/noimage.png'; 
     }else{
-      $img_src = 'data:images/jpeg;base64,'.$cover_image;
+      $img_src = 'data:images/jpeg;base64,'.$enc_image;
     }
     $category_id = $origin['category_id'];
   }
