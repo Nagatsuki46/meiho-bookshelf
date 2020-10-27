@@ -14,7 +14,7 @@ body{
     background-image: linear-gradient(90deg,transparent 0%, #3f5252 50%,transparent 100%);
 }
 select{
-    height:24px;
+    height:30px;
 }
 .form_search {
     font-family: 'Alice', serif;

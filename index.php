@@ -120,8 +120,8 @@
 <!DOCTYPE html>
 <head>
     <title>図書の検索</title>
-    <link rel="stylesheet" href="../css/list.css">
-    <link rel="stylesheet" href="../css/stardisp.css">
+    <link rel="stylesheet" href="./css/list.css">
+    <link rel="stylesheet" href="./css/stardisp.css">
     <script>
         function confirm_delete() {
             if (document.form_search.key.value === "削除"){
@@ -227,7 +227,7 @@
                     <?php 
                         $cover_image= empty($r['cover_image'])?"Zg==":base64_encode(stream_get_contents($r['cover_image'])); 
                         if($cover_image=="Zg=="){
-                            $img_src = '../img/noimage.png'; 
+                            $img_src = './img/noimage.png'; 
                         }else{
                             $img_src = 'data:images/jpeg;base64,'.$cover_image; 
                         }
