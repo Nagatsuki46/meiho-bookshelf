@@ -76,8 +76,8 @@
 <!DOCTYPE html>
 <head>
   <title>レビュー編集画面</title>
-  <link rel="stylesheet" href="../css/editreview.css">
-  <link rel="stylesheet" href="../css/stardisp.css">
+  <link rel="stylesheet" href="./css/editreview.css">
+  <link rel="stylesheet" href="./css/stardisp.css">
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
@@ -105,7 +105,7 @@
         <?php 
           $cover_image= empty($origin['cover_image'])?"Zg==":base64_encode(stream_get_contents($origin['cover_image'])); 
           if($cover_image=="Zg=="){
-              $img_src = '../img/noimage.png'; 
+              $img_src = './img/noimage.png'; 
           }else{
               $img_src = 'data:images/jpeg;base64,'.$cover_image; 
           }

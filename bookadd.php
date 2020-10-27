@@ -148,7 +148,7 @@
 <!DOCTYPE html>
 <head>
   <title>書籍情報新規登録画面</title>
-  <link rel="stylesheet" href="../css/bookadd.css">
+  <link rel="stylesheet" href="./css/bookadd.css">
 </head>
 
 <body>

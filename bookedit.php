@@ -196,7 +196,7 @@
     $cover_image = stream_get_contents($origin['cover_image']);
     $enc_image = empty($origin['cover_image'])?"Zg==":base64_encode($cover_image);
     if($enc_image=="Zg=="){
-      $img_src = '../img/noimage.png'; 
+      $img_src = './img/noimage.png'; 
     }else{
       $img_src = 'data:images/jpeg;base64,'.$enc_image;
     }
@@ -209,7 +209,7 @@
 <!DOCTYPE html>
 <head>
   <title>書籍情報修正画面</title>
-  <link rel="stylesheet" href="../css/bookadd.css">
+  <link rel="stylesheet" href="./css/bookadd.css">
 </head>
 
 <body>
