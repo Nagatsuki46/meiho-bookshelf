@@ -126,7 +126,7 @@
       </dl>
       <hr class="hr01">
       <dl class="edit">
-          <dt class="dt_details">借受者（苗字のみ）
+          <dt class="dt_details">貸出先（苗字のみ）
           <dd><input type="text" name="employee_id" required>
           <dt class="dt_details">貸出日
           <dd><input type="text" id="dtp1" name="checkout_date" required>
