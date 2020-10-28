@@ -126,7 +126,7 @@
       </dl>
       <hr class="hr01">
       <dl class="edit">
-          <dt class="dt_details">社員番号（借りる人）
+          <dt class="dt_details">借受者情報（苗字のみ）
           <dd><input type="text" name="employee_id" required>
           <dt class="dt_details">貸出日
           <dd><input type="text" id="dtp1" name="checkout_date" required>
@@ -145,7 +145,7 @@
   <!-- レビューリスト表示 -->
   <div class="block" id="reviewlist">
     <?php   foreach($history as $ht): ?>
-      <p><?php echo rawurlencode($ht['employee_id']); ?></p>
+      <p><?php echo htmlspecialchars($ht['employee_id']); ?></p>
       <p>貸出日:<?php echo htmlspecialchars($ht['checkout_date']); ?> 返却日:<?php echo htmlspecialchars($ht['return_date']); ?><p>
       <p><span class="star5_rating" data-rate=<?php echo rawurlencode($ht['rate']); ?>></p>
 

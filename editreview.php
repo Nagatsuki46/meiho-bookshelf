@@ -114,8 +114,8 @@
         <dt class="dt_isbn">ISBN: <?php echo rawurlencode($origin['isbn']); ?>
       </dl>
       <dl class="edit">
-          <dt class="dt_details">社員番号（借りている人）
-          <dd class="dt_div"><?php echo rawurlencode($origin['employee_id']); ?>
+          <dt class="dt_details">借受者情報（苗字のみ）
+          <dd class="dt_div"><?php echo htmlspecialchars($origin['employee_id']); ?>
           <dt class="dt_details">貸出日
           <dd class="dt_div"><?php echo rawurlencode($origin['checkout_date']); ?>
           <dt class="dt_details">返却予定日

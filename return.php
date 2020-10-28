@@ -88,8 +88,11 @@
     $(function() {
       $( "#datepicker" ).datepicker({
         dateFormat: 'yy-mm-dd',
-        defaultDate: new Date(),
-        minDate: new Date()
+        defaultDate: new Date()
+
+        //返却日が過去日になってしまうケースも考えられるので、コメントアウトしておく
+        //defaultDate: new Date(),
+        //minDate: new Date()
       });
       dt = new Date()
       y = dt.getFullYear();
@@ -136,7 +139,7 @@
       </dl>
       <hr class="hr01">
       <dl class="edit">
-          <dt class="dt_details">社員番号（借りている人）
+          <dt class="dt_details">借受者情報（苗字のみ）
           <dd class="dt_div"><?php echo rawurlencode($origin['employee_id']); ?>
           <dt class="dt_details">貸出日
           <dd class="dt_div"><?php echo rawurlencode($origin['checkout_date']); ?>
@@ -150,7 +153,7 @@
           
       </dl>
       <input type="hidden" name="id" value="<?php echo rawurlencode($origin['id']); ?>">
-      <input type="hidden" name="employee_id" value="<?php echo rawurlencode($origin['employee_id']); ?>">
+      <input type="hidden" name="employee_id" value="<?php echo htmlspecialchars($origin['employee_id']); ?>">
       <input type="hidden" name="checkout_date" value="<?php echo htmlspecialchars($origin['checkout_date']); ?>">
       <input type="hidden" name="exp_return_date" value="<?php echo htmlspecialchars($origin['exp_return_date']); ?>">
       <input type="hidden" name="mode" value="1">
@@ -164,7 +167,7 @@
   <!-- レビューリスト表示 -->
   <div class="block" id="reviewlist">
     <?php   foreach($history as $ht): ?>
-      <p><?php echo rawurlencode($ht['employee_id']); ?></p>
+      <p><?php echo htmlspecialchars($ht['employee_id']); ?></p>
       <p>貸出日:<?php echo htmlspecialchars($ht['checkout_date']); ?> 返却日:<?php echo htmlspecialchars($ht['return_date']); ?><p>
       <p><span class="star5_rating" data-rate=<?php echo empty($ht['rate'])?0:$ht['rate']; ?>></p>
 
