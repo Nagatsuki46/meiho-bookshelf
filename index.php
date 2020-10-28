@@ -133,7 +133,7 @@
             }
         };
         $(function(){
-			$("#isbncd").change(function(){
+			$("#isbn").change(function(){
 					var str = $(this).val();
 					str = str.replace( /[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
 							return String.fromCharCode(s.charCodeAt(0) - 65248);
@@ -147,7 +147,7 @@
 <body>
     <hr class="hr01">
     <form class="form_search" name="form_search" action="index.php" method="post">
-        ISBN CD: <input type="search" name="isbn" id="isbncd" maxlength='13' value="<?php echo $_POST['isbn']?>">
+        ISBN CD: <input type="search" name="isbn" id="isbn" maxlength='13' value="<?php echo $_POST['isbn']?>">
         Keyword: <input type="text" name="keyword" value="<?php echo $_POST['keyword']?>">
         Category: <select name="category" onchange="submit(this.form)">
             <option value=0 <?php echo ($_POST['category']==0)?"selected":""; ?>>指定なし</option>

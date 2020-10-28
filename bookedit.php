@@ -213,7 +213,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script>
     $(function(){
-      $("#isbncd").change(function(){
+      $("#isbn,#isbncd").change(function(){
           var str = $(this).val();
           str = str.replace( /[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
               return String.fromCharCode(s.charCodeAt(0) - 65248);
@@ -228,7 +228,7 @@
   <p class="error"><?php echo $error ?></p>
   <p>書籍情報の修正画面です。修正内容を入力して更新ボタンを押してください。</p>
   <form action="bookedit.php" method="post" class="form_search">
-    ISBN CD: <input type="search" name="isbn" id="isbncd" maxlength='13' value="<?php echo $_POST['isbn']?>">
+    ISBN CD: <input type="search" name="isbn" id="isbn" maxlength='13' value="<?php echo $_POST['isbn']?>">
     <input class="button" type="submit" value="Get Info">
     <?php if(isset($_POST['isbn']) && $_POST['isbn'] != "" && count($arr)>1): ?>
       <input class="button" type="submit" name="pre_info" value="前の候補">
@@ -250,7 +250,7 @@
       <dd><img class="cover_image" src=<?php echo $img_src; ?>>
       <input type="hidden" name="thumbnail_url" value="<?php echo htmlspecialchars($smallThumbnail); ?>">
       <dt class="dt_details">ISBN CD: 
-      <dd><input type="text" name="isbncd" id="isbnd" maxlength='13' value="<?php echo htmlspecialchars($isbn); ?>" required>
+      <dd><input type="text" name="isbncd" id="isbncd" maxlength='13' value="<?php echo htmlspecialchars($isbn); ?>" required>
       <dt class="dt_details">Authors:
       <dd><input type="text" name="author" class="long_text" value="<?php echo htmlspecialchars($str_authors); ?>">
       <dt class="dt_details">Publisher:
