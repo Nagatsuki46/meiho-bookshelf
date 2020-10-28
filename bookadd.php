@@ -204,7 +204,7 @@
         }
       ?>
       <dt class="dt_details">ISBN CD: 
-      <dd><input type="text" name="isbncd" maxlength='13' value="<?php echo htmlspecialchars($isbn); ?>" required>
+      <dd><input type="text" name="isbncd" id="isbncd" maxlength='13' value="<?php echo htmlspecialchars($isbn); ?>" required>
       <dt class="dt_details">Authors:
       <dd><input type="text" name="author" class="long_text" value="<?php echo htmlspecialchars($str_authors); ?>">
       <dt class="dt_details">Publisher:
