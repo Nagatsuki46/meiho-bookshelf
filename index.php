@@ -87,14 +87,18 @@
 
     if(isset($_POST['search'])){
         $_SESSION['offset'] = 0;
-    }elseif(isset($_POST['next_page'])){
-        if($cnt['cnt'] > $_SESSION['offset'] + 10){
-            $_SESSION['offset'] = $_SESSION['offset'] + 10;
-        }
+    }elseif(isset($_POST['first_page'])){
+        $_SESSION['offset'] = 0;
     }elseif(isset($_POST['pre_page'])){
         if($_SESSION['offset'] - 10 >= 0){
             $_SESSION['offset'] = $_SESSION['offset'] - 10;
         }
+    }elseif(isset($_POST['next_page'])){
+        if($cnt['cnt'] > $_SESSION['offset'] + 10){
+            $_SESSION['offset'] = $_SESSION['offset'] + 10;
+        }
+    }elseif(isset($_POST['last_page'])){
+        $_SESSION['offset'] =(floor($cnt['cnt']/10)*10 == $cnt['cnt'])?($cnt['cnt']-10):floor($cnt['cnt']/10)*10;
     }
     
     $sth = $dbh->prepare(
@@ -164,8 +168,10 @@
             <option value="更新日時降順" <?php echo ($_POST['status']=="更新日時降順")?"selected":""; ?>>更新日時降順</option>
         </select>
         <input class="button" type="submit" name="search" value="Search">
-        <input class="button" type="submit" name="pre_page" value="<<">
-        <input class="button" type="submit" name="next_page" value=">>">
+        <input class="button" type="submit" name="first_page" value="<<">
+        <input class="button" type="submit" name="pre_page" value="<">
+        <input class="button" type="submit" name="next_page" value=">">
+        <input class="button" type="submit" name="last_page" value=">>">
         <span><?php echo intdiv($_SESSION['offset'],10)+1 ?>/<?php echo intdiv($cnt['cnt']-1,10)+1 ?> (<?php echo $cnt['cnt'] ?>)</span>
         <?php
         //if(!empty($_POST['isbn']) and !preg_match("/[0-9]{13}/", $_POST['isbn'])){
