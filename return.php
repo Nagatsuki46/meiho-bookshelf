@@ -139,8 +139,8 @@
       </dl>
       <hr class="hr01">
       <dl class="edit">
-          <dt class="dt_details">借受者情報（苗字のみ）
-          <dd class="dt_div"><?php echo rawurlencode($origin['employee_id']); ?>
+          <dt class="dt_details">借受者（苗字のみ）
+          <dd class="dt_div"><?php echo htmlspecialchars($origin['employee_id']); ?>
           <dt class="dt_details">貸出日
           <dd class="dt_div"><?php echo rawurlencode($origin['checkout_date']); ?>
           <dt class="dt_details">返却予定日
