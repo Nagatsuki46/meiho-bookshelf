@@ -149,13 +149,25 @@
 <head>
   <title>書籍情報新規登録画面</title>
   <link rel="stylesheet" href="./css/bookadd.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script>
+    $(function(){
+      $("#isbncd").change(function(){
+          var str = $(this).val();
+          str = str.replace( /[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
+              return String.fromCharCode(s.charCodeAt(0) - 65248);
+          });
+          $(this).val(str);
+      }).change();
+    });
+  </script>
 </head>
 
 <body>
   <p class="error"><?php echo $error ?></p>
   <p>書籍情報の新規登録画面です。ISBN CDを入力して情報を取得後、登録ボタンを押してください。</p>
   <form action="bookadd.php" method="post" class="form_search" name="form_search">
-    ISBN CD: <input type="text" name="isbn" maxlength='13' value="<?php echo $_POST['isbn']?>">
+    ISBN CD: <input type="search" name="isbn" id="isbncd" maxlength='13' value="<?php echo $_POST['isbn']?>">
     <input class="button" type="submit" value="Get Info">
     <?php if(isset($_POST['isbn']) && $_POST['isbn'] != "" && count($arr)>1): ?>
       <input class="button" type="submit" name="pre_info" value="前の候補">
