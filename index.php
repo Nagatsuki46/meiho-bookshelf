@@ -85,9 +85,7 @@
     );
     $cnt = $sth->fetch(PDO::FETCH_ASSOC);
 
-    if(isset($_POST['search'])){
-        $_SESSION['offset'] = 0;
-    }elseif(isset($_POST['first_page'])){
+    if(isset($_POST['search']) || isset($_POST['first_page'])){
         $_SESSION['offset'] = 0;
     }elseif(isset($_POST['pre_page'])){
         if($_SESSION['offset'] - 10 >= 0){
@@ -99,6 +97,8 @@
         }
     }elseif(isset($_POST['last_page'])){
         $_SESSION['offset'] =(floor($cnt['cnt']/10)*10 == $cnt['cnt'])?($cnt['cnt']-10):floor($cnt['cnt']/10)*10;
+    }else{
+        $_SESSION['offset'] = 0;
     }
     
     $sth = $dbh->prepare(

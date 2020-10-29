@@ -185,7 +185,7 @@
     <dl>
       <dt class="dt_id">ID: <?php echo $next_id['next_id']; ?>
       <input type="hidden" name="next_id" value="<?php echo $next_id['next_id']; ?>">
-      <dt class="dt_details">Title: na
+      <dt class="dt_details">Title:
       <dd><input type="text" name="title" class="long_text" value="<?php echo $title; ?>" required>
       <dt class="dt_details">Cover image: 
 
