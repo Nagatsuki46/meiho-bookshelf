@@ -123,7 +123,7 @@
 ?>
 <!DOCTYPE html>
 <head>
-    <title>図書の検索</title>
+    <title>社内図書管理システム - 図書の検索</title>
     <link rel="stylesheet" href="./css/list.css">
     <link rel="stylesheet" href="./css/stardisp.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -152,7 +152,7 @@
     <hr class="hr01">
     <form class="form_search" name="form_search" action="index.php" method="post">
         ISBN CD: <input type="search" name="isbn" id="isbn" maxlength='13' value="<?php echo $_POST['isbn']?>">
-        Keyword: <input type="text" name="keyword" value="<?php echo $_POST['keyword']?>">
+        Keyword: <input type="search" name="keyword" value="<?php echo $_POST['keyword']?>">
         Category: <select name="category" onchange="submit(this.form)">
             <option value=0 <?php echo ($_POST['category']==0)?"selected":""; ?>>指定なし</option>
             <option value=1 <?php echo ($_POST['category']==1)?"selected":""; ?>>1.ネットワーク系</option>
@@ -275,4 +275,13 @@
             <?php   endforeach; ?>
         <?php endif; ?>
     </table>
+    <!-- <hr class="hr01">
+    <form class="form_search_bottom" name="form_search" action="index.php" method="post">
+        <input class="button" type="submit" name="first_page" value="<<">
+        <input class="button" type="submit" name="pre_page" value="<">
+        <input class="button" type="submit" name="next_page" value=">">
+        <input class="button" type="submit" name="last_page" value=">>">
+        <span><?php echo intdiv($_SESSION['offset'],10)+1 ?>/<?php echo intdiv($cnt['cnt']-1,10)+1 ?> (<?php echo $cnt['cnt'] ?>)</span>
+    </form>
+    -->
 </body>

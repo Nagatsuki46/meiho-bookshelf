@@ -16,11 +16,15 @@ body{
 select{
     height:26px;
 }
-.form_search {
+.form_search,.form_search_bottom {
     font-family: 'Alice', serif;
     padding-top: 0.4em;
     padding-bottom: 0.8em;
     padding-left: 0.8em;
+}
+.form_search_bottom{
+    text-align : center ; 
+    width:100%;
 }
 .addbook_button{
     border:0;

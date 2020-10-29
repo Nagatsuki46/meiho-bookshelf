@@ -76,7 +76,7 @@
 ?>
 <!DOCTYPE html>
 <head>
-  <title>返却画面</title>
+  <title>社内図書管理システム - 返却画面</title>
   <link rel="stylesheet" href="./css/return.css">
   <link rel="stylesheet" href="./css/stardisp.css">
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
