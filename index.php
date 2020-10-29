@@ -149,7 +149,6 @@
 </head>
 
 <body>
-    <hr class="hr01">
     <form class="form_search" name="form_search" action="index.php" method="post">
         ISBN CD: <input type="search" name="isbn" id="isbn" maxlength='13' value="<?php echo $_POST['isbn']?>">
         Keyword: <input type="search" name="keyword" value="<?php echo $_POST['keyword']?>">
@@ -168,11 +167,6 @@
             <option value="更新日時降順" <?php echo ($_POST['status']=="更新日時降順")?"selected":""; ?>>更新日時降順</option>
         </select>
         <input class="button" type="submit" name="search" value="Search">
-        <input class="button" type="submit" name="first_page" value="<<">
-        <input class="button" type="submit" name="pre_page" value="<">
-        <input class="button" type="submit" name="next_page" value=">">
-        <input class="button" type="submit" name="last_page" value=">>">
-        <span><?php echo intdiv($_SESSION['offset'],10)+1 ?>/<?php echo intdiv($cnt['cnt']-1,10)+1 ?> (<?php echo $cnt['cnt'] ?>)</span>
         <?php
         //if(!empty($_POST['isbn']) and !preg_match("/[0-9]{13}/", $_POST['isbn'])){
         //    echo "ISBNコードは0~9の数字のみの13桁を入力してください！";
@@ -183,6 +177,15 @@
         ?>
         <input class="addbook_button" type="button" onclick="location.href='bookadd.php'" value="">
         <input type="hidden" name="key" value="">
+
+        <hr class="hr01">
+        <p class="form_search_header">
+            <input class="button" type="submit" name="first_page" value="<<">
+            <input class="button" type="submit" name="pre_page" value="<">
+            <input class="button" type="submit" name="next_page" value=">">
+            <input class="button" type="submit" name="last_page" value=">>">
+            <span>Page: <?php echo intdiv($_SESSION['offset'],10)+1 ?> / <?php echo intdiv($cnt['cnt']-1,10)+1 ?> (<?php echo $cnt['cnt'] ?>)</span>
+        </p>
     </form>
 
     <script type="text/javascript">
@@ -275,13 +278,16 @@
             <?php   endforeach; ?>
         <?php endif; ?>
     </table>
-    <!-- <hr class="hr01">
+    <hr class="hr01">
     <form class="form_search_bottom" name="form_search" action="index.php" method="post">
+        <input type="hidden" name="isbn" value="<?php echo $_POST['isbn']?>">
+        <input type="hidden" name="keyword" value="<?php echo $_POST['keyword']?>">
+        <input type="hidden" name="category" value="<?php echo $_POST['category']?>">
+        <input type="hidden" name="status" value="<?php echo $_POST['status']?>">
         <input class="button" type="submit" name="first_page" value="<<">
         <input class="button" type="submit" name="pre_page" value="<">
         <input class="button" type="submit" name="next_page" value=">">
         <input class="button" type="submit" name="last_page" value=">>">
-        <span><?php echo intdiv($_SESSION['offset'],10)+1 ?>/<?php echo intdiv($cnt['cnt']-1,10)+1 ?> (<?php echo $cnt['cnt'] ?>)</span>
+        <span>Page: <?php echo intdiv($_SESSION['offset'],10)+1 ?> / <?php echo intdiv($cnt['cnt']-1,10)+1 ?> (<?php echo $cnt['cnt'] ?>)</span>
     </form>
-    -->
 </body>
