@@ -28,7 +28,7 @@
         $_POST['keyword'] = $_SESSION['keyword'];
         $_POST['category'] = $_SESSION['category'];
         $_POST['status'] = $_SESSION['status'];
-        $_SESSION['edit_flg'] = "";
+       // $_SESSION['edit_flg'] = "";
     }else{
         $_SESSION['isbn'] = $_POST['isbn'];
         $_SESSION['keyword'] = $_POST['keyword'];
@@ -85,20 +85,24 @@
     );
     $cnt = $sth->fetch(PDO::FETCH_ASSOC);
 
-    if(isset($_POST['search']) || isset($_POST['first_page'])){
-        $_SESSION['offset'] = 0;
-    }elseif(isset($_POST['pre_page'])){
-        if($_SESSION['offset'] - 10 >= 0){
-            $_SESSION['offset'] = $_SESSION['offset'] - 10;
-        }
-    }elseif(isset($_POST['next_page'])){
-        if($cnt['cnt'] > $_SESSION['offset'] + 10){
-            $_SESSION['offset'] = $_SESSION['offset'] + 10;
-        }
-    }elseif(isset($_POST['last_page'])){
-        $_SESSION['offset'] =(floor($cnt['cnt']/10)*10 == $cnt['cnt'])?($cnt['cnt']-10):floor($cnt['cnt']/10)*10;
+    if (isset($_SESSION['edit_flg']) && $_SESSION['edit_flg']==="1"){
+        $_SESSION['edit_flg'] = "";
     }else{
-        $_SESSION['offset'] = 0;
+        if(isset($_POST['search']) || isset($_POST['first_page'])){
+            $_SESSION['offset'] = 0;
+        }elseif(isset($_POST['pre_page'])){
+            if($_SESSION['offset'] - 10 >= 0){
+                $_SESSION['offset'] = $_SESSION['offset'] - 10;
+            }
+        }elseif(isset($_POST['next_page'])){
+            if($cnt['cnt'] > $_SESSION['offset'] + 10){
+                $_SESSION['offset'] = $_SESSION['offset'] + 10;
+            }
+        }elseif(isset($_POST['last_page'])){
+            $_SESSION['offset'] =(floor($cnt['cnt']/10)*10 == $cnt['cnt'])?($cnt['cnt']-10):floor($cnt['cnt']/10)*10;
+        }else{
+            $_SESSION['offset'] = 0;
+        }
     }
     
     $sth = $dbh->prepare(
@@ -149,6 +153,7 @@
 </head>
 
 <body>
+    <hr class="hr01">
     <form class="form_search" name="form_search" action="index.php" method="post">
         ISBN CD: <input type="search" name="isbn" id="isbn" maxlength='13' value="<?php echo $_POST['isbn']?>">
         Keyword: <input type="search" name="keyword" value="<?php echo $_POST['keyword']?>">
@@ -167,6 +172,11 @@
             <option value="更新日時降順" <?php echo ($_POST['status']=="更新日時降順")?"selected":""; ?>>更新日時降順</option>
         </select>
         <input class="button" type="submit" name="search" value="Search">
+        <input class="button" type="submit" name="first_page" value="<<">
+        <input class="button" type="submit" name="pre_page" value="<">
+        <input class="button" type="submit" name="next_page" value=">">
+        <input class="button" type="submit" name="last_page" value=">>">
+        <span>Page: <?php echo intdiv($_SESSION['offset'],10)+1 ?> / <?php echo intdiv($cnt['cnt']-1,10)+1 ?> (<?php echo $cnt['cnt'] ?>)</span>
         <?php
         //if(!empty($_POST['isbn']) and !preg_match("/[0-9]{13}/", $_POST['isbn'])){
         //    echo "ISBNコードは0~9の数字のみの13桁を入力してください！";
@@ -177,15 +187,6 @@
         ?>
         <input class="addbook_button" type="button" onclick="location.href='bookadd.php'" value="">
         <input type="hidden" name="key" value="">
-
-        <hr class="hr01">
-        <p class="form_search_header">
-            <input class="button" type="submit" name="first_page" value="<<">
-            <input class="button" type="submit" name="pre_page" value="<">
-            <input class="button" type="submit" name="next_page" value=">">
-            <input class="button" type="submit" name="last_page" value=">>">
-            <span>Page: <?php echo intdiv($_SESSION['offset'],10)+1 ?> / <?php echo intdiv($cnt['cnt']-1,10)+1 ?> (<?php echo $cnt['cnt'] ?>)</span>
-        </p>
     </form>
 
     <script type="text/javascript">

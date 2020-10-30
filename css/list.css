@@ -19,14 +19,14 @@ select{
 .form_search,.form_search_bottom {
     font-family: 'Alice', serif;
     padding-top: 0.4em;
-    padding-bottom: 5px;
+    padding-bottom: 7px;
     padding-left: 0.8em;
 }
-.form_search_header,.form_search_bottom{
+.form_search_bottom{
     text-align : center ; 
     width:100%;
 }
-.form_search input,.form_search_header input,.form_search_bottom input{
+.form_search input,.form_search_bottom input{
     margin-right: 7px;
 }
 .addbook_button{
