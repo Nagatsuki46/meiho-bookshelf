@@ -177,7 +177,7 @@
       $publishedDate = "";
       $description = "";
       $img_src = "";
-      $cover_image = "";
+      $cover_image = "f"; //base64_decode("Zg==");
       $category_id = 9;
     }
   }elseif(isset($_POST['id'])){
