@@ -41,7 +41,8 @@ CREATE TABLE public.bookshelf (
     exp_return_date date,
     return_date date,
     cover_image bytea,
-    category_id smallint
+    category_id smallint,
+    collection_cnt smallint DEFAULT 1
 );
 
 

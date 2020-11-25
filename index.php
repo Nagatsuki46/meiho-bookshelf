@@ -3,6 +3,7 @@
     //セッションを使って検索条件を保持する。
     session_cache_expire(30);
     session_start();
+    $_SESSION['delete'] = ""; 
 
     if(!isset($_POST['isbn'])){
         $_POST['isbn'] = "";
@@ -132,14 +133,26 @@
     <link rel="stylesheet" href="./css/stardisp.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script>
+        var strflg = "";
         function confirm_delete() {
-            if (document.form_search.key.value === "削除"){
+            //return false;
+            //if (this.book_edit.key.value === "削除"){
+            if(strflg === "削除"){
                 var select = confirm("本当に書籍情報を削除しますか？");
                 return select;
             }else{
                 return true;
+            } 
+        };
+        
+        function update_flg(wk){
+            if (wk==1){
+                strflg = "削除";
+            }else{
+                strflg ="";
             }
         };
+
         $(function(){
 			$("#isbn").change(function(){
 					var str = $(this).val();
@@ -186,7 +199,6 @@
         }
         ?>
         <input class="addbook_button" type="button" onclick="location.href='bookadd.php'" value="">
-        <input type="hidden" name="key" value="">
     </form>
 
     <script type="text/javascript">
@@ -270,11 +282,12 @@
                         <div class="td_div"><?php echo htmlspecialchars($r['publisher']); ?></div>
                         <div class="td_div">出版日:<?php echo htmlspecialchars($r['publishe_date']); ?></div>
                         <div class="td_div">登録日:<?php echo htmlspecialchars($r['entry_date']); ?></div>
+                        <div class="td_div">所蔵冊数:<?php echo rawurlencode($r['collection_cnt']); ?></div>
                         <div class="td_div">ID:<?php echo rawurlencode($r['id']); ?></div>
                         <form name="book_edit" action="bookedit.php" method="post" onsubmit="return confirm_delete()">
                             <input type="hidden" name="id" value="<?php echo rawurlencode($r['id']); ?>"> 
-                            <input class="button" type="submit" value="修正" onclick="form_search.key.value='修正'" >
-                            <input class="button" type="submit" name="sub_delete" value="削除" onclick="form_search.key.value='削除'" >
+                            <input class="button" type="submit" value="修正" onclick="update_flg(2)">
+                            <input class="button" type="submit" name="sub_delete" value="削除" onclick="update_flg(1)"">
                         </form>
             <?php   endforeach; ?>
         <?php endif; ?>
