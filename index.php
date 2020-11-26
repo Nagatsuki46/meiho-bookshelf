@@ -134,7 +134,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script>
         function confirm_delete() {
-            //if(strflg === "削除"){
             if(document.form_search_bottom.key.value==="削除"){
                 var select = confirm("本当に書籍情報を削除しますか？");
                 return select;
