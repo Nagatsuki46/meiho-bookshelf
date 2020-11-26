@@ -133,26 +133,15 @@
     <link rel="stylesheet" href="./css/stardisp.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script>
-        var strflg = "";
         function confirm_delete() {
-            //return false;
-            //if (this.book_edit.key.value === "削除"){
-            if(strflg === "削除"){
+            //if(strflg === "削除"){
+            if(document.form_search_bottom.key.value==="削除"){
                 var select = confirm("本当に書籍情報を削除しますか？");
                 return select;
             }else{
                 return true;
             } 
         };
-        
-        function update_flg(wk){
-            if (wk==1){
-                strflg = "削除";
-            }else{
-                strflg ="";
-            }
-        };
-
         $(function(){
 			$("#isbn").change(function(){
 					var str = $(this).val();
@@ -286,14 +275,14 @@
                         <div class="td_div">ID:<?php echo rawurlencode($r['id']); ?></div>
                         <form name="book_edit" action="bookedit.php" method="post" onsubmit="return confirm_delete()">
                             <input type="hidden" name="id" value="<?php echo rawurlencode($r['id']); ?>"> 
-                            <input class="button" type="submit" value="修正" onclick="update_flg(2)">
-                            <input class="button" type="submit" name="sub_delete" value="削除" onclick="update_flg(1)"">
+                            <input class="button" type="submit" value="修正" onclick="document.form_search_bottom.key.value='修正'">
+                            <input class="button" type="submit" name="sub_delete" value="削除" onclick="document.form_search_bottom.key.value='削除'">
                         </form>
             <?php   endforeach; ?>
         <?php endif; ?>
     </table>
     <hr class="hr01">
-    <form class="form_search_bottom" name="form_search" action="index.php" method="post">
+    <form class="form_search_bottom" name="form_search_bottom" action="index.php" method="post">
         <input type="hidden" name="isbn" value="<?php echo $_POST['isbn']?>">
         <input type="hidden" name="keyword" value="<?php echo $_POST['keyword']?>">
         <input type="hidden" name="category" value="<?php echo $_POST['category']?>">
@@ -303,5 +292,6 @@
         <input class="button" type="submit" name="next_page" value=">">
         <input class="button" type="submit" name="last_page" value=">>">
         <span>Page: <?php echo intdiv($_SESSION['offset'],10)+1 ?> / <?php echo intdiv($cnt['cnt']-1,10)+1 ?> (<?php echo $cnt['cnt'] ?>)</span>
+        <input type="hidden" name="key" value="">
     </form>
 </body>
