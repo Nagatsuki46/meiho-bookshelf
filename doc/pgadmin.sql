@@ -49,7 +49,7 @@ CREATE TABLE public.bookshelf (
 ALTER TABLE public.bookshelf OWNER TO postgres;
 
 --
--- Name: history; Type: TABLE; Schema: public; Owner: ka-fukai
+-- Name: history; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.history (
@@ -60,15 +60,14 @@ CREATE TABLE public.history (
     exp_return_date date,
     return_date date,
     rate real,
-    review text、
-    CONSTRAINT FK_history_Id FOREIGN KEY (id)) REFERENCES bookshelf (id) ON DELETE CASCADE
+    review text
 );
 
 
-ALTER TABLE public.history OWNER TO "ka-fukai";
+ALTER TABLE public.history OWNER TO postgres;
 
 --
--- Name: item; Type: TABLE; Schema: public; Owner: ka-fukai
+-- Name: item; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.item (
@@ -79,8 +78,41 @@ CREATE TABLE public.item (
 );
 
 
-ALTER TABLE public.item OWNER TO "ka-fukai";
+ALTER TABLE public.item OWNER TO postgres;
+
 
 --
--- Data for Name: bookshelf; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Name: bookshelf bookshelf_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.bookshelf
+    ADD CONSTRAINT bookshelf_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: history history_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.history
+    ADD CONSTRAINT history_pkey PRIMARY KEY (id, return_ts);
+
+
+--
+-- Name: item item_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.item
+    ADD CONSTRAINT item_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: history history_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.history
+    ADD CONSTRAINT history_id_fkey FOREIGN KEY (id) REFERENCES public.bookshelf(id) ON DELETE CASCADE;
+
+
+--
+-- PostgreSQL database dump complete
 --
