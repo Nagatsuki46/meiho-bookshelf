@@ -60,7 +60,8 @@ CREATE TABLE public.history (
     exp_return_date date,
     return_date date,
     rate real,
-    review text
+    review text、
+    CONSTRAINT FK_history_Id FOREIGN KEY (id)) REFERENCES bookshelf (id) ON DELETE CASCADE
 );
 
 
