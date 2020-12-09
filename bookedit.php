@@ -267,6 +267,8 @@
         <input type="radio" name="category_id" value=4 <?php echo ($category_id==4)?"checked":""; ?>>4:ビジネス書系
         <input type="radio" name="category_id" value=9 <?php echo ($category_id==9)?"checked":""; ?>>9:その他
       </dd>
+      <dt class="dt_details">Number of books:
+      <dd><input type="text" name="collection_cnt" value="<?php echo $collection_cnt; ?>">冊
     </dl>
     <input class="add_button" type="submit" name="update" value="更新">
     <input class="general_button" type="button" onclick="location.href='index.php'" value="キャンセル">
