@@ -69,7 +69,8 @@
         . ' thumbnail_url = :thumbnail_url,'
         . ' cover_image = :cover_image,'
         . ' update_ts = :update_ts,'
-        . ' category_id = :category_id'
+        . ' category_id = :category_id,'
+        . ' collection_cnt = :collection_cnt'
         . ' WHERE id = :id'
       );
 
@@ -85,6 +86,7 @@
       $sth->bindValue(':cover_image',$_SESSION['cover_image'],PDO::PARAM_LOB);
       $sth->bindValue(':update_ts',date("Y-m-d H:i:s"));
       $sth->bindValue(':category_id',$_POST['category_id']);
+      $sth->bindValue(':collection_cnt',$_POST['collection_cnt']);
       $sth->execute();
       header('Location: ./index.php');
       exit;
@@ -102,6 +104,7 @@
   $img_src = "";
   $cover_image = "";
   $category_id = 9;
+  $collection_cnt = 1;
   
   if(isset($_POST['isbn'])){
     if($_POST['isbn'] != ""){
@@ -166,6 +169,7 @@
       $cover_image = file_get_contents($smallThumbnail,false,$context);
       $img_src = 'data:images/jpeg;base64,'.base64_encode($cover_image);
       $category_id = 9;
+      $collection_cnt = 1;
 
     }else{
       $title = "";
@@ -179,6 +183,7 @@
       $img_src = "";
       $cover_image = "f"; //base64_decode("Zg==");
       $category_id = 9;
+      $collection_cnt = 1;
     }
   }elseif(isset($_POST['id'])){
     $sth = $dbh->prepare(
@@ -201,6 +206,7 @@
       $img_src = 'data:images/jpeg;base64,'.$enc_image;
     }
     $category_id = $origin['category_id'];
+    $collection_cnt = $origin['collection_cnt'];
     $_POST['isbn'] = "";
   }
   $_SESSION['cover_image'] = $cover_image;
@@ -268,7 +274,7 @@
         <input type="radio" name="category_id" value=9 <?php echo ($category_id==9)?"checked":""; ?>>9:その他
       </dd>
       <dt class="dt_details">Number of books:
-      <dd><input type="text" name="collection_cnt" value="<?php echo $collection_cnt; ?>">冊
+      <dd><input type="number" name="collection_cnt" value="<?php echo $collection_cnt; ?>">冊
     </dl>
     <input class="add_button" type="submit" name="update" value="更新">
     <input class="general_button" type="button" onclick="location.href='index.php'" value="キャンセル">
