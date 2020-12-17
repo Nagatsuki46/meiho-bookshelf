@@ -23,7 +23,7 @@
   //書籍情報の登録
   if (isset($_POST['update'])){
 
-    $sth = $dbh->prepare(
+    /* $sth = $dbh->prepare(
       'SELECT count(isbn) as cnt'
       . ' FROM bookshelf WHERE isbn= :isbn'
       . ' AND isbn <> :na'
@@ -36,7 +36,8 @@
 
     if($exists['cnt']>0){
       $error ="既に同じ書籍（ISBN CD）が登録されています。";
-    }else{
+    }else{ */
+
       $context = stream_context_create(array(
         'http' => array('ignore_errors' => true)
       ));
@@ -45,11 +46,12 @@
       $sth = $dbh->prepare(
         "INSERT INTO bookshelf"
         . ' (id,title,isbn,author,publisher,publishe_date,entry_date,'
-        . ' description,thumbnail_url,cover_image,update_ts,category_id,collection_cnt)'
+       // . ' description,thumbnail_url,cover_image,update_ts,category_id,collection_cnt)'
+        . ' description,thumbnail_url,cover_image,update_ts,category_id)'
         . ' VALUES('
         . ' :id,:title,:isbn,:author,:publisher,:publishe_date,:entry_date,'
-        . ' :description,:thumbnail_url,:cover_image,:update_ts,:category_id,:collection_cnt)');
-      
+       // . ' :description,:thumbnail_url,:cover_image,:update_ts,:category_id,:collection_cnt)');
+        . ' :description,:thumbnail_url,:cover_image,:update_ts,:category_id)');
       //画像データを格納する為にbindValue方式に変更
       $sth->bindValue(':id',$_POST['next_id']);
       $sth->bindValue(':title',$_POST['title']);
@@ -63,11 +65,11 @@
       $sth->bindValue(':cover_image',$img_cover,PDO::PARAM_LOB);
       $sth->bindValue(':update_ts',date("Y-m-d H:i:s"));
       $sth->bindValue(':category_id',$_POST['category_id']);
-      $sth->bindValue(':collection_cnt',$_POST['collection_cnt']);
+      //$sth->bindValue(':collection_cnt',$_POST['collection_cnt']);
       $sth->execute();
       header('Location: ./bookadd.php');
       exit;
-    }
+    //}
   }
 
   //次に登録するIDを取得
@@ -127,7 +129,7 @@
     $img_cover = file_get_contents($smallThumbnail,false,$context);
     $img_src = 'data:images/jpeg;base64,'.base64_encode($img_cover);
     $category_id = 9;
-    $collection_cnt = 1;
+    //$collection_cnt = 1;
     
     //$img_dir = './img/books/'.$_POST['isbn'].'.jpg';
     //file_put_contents($img_dir,$img_data);
@@ -144,7 +146,7 @@
     $description = "";
     $img_src = "";
     $category_id = 9;
-    $collection_cnt = 1;
+    //$collection_cnt = 1;
   }
  ?>
 
@@ -224,8 +226,8 @@
           <input type="radio" name="category_id" value=4 <?php echo ($category_id==4)?"checked":""; ?>>4:ビジネス書系
           <input type="radio" name="category_id" value=9 <?php echo ($category_id==9)?"checked":""; ?>>9:その他
       </dd>
-      <dt class="dt_details">Number of books:
-      <dd><input type="number" name="collection_cnt" value="<?php echo $collection_cnt; ?>">冊
+      <!-- <dt class="dt_details">Number of books:
+      <dd><input type="number" name="collection_cnt" value="<?php echo $collection_cnt; ?>">冊 -->
     </dl>
     <input class="add_button" type="submit" name="update" value="登録">
     <input class="general_button" type="button" onclick="location.href='index.php'" value="キャンセル">

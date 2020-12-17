@@ -107,7 +107,7 @@
     }
     
     $sth = $dbh->prepare(
-        'SELECT a.*,b.avg_rate,c.cnt_review'
+        'SELECT a.*,b.avg_rate,c.cnt_review,d.col_cnt'
         . ' FROM bookshelf AS a'
         . ' LEFT JOIN'
         . ' (SELECT id,AVG(rate) AS avg_rate FROM history WHERE rate>0 GROUP BY id) AS b'
@@ -115,6 +115,9 @@
         . ' LEFT JOIN'
         . ' (SELECT id,COUNT(*) AS cnt_review FROM history GROUP BY id) AS c'
         . ' ON a.id=c.id'
+        . ' LEFT JOIN'
+        . ' (SELECT isbn,count(*) AS col_cnt FROM bookshelf GROUP BY isbn) AS d'
+        . ' ON a.isbn=d.isbn'
         .  $where
         //. ' ORDER BY a.id DESC'
         .  $order
@@ -270,7 +273,7 @@
                         <div class="td_div"><?php echo htmlspecialchars($r['publisher']); ?></div>
                         <div class="td_div">出版日:<?php echo htmlspecialchars($r['publishe_date']); ?></div>
                         <div class="td_div">登録日:<?php echo htmlspecialchars($r['entry_date']); ?></div>
-                        <div class="td_div">所蔵冊数:<?php echo rawurlencode($r['collection_cnt']); ?></div>
+                        <div class="td_div">所蔵冊数:<?php echo rawurlencode($r['col_cnt']); ?></div>
                         <div class="td_div">ID:<?php echo rawurlencode($r['id']); ?></div>
                         <form name="book_edit" action="bookedit.php" method="post" onsubmit="return confirm_delete()">
                             <input type="hidden" name="id" value="<?php echo rawurlencode($r['id']); ?>"> 
