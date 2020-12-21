@@ -273,7 +273,7 @@
                         <div class="td_div"><?php echo htmlspecialchars($r['publisher']); ?></div>
                         <div class="td_div">出版日:<?php echo htmlspecialchars($r['publishe_date']); ?></div>
                         <div class="td_div">登録日:<?php echo htmlspecialchars($r['entry_date']); ?></div>
-                        <div class="td_div">所蔵冊数:<?php echo rawurlencode($r['col_cnt']); ?></div>
+                        <div class="td_div">所蔵冊数:<?php echo rawurlencode($r['isbn']=="N/A"?1:$r['col_cnt']); ?></div>
                         <div class="td_div">ID:<?php echo rawurlencode($r['id']); ?></div>
                         <form name="book_edit" action="bookedit.php" method="post" onsubmit="return confirm_delete()">
                             <input type="hidden" name="id" value="<?php echo rawurlencode($r['id']); ?>"> 
