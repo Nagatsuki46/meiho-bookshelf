@@ -10,7 +10,7 @@
         $_POST['keyword'] = "";
         $_POST['category'] = 0;
         //$_POST['status'] = "ID降順";
-        $_POST['status'] = "貸出日降順";
+        $_POST['status'] = "未返却順";
     }
 
     //検索結果に表示するページ番号の設定
@@ -25,7 +25,7 @@
             $_SESSION['keyword'] = "";
             $_SESSION['category'] = 0;
             //$_SESSION['status'] = "ID降順";
-            $_SESSION['status'] = "貸出日降順";
+            $_SESSION['status'] = "未返却順";
         }
         $_POST['isbn'] = $_SESSION['isbn'];
         $_POST['keyword'] = $_SESSION['keyword'];
