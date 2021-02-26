@@ -78,6 +78,9 @@
         case "更新日時降順":
             $order = " ORDER BY update_ts DESC NULLS LAST";
             break;
+        case "未返却順":
+            $order = " ORDER BY checkout_flg DESC,checkout_date ASC NULLS LAST";
+            break;
     }
 
 
@@ -176,6 +179,7 @@
             <option value="ID昇順" <?php echo ($_POST['status']=="ID昇順")?"selected":""; ?>>ID昇順</option>
             <option value="貸出日降順" <?php echo ($_POST['status']=="貸出日降順")?"selected":""; ?>>貸出日降順</option>
             <option value="更新日時降順" <?php echo ($_POST['status']=="更新日時降順")?"selected":""; ?>>更新日時降順</option>
+            <option value="未返却順" <?php echo ($_POST['status']=="未返却順")?"selected":""; ?>>未返却順</option>
         </select>
         <input class="button" type="submit" name="search" value="Search">
         <input class="button" type="submit" name="first_page" value="<<">
