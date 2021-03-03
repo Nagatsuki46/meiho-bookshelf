@@ -79,7 +79,7 @@
             $order = " ORDER BY update_ts DESC NULLS LAST";
             break;
         case "未返却順":
-            $order = " ORDER BY checkout_flg DESC,checkout_date ASC NULLS LAST";
+            $order = " ORDER BY checkout_flg DESC,checkout_date A DESC NULLS LAST";
             break;
     }
 
