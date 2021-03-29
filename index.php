@@ -189,7 +189,7 @@
             <input class="addbook_button" type="button" onclick="location.href='bookadd.php'" value="">
         </div>
         <hr class="hr01">
-        <div class="page_serch">
+        <div class="page_search">
             <input class="button" type="submit" name="first_page" value="<<">
             <input class="button" type="submit" name="pre_page" value="<">
             <input class="button" type="submit" name="next_page" value=">">
