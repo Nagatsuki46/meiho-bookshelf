@@ -22,7 +22,7 @@ select{
     padding-bottom: 7px;
     padding-left: 0.8em;
 }
-.form_search_bottom{
+.form_search_bottom,.page_serch{
     text-align : center ; 
     width:100%;
 }

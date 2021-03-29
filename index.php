@@ -165,41 +165,45 @@
 </head>
 
 <body>
-    <hr class="hr01">
     <form class="form_search" name="form_search" action="index.php" method="post">
-        ISBN CD: <input type="search" name="isbn" id="isbn" maxlength='13' value="<?php echo $_POST['isbn']?>">
-        Keyword: <input type="search" name="keyword" value="<?php echo $_POST['keyword']?>">
-        Category: <select name="category" onchange="submit(this.form)">
-            <option value=0 <?php echo ($_POST['category']==0)?"selected":""; ?>>指定なし</option>
-            <option value=1 <?php echo ($_POST['category']==1)?"selected":""; ?>>1.ネットワーク系</option>
-            <option value=2 <?php echo ($_POST['category']==2)?"selected":""; ?>>2.サーバー系</option>
-            <option value=3 <?php echo ($_POST['category']==3)?"selected":""; ?>>3.システム開発系</option>
-            <option value=4 <?php echo ($_POST['category']==4)?"selected":""; ?>>4.ビジネス書系</option>
-            <option value=9 <?php echo ($_POST['category']==9)?"selected":""; ?>>9.その他</option>
-        </select>
-        Sort: <select name="status" onchange="submit(this.form)">
-            <option value="ID降順" <?php echo ($_POST['status']=="ID降順")?"selected":""; ?>>ID降順</option>
-            <option value="ID昇順" <?php echo ($_POST['status']=="ID昇順")?"selected":""; ?>>ID昇順</option>
-            <option value="貸出日降順" <?php echo ($_POST['status']=="貸出日降順")?"selected":""; ?>>貸出日降順</option>
-            <option value="更新日時降順" <?php echo ($_POST['status']=="更新日時降順")?"selected":""; ?>>更新日時降順</option>
-            <option value="出版日順" <?php echo ($_POST['status']=="出版日順")?"selected":""; ?>>出版日順</option>
-            <option value="未返却順" <?php echo ($_POST['status']=="未返却順")?"selected":""; ?>>未返却順</option>
-        </select>
-        <input class="button" type="submit" name="search" value="Search">
-        <input class="button" type="submit" name="first_page" value="<<">
-        <input class="button" type="submit" name="pre_page" value="<">
-        <input class="button" type="submit" name="next_page" value=">">
-        <input class="button" type="submit" name="last_page" value=">>">
-        <span>Page: <?php echo intdiv($_SESSION['offset'],10)+1 ?> / <?php echo intdiv($cnt['cnt']-1,10)+1 ?> (<?php echo $cnt['cnt'] ?>)</span>
-        <?php
-        //if(!empty($_POST['isbn']) and !preg_match("/[0-9]{13}/", $_POST['isbn'])){
-        //    echo "ISBNコードは0~9の数字のみの13桁を入力してください！";
-        //}
-        if(preg_match("/[^0-9]/", $_POST['isbn'])){
-            echo "ISBNコードは0~9の数字のみです！";
-        }
-        ?>
-        <input class="addbook_button" type="button" onclick="location.href='bookadd.php'" value="">
+        <div>
+            ISBN CD: <input type="search" name="isbn" id="isbn" maxlength='13' value="<?php echo $_POST['isbn']?>">
+            Keyword: <input type="search" name="keyword" value="<?php echo $_POST['keyword']?>">
+            Category: <select name="category" onchange="submit(this.form)">
+                <option value=0 <?php echo ($_POST['category']==0)?"selected":""; ?>>指定なし</option>
+                <option value=1 <?php echo ($_POST['category']==1)?"selected":""; ?>>1.ネットワーク系</option>
+                <option value=2 <?php echo ($_POST['category']==2)?"selected":""; ?>>2.サーバー系</option>
+                <option value=3 <?php echo ($_POST['category']==3)?"selected":""; ?>>3.システム開発系</option>
+                <option value=4 <?php echo ($_POST['category']==4)?"selected":""; ?>>4.ビジネス書系</option>
+                <option value=9 <?php echo ($_POST['category']==9)?"selected":""; ?>>9.その他</option>
+            </select>
+            Sort: <select name="status" onchange="submit(this.form)">
+                <option value="ID降順" <?php echo ($_POST['status']=="ID降順")?"selected":""; ?>>ID降順</option>
+                <option value="ID昇順" <?php echo ($_POST['status']=="ID昇順")?"selected":""; ?>>ID昇順</option>
+                <option value="貸出日降順" <?php echo ($_POST['status']=="貸出日降順")?"selected":""; ?>>貸出日降順</option>
+                <option value="更新日時降順" <?php echo ($_POST['status']=="更新日時降順")?"selected":""; ?>>更新日時降順</option>
+                <option value="出版日順" <?php echo ($_POST['status']=="出版日順")?"selected":""; ?>>出版日順</option>
+                <option value="未返却順" <?php echo ($_POST['status']=="未返却順")?"selected":""; ?>>未返却順</option>
+            </select>
+            <input class="button" type="submit" name="search" value="Search">
+            <input class="addbook_button" type="button" onclick="location.href='bookadd.php'" value="">
+        </div>
+        <hr class="hr01">
+        <div class="page_serch">
+            <input class="button" type="submit" name="first_page" value="<<">
+            <input class="button" type="submit" name="pre_page" value="<">
+            <input class="button" type="submit" name="next_page" value=">">
+            <input class="button" type="submit" name="last_page" value=">>">
+            <span>Page: <?php echo intdiv($_SESSION['offset'],10)+1 ?> / <?php echo intdiv($cnt['cnt']-1,10)+1 ?> (<?php echo $cnt['cnt'] ?>)</span>
+            <?php
+            //if(!empty($_POST['isbn']) and !preg_match("/[0-9]{13}/", $_POST['isbn'])){
+            //    echo "ISBNコードは0~9の数字のみの13桁を入力してください！";
+            //}
+            if(preg_match("/[^0-9]/", $_POST['isbn'])){
+                echo "ISBNコードは0~9の数字のみです！";
+            }
+            ?>
+        </div>
     </form>
 
     <script type="text/javascript">
