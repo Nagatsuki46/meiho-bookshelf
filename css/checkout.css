@@ -17,13 +17,16 @@ body{
 }
 /* レビューリスト対応 */
 .block{
-  /* display: inline-table; */
-  display: inline-block;
-  vertical-align: top;
+  display: inline-table;
+  /* display: inline-block;
+  vertical-align: top; */
+  padding-right: 100px;
 }
 #reviewlist{
-  padding-left: 100px;
-}
+  /* padding-left: 100px; */
+  padding-top: 20px;
+} 
+
 #ht_review{
   border: none;
   resize: none;
