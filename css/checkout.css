@@ -17,7 +17,9 @@ body{
 }
 /* レビューリスト対応 */
 .block{
-  display: inline-table;
+  /* display: inline-table; */
+  display: inline-block;
+  vertical-align: top;
 }
 #reviewlist{
   padding-left: 100px;
